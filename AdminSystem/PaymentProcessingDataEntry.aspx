@@ -24,16 +24,23 @@
         <asp:TextBox ID="TextBox3" runat="server" style="z-index: 1; left: 156px; top: 117px; position: absolute"></asp:TextBox>
         <asp:Label ID="paymentDate" runat="server" style="z-index: 1; left: 9px; top: 158px; position: absolute; height: 19px" Text="Date" width="104px"></asp:Label>
         <asp:TextBox ID="TextBox4" runat="server" style="z-index: 1; left: 155px; top: 158px; position: absolute"></asp:TextBox>
-        <asp:Label ID="txtpaymentMethod" runat="server" style="z-index: 1; left: 9px; top: 193px; position: absolute" Text="Payment Method"></asp:Label>
-        <asp:Label ID="txtticketId" runat="server" height="19px" style="z-index: 1; left: 9px; top: 230px; position: absolute" Text="Ticket ID" width="104px"></asp:Label>
-        <asp:TextBox ID="TextBox6" runat="server" style="z-index: 1; left: 156px; top: 193px; position: absolute"></asp:TextBox>
-        <asp:TextBox ID="TextBox7" runat="server" style="z-index: 1; left: 156px; top: 229px; position: absolute"></asp:TextBox>
+        <asp:Label ID="txtticketId" runat="server" height="19px" style="z-index: 1; left: 11px; top: 194px; position: absolute" Text="Ticket ID" width="104px"></asp:Label>
+        <asp:TextBox ID="TextBox7" runat="server" style="z-index: 1; left: 157px; top: 195px; position: absolute"></asp:TextBox>
         <p>
-            <asp:CheckBox ID="chkisPaymentSuccessful" runat="server" style="z-index: 1; left: 153px; top: 269px; position: absolute" Text="Payment Successful?" />
+        <asp:CheckBox ID="chkisPaymentSuccessful" runat="server" style="z-index: 1; left: 153px; top: 269px; position: absolute" Text="Payment Successful?" Checked="True" />
         </p>
         <asp:Label ID="Label1" runat="server" style="z-index: 1; left: 17px; top: 312px; position: absolute" Text="[lblError]"></asp:Label>
         <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" style="z-index: 1; left: 27px; top: 343px; position: absolute" Text="OK" />
-        <asp:Button ID="btnCancel" runat="server" style="z-index: 1; left: 195px; top: 344px; position: absolute" Text="Cancel" />
+  <asp:DropDownList ID="ddlpaymentMethod" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+    <asp:ListItem Text="Paypal" Value="Paypal"></asp:ListItem>
+    <asp:ListItem Text="Debit Card" Value="Debit Card"></asp:ListItem>
+    <asp:ListItem Text="Credit Card" Value="Credit Card"></asp:ListItem>
+</asp:DropDownList>
+
+                   <div style="height: 19px">
+       <asp:Label ID="lblError" runat="server" ForeColor="Red" />
+   </div>
+        
     </form>
 </body>
 </html>
