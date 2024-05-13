@@ -12,27 +12,12 @@ public partial class _1Viewer : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-            // Retrieve payment object from session
-            clsPayment Payment = Session["PaymentObject"] as clsPayment;
-
-            // Display payment data if available
-            if (Payment != null)
-            {
-                lblTransactionID.Text = "Transaction ID: " + Payment.transactionID;
-                lblAmount.Text = "Amount: $" + Payment.amount.ToString();
-                lblPaymentDate.Text = "Payment Date: " + Payment.paymentDate.ToString("MM/dd/yyyy");
-                lblIsPaymentSuccessful.Text = "Payment Successful: " + (Payment.isPaymentSuccessful ? "Yes" : "No");
-                lblPaymentMethod.Text = "Payment Method: " + Payment.paymentMethod;
-                lblTicketId.Text = "Ticket ID: " + Payment.ticketId.ToString();
-
-            }
-            else
-            {
-                lblError.Text = "No Payment data found";
-            }
+        // Retrieve payment object from session
+        clsPayment Payment = new clsPayment();
+        //get data from session object
+        Payment = (clsPayment)Session["Payment"];
+        //display the payment number for this entry
+        Response.Write(Payment.transactionID);
+        
         }
-
     }
-}
