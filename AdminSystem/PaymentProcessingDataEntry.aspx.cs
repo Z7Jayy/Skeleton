@@ -17,11 +17,22 @@ public partial class _1_DataEntry : System.Web.UI.Page
     {
         //create a new instance of clsPayment
         clsPayment Payment = new clsPayment();
-        //Capture the transaction id
-        Payment.transactionID = txttransactionID.Text;
-        //store the transaction id in the session object
+        //Capture the Attribute
+        Payment.PaymentID = Convert.ToInt32(txtPaymentID.Text);
+        Payment.TransactionID = txtTransactionID.Text;
+        Payment.Amount = Convert.ToDouble(txtAmount.Text);
+        Payment.PaymentDate = Convert.ToDateTime(DateTime.Now);
+        Payment.IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Checked;
+        Payment.PaymentMethod = txtPaymentMethod.Text;
+        Payment.TicketID = Convert.ToInt32(txtTicketID.Text);
+        //store the Attribute in the session object
         Session["Payment"] = Payment;
         //navigate to the view page
         Response.Redirect("PaymentProcessingViewer.aspx");
+    }
+
+    protected void CheckBoxIsPaymentSuccessful_CheckedChanged(object sender, EventArgs e)
+    {
+
     }
 }

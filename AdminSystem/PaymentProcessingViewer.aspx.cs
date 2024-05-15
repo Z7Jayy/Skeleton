@@ -17,7 +17,15 @@ public partial class _1Viewer : System.Web.UI.Page
         //get data from session object
         Payment = (clsPayment)Session["Payment"];
         //display the payment number for this entry
-        Response.Write(Payment.transactionID);
-        
-        }
+        Response.Write(Payment.PaymentID);
+        Response.Write(Payment.TransactionID);
+        Response.Write(Payment.Amount);
+        Response.Write(Payment.PaymentDate);
+        Response.Write(Payment.PaymentMethod);
+        Response.Write(Payment.TicketID);
+        Response.Write(Payment.IsPaymentSuccessful);
+
+
+
     }
+}
