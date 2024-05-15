@@ -29,21 +29,13 @@ public partial class _1_DataEntry : System.Web.UI.Page
         clsTicket AnTicket = new clsTicket();
 
         // Capture the Ticket ID 
-        int ticketId;
-        if (int.TryParse(txtTicketId.Text, out ticketId))
-        {
-            AnTicket.TicketID = ticketId;
-        }
+        AnTicket.TicketID = Convert.ToInt32(txtTicketId.Text);
 
         // Capture the Date
         AnTicket.Date = Convert.ToDateTime(DateTime.Now);
         
         // Capture the Price 
-        int price;
-        if (int.TryParse(txtPrice.Text, out price))
-        {
-            AnTicket.Price = price;
-        }
+        AnTicket.Price = Convert.ToInt32(txtPrice.Text);
 
         //capture the Venue
         AnTicket.Venue = txtVenue.Text;
