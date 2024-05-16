@@ -29,7 +29,7 @@ public partial class _1_DataEntry : System.Web.UI.Page
         clsTicket AnTicket = new clsTicket();
 
         // Capture the Ticket ID 
-        AnTicket.TicketID = Convert.ToInt32(txtTicketId.Text);
+        AnTicket.TicketId = Convert.ToInt32(txtTicketId.Text);
 
         // Capture the Date
         AnTicket.Date = Convert.ToDateTime(DateTime.Now);
@@ -60,6 +60,36 @@ public partial class _1_DataEntry : System.Web.UI.Page
 
 
     protected void TextBox1_TextChanged1(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnFind_Click(object sender, EventArgs e)
+    {
+        //create an instance of the ticket class
+        clsTicket AnTicket = new clsTicket();
+        //create a variable to store the primary key 
+        Int32 TicketId;
+        //create a variable to store the result of the find operation
+        Boolean Found = false;
+        //get the primary key enetered by the user 
+        TicketId = Convert.ToInt32(txtTicketId.Text);
+        //find the record
+        Found = AnTicket.Find(TicketId);
+        //if found
+        {
+            //display the values of the properties in the form 
+            txtDate.Text = AnTicket.Date.ToString();
+            txtPrice.Text = AnTicket.Price.ToString();
+            txtVenue.Text = AnTicket.Venue;
+            txtArtist.Text = AnTicket.Artist;
+            chkIsSold.Checked = AnTicket.IsSold;
+            txtTicketType.Text = AnTicket.TicketType;
+        }
+
+    }
+
+    protected void txtTicketType_TextChanged(object sender, EventArgs e)
     {
 
     }

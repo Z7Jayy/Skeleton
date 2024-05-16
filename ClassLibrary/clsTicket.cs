@@ -5,20 +5,20 @@ namespace ClassLibrary
     public class clsTicket
     {
         //private data member for the ticket id property
-        private Int32 mTicketID;
+        private Int32 mTicketId;
 
         //ticketid public property
-        public Int32 TicketID
+        public Int32 TicketId
         {
             get
             {
                 //this line of code sends data out of the property
-                return mTicketID;
+                return mTicketId;
             }
             set
             {
                 //this line of code allows data into the property
-                mTicketID = value;
+                mTicketId = value;
             }
         }
 
@@ -128,19 +128,40 @@ namespace ClassLibrary
             }
         }
 
+        /***find method***/
 
-        public bool Find(int ticketId)
+        public bool Find(int TicketId)
         {
-            //set the private data members to the test data value
-            mTicketID = 2;
-            mDate = Convert.ToDateTime("04/09/2003");
-            mPrice = 50;
-            mVenue = "Test Venue";
-            mArtist = "Test Artist";
-            mIsSold = true;
-            mTicketType = "VIP";
-            //always return true
-            return true;
-        }
+            //Create an instance of the data connection
+            clsDataConnection DB = new clsDataConnection();
+
+            //add the parameter for the ticket id to search for 
+            DB.AddParameter("@TicketId", TicketId);
+
+            //execute the stored procedure 
+            DB.Execute("sproc_tblTicket_FilterByTicketId");
+
+            // if one record is found (there should be either one or zero)
+            if (DB.Count == 1)
+            {
+                //copy the data from the database to the private data members 
+                mTicketId = Convert.ToInt32(DB.DataTable.Rows[0]["TicketId"]);
+                mDate = Convert.ToDateTime(DB.DataTable.Rows[0]["Date"]);
+                mPrice = Convert.ToInt32(DB.DataTable.Rows[0]["Price"]);
+                mVenue = Convert.ToString(DB.DataTable.Rows[0]["Venue"]);
+                mArtist = Convert.ToString(DB.DataTable.Rows[0]["Artist"]);
+                mIsSold = Convert.ToBoolean(DB.DataTable.Rows[0]["IsSold"]);
+                mTicketType = Convert.ToString(DB.DataTable.Rows[0]["TicketType"]);
+                //return that everything worked OK
+                return true;
+            }
+            //if no record was found
+            else
+            {
+                //return false including there is a problem 
+                return false;
+            }
+
+            }
     }
 }

@@ -19,16 +19,16 @@ namespace Testing3
         }
 
         [TestMethod]
-        public void TicketIDPropertyOK()
+        public void TicketIdPropertyOK()
         {
             // Create an instance of the class we want to test
             clsTicket AnTicket = new clsTicket();
             // Create some test data to assign to the property
             int TestData = 1;
             // Assign the data to the property
-            AnTicket.TicketID = TestData;
+            AnTicket.TicketId = TestData;
             // Test to see that the two values are the same
-            Assert.AreEqual(AnTicket.TicketID, TestData);
+            Assert.AreEqual(AnTicket.TicketId, TestData);
         }
 
         [TestMethod]
@@ -117,9 +117,9 @@ namespace Testing3
             //create a Boolean variable to store the results of the validation
             Boolean Found = false;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 2;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //test to see if the result is true
             Assert.IsTrue(Found);
         }
@@ -134,11 +134,11 @@ namespace Testing3
             //create a Boolean variable to record if the data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the TicketId
-            if (AnTicket.TicketID != 2)
+            if (AnTicket.TicketId != 6)
             {
                 OK = false;
             }
@@ -156,11 +156,11 @@ namespace Testing3
             //create a Boolean variable to record if the data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the Date
-            if (AnTicket.Date != Convert.ToDateTime("04/09/2003"))
+            if (AnTicket.Date != Convert.ToDateTime("01/04/2024"))
             {
                 OK = false;
             }
@@ -178,11 +178,11 @@ namespace Testing3
             //create a Boolean variable to record if data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the price property
-            if (AnTicket.Price != 50)
+            if (AnTicket.Price != 20)
             {
                 OK = false;
             }
@@ -202,11 +202,11 @@ namespace Testing3
             //create a Boolean variable to record if data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the venue property
-            if (AnTicket.Venue != "Test Venue")
+            if (AnTicket.Venue != "the 02")
             {
                 OK = false;
             }
@@ -224,11 +224,11 @@ namespace Testing3
             //create a Boolean variable to record if the data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the Artist
-            if (AnTicket.Artist != "Test Artist")
+            if (AnTicket.Artist != "travis scott")
             {
                 OK = false;
             }
@@ -246,9 +246,9 @@ namespace Testing3
             //create a Boolean variable to record if the data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the IsSold property
             if (AnTicket.IsSold != true)
             {
@@ -268,9 +268,9 @@ namespace Testing3
             //create a Boolean variable to record if the data is OK (assume it is)
             Boolean OK = true;
             //create some test data to use with the method
-            Int32 TicketID = 2;
+            Int32 TicketId = 6;
             //invoke the method
-            Found = AnTicket.Find(TicketID);
+            Found = AnTicket.Find(TicketId);
             //check the Artist
             if (AnTicket.TicketType != "VIP")
             {
