@@ -150,6 +150,43 @@ namespace ClassLibrary
             //always return true
             return true;
         }
-        
+
+        public string Valid(string transactionID, string paymentMethod, string paymentDate)
+        {
+            //create a string variable to store the error
+            String Error = "";
+
+            //create a temporary variable to store the date values
+            DateTime DateTemp;
+
+            //if the Transaction ID is blank
+            if (transactionID.Length == 0)
+            {
+                //record the error
+                Error = Error + "The Transaction number may be blank : ";
+            }
+            //if the Transaction id is greater then max characters 
+            if (transactionID.Length > 10) 
+            {
+                //Record the error
+                Error = Error + "The transaction id must be less then 10 characters : ";
+            }
+            //copy the paymentdate value to the DateTemp variable
+            DateTemp = Convert.ToDateTime(paymentDate);
+            //check to see if the date is less than todays's date
+            if (DateTemp < DateTime.Now.Date) 
+            {
+                Error = Error + "The date cannot be in the past : ";
+            }
+            //check to see if the date is greater then today's date
+            if (DateTemp > DateTime.Now.Date) 
+            {
+                //record the error
+                Error = Error + "The date cannot be in the future : ";
+            }
+            //return any error messages
+            return Error;
+        }
+
     }
 }

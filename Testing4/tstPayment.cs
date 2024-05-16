@@ -8,6 +8,12 @@ namespace Testing4
     [TestClass]
     public class tstPayment
     {
+        //good test data
+        //create some test data to pass the method
+           string TransactionID = "ABC-123";
+           string PaymentDate = DateTime.Now.ToShortDateString();
+           string PaymentMethod = "PayPal";
+
         [TestMethod]
         public void TestPaymentInstantiation()
         {
@@ -317,5 +323,312 @@ namespace Testing4
             Assert.IsTrue(OK);
         }
 
+        [TestMethod]
+        public void ValidMethodOK()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //streing variable to store any error messages
+            string Error = "";
+
+            //invoke the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see the result is correct
+            Assert.AreEqual(Error, "");
+
+        }
+
+        [TestMethod]
+        public void TransactionMinLessOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+         }
+
+        [TestMethod]
+        public void TransactionMin()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "A";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TransactionMinPlusOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "AB";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TransactionMaxLessOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "ABCDE";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TransactionMax()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "ABCDEF1234";
+            
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TransactionMid()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "ABC";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TransactionMaxPlusOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "ABCDEF12345";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TransactionExtremeMax()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string TransactionID = "";
+            TransactionID = TransactionID.PadRight(65535, '0');
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentDateExtremeMin()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //create a valiable to store the test data 
+            DateTime TestDate;
+
+            //set the date to todays date
+            TestDate = DateTime.Now.Date;
+
+            //change the date to whatever the date is less 10 years
+            TestDate = TestDate.AddYears(-10);
+
+            //convert the date variable to a string variable
+            string PaymentDate = TestDate.ToString();
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentDateMinLessOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //create a valiable to store the test data 
+            DateTime TestDate;
+
+            //set the date to todays date
+            TestDate = DateTime.Now.Date;
+
+            //change the date to whatever the date is less 10 years
+            TestDate = TestDate.AddDays(-1);
+
+            //convert the date variable to a string variable
+            string PaymentDate = TestDate.ToString();
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentDateMin()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //create a valiable to store the test data 
+            DateTime TestDate;
+
+            //set the date to todays date
+            TestDate = DateTime.Now.Date;
+
+            //convert the date variable to a string variable
+            string PaymentDate = TestDate.ToString();
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentDateMinPlusOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //create a valiable to store the test data 
+            DateTime TestDate;
+
+            //set the date to todays date
+            TestDate = DateTime.Now.Date;
+
+            //change the date to whatever the date is less 10 years
+            TestDate = TestDate.AddDays(1);
+
+            //convert the date variable to a string variable
+            string PaymentDate = TestDate.ToString();
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentDateExtremeMax()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //create a valiable to store the test data 
+            DateTime TestDate;
+
+            //set the date to todays date
+            TestDate = DateTime.Now.Date;
+
+            //change the date to whatever the date is less 10 years
+            TestDate = TestDate.AddYears(10);
+
+            //convert the date variable to a string variable
+            string PaymentDate = TestDate.ToString();
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
     }
+
 }
