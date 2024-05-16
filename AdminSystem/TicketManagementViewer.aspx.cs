@@ -17,7 +17,7 @@ public partial class _1Viewer : System.Web.UI.Page
         AnTicket = (clsTicket)Session["AnTicket"];
 
         //display the Ticket ID for this entry
-        Response.Write(AnTicket.TicketID);
+        Response.Write(AnTicket.TicketId);
 
         //display the Date for this entry
         Response.Write(AnTicket.Date);
