@@ -7,13 +7,15 @@ namespace Testing3
     [TestClass]
     public class tstTicket
     {
+        public bool OK { get; private set; }
+
         [TestMethod]
         public void InstanceOK()
         {
             //create an instance of the class we want to create
             clsTicket AnTicket = new clsTicket();
             //test to see that it exists
-            Assert.IsNotNull( AnTicket );
+            Assert.IsNotNull(AnTicket);
         }
 
         [TestMethod]
@@ -107,5 +109,175 @@ namespace Testing3
             Assert.AreEqual(AnTicket.TicketType, TestData);
         }
 
+        [TestMethod]
+        public void FindMethodOK()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the results of the validation
+            Boolean Found = false;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //test to see if the result is true
+            Assert.IsTrue(Found);
+        }
+
+        [TestMethod]
+        public void TestTicketIdFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if the data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the TicketId
+            if (AnTicket.TicketID != 2)
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestDateFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if the data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the Date
+            if (AnTicket.Date != Convert.ToDateTime("04/09/2003"))
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestPriceFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the price property
+            if (AnTicket.Price != 50)
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+
+
+        }
+
+        [TestMethod]
+        public void TestVenueFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the venue property
+            if (AnTicket.Venue != "Test Venue")
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestArtistFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if the data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the Artist
+            if (AnTicket.Artist != "Test Artist")
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestIsSoldFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if the data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the IsSold property
+            if (AnTicket.IsSold != true)
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+
+        }
+        [TestMethod]
+        public void TestTicketTypeFound()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //create a Boolean variable to store the result of the search
+            Boolean Found = false;
+            //create a Boolean variable to record if the data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 TicketID = 2;
+            //invoke the method
+            Found = AnTicket.Find(TicketID);
+            //check the Artist
+            if (AnTicket.TicketType != "VIP")
+            {
+                OK = false;
+            }
+            //test to see that the result is correct
+            Assert.IsTrue(OK);
+        }
     }
 }

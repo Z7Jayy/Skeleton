@@ -42,8 +42,7 @@ public partial class _1_DataEntry : System.Web.UI.Page
 
         //capture the Artist
         AnTicket.Artist = txtArtist.Text;
-
-
+        
         //capture is sold check box
         AnTicket.IsSold = chkIsSold.Checked;
 
