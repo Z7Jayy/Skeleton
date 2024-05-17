@@ -629,6 +629,160 @@ namespace Testing4
             //test to see that the result is correct
             Assert.AreNotEqual(Error, "");
         }
+
+        [TestMethod]
+        public void PaymentMethodMinLessOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodMin()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "A";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodMinPlusOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "AB";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodMaxLessOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "ABCDE";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodMax()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "ABCDEF1234";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodMid()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "ABC";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodMaxPlusOne()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "ABCDEF12345";
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void PaymentMethodExtremeMax()
+        {
+            // Create an instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+
+            //String c=variable to store any error message
+            String Error = "";
+
+            //Create some test data to pass the method
+            string PaymentMethod = "";
+            PaymentMethod = PaymentMethod.PadRight(65535, '0');
+
+            //Invoe the method
+            Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
     }
 
 }
