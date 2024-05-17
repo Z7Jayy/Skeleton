@@ -163,5 +163,45 @@ namespace ClassLibrary
             }
 
             }
+
+        public string Valid(string venue, string artist, string ticketType, string date)
+        {
+            //create a string variable to store the error 
+            String Error = "";
+
+            //create a temporary variable to store the date values 
+            DateTime DateTemp;
+
+            //if the Artist is blank
+            if (artist.Length == 0)
+            {
+                //record the error 
+                Error = Error + "The artist may not be blank : ";
+
+            }
+            //if the artist is greater than 60 characters 
+            if (artist.Length > 60)
+            {
+                //record the error 
+                Error = Error + "The artist must be less than 60 characters : ";
+            }
+
+            //copy the dateAdded value to the DateTemp variable
+            DateTemp = Convert.ToDateTime(date);
+            if (DateTemp < DateTime.Now.Date)
+            {
+                //record the error
+                Error = Error + "The date cannot be in the past : ";
+            }
+            //check to see if the date is greater than today's date
+            if (DateTemp > DateTime.Now.Date)
+            {
+                //record the error
+                Error = Error + "The date cannot be in the future : ";
+            }
+            //return any error messages
+            return Error;
+        }
+
     }
 }

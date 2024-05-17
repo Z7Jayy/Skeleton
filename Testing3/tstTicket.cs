@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 
 namespace Testing3
 {
@@ -8,6 +9,13 @@ namespace Testing3
     public class tstTicket
     {
         public bool OK { get; private set; }
+
+        //good test data 
+        //create some test data to pass the method
+        string Venue = "Some Venue ";
+        string Artist = "Some Artist ";
+        string TicketType = "VIP ";
+        string Date = DateTime.Now.ToShortDateString();
 
         [TestMethod]
         public void InstanceOK()
@@ -206,7 +214,7 @@ namespace Testing3
             //invoke the method
             Found = AnTicket.Find(TicketId);
             //check the venue property
-            if (AnTicket.Venue != "the 02")
+            if (AnTicket.Venue != "The 02")
             {
                 OK = false;
             }
@@ -278,6 +286,268 @@ namespace Testing3
             }
             //test to see that the result is correct
             Assert.IsTrue(OK);
+
+
+        }
+
+        /*** Valid Method ***/
+
+        [TestMethod]
+        public void ValidMethodOK()
+        {
+            //create an instance of the class we want to create 
+            clsTicket AnTicket = new clsTicket();
+            //string variable to store any error message 
+            String Error = "";
+            //invoke the method 
+            Error = AnTicket.Valid(Venue,Artist,TicketType,Date);
+            //test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        /**************** Parameter Tests ****************/
+
+        /**************** Parameter Tests for artist ****************/
+
+        [TestMethod]
+        public void ArtistMinLessOne()
+        {
+            //create an instance of the class we want to create 
+            clsTicket AnTicket = new clsTicket();
+            //string c=variable to store any error message 
+            String Error = "";
+            //create some test data to pass to the method 
+            string Artist = "";  //this should trigger an error 
+            //invoke the method 
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistMin()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "a"; // This should be OK
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistMinPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "aa"; // This should be OK
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistMaxLessOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "aaaaa"; // This should be OK
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistMax()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "aaaaaa"; // This should be OK
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistMid()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "aaa"; // This should be OK
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistMaxPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" * 61;
+            // This should trigger an error
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void ArtistExtremeMax() 
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create some test data to pass to the method
+            string Artist = "";
+            Artist = Artist.PadRight(500, 'a'); //this should fail 
+            //invoke the method 
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+
+        }
+
+        /**************** Parameter Tests for date ****************/
+
+        [TestMethod]
+        public void DateExtremeMin()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create a variable to store the test date data
+            DateTime TestDate;
+            // Set the date to today's date
+            TestDate = DateTime.Now.Date;
+            // Change the date to whatever the date is less 100 years
+            TestDate = TestDate.AddYears(-100);
+            // Convert the date variable to a string variable
+            string Date = TestDate.ToString();
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void DateMinLessOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create a variable to store the test date data
+            DateTime TestDate;
+            // Set the date to today's date
+            TestDate = DateTime.Now.Date;
+            // Change the date to whatever the date is less 1 day
+            TestDate = TestDate.AddDays(-1);
+            // Convert the date variable to a string variable
+            string Date = TestDate.ToString();
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void DateMin()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create a variable to store the test date data
+            DateTime TestDate;
+            // Set the date to today's date
+            TestDate = DateTime.Now.Date;
+            // Convert the date variable to a string variable
+            string Date = TestDate.ToString();
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void DateMinPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create a variable to store the test date data
+            DateTime TestDate;
+            // Set the date to today's date
+            TestDate = DateTime.Now.Date;
+            // Change the date to whatever the date is plus 1 day
+            TestDate = TestDate.AddDays(1);
+            // Convert the date variable to a string variable
+            string Date = TestDate.ToString();
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void DateExtremeMax()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // Create a variable to store the test date data
+            DateTime TestDate;
+            // Set the date to today's date
+            TestDate = DateTime.Now.Date;
+            // Change the date to whatever the date is plus 100 years
+            TestDate = TestDate.AddYears(100);
+            // Convert the date variable to a string variable
+            string Date = TestDate.ToString();
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+      
