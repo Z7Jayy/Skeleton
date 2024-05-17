@@ -171,8 +171,10 @@ namespace ClassLibrary
                 //Record the error
                 Error = Error + "The transaction id must be less then 10 characters : ";
             }
+           
             //copy the paymentdate value to the DateTemp variable
             DateTemp = Convert.ToDateTime(paymentDate);
+
             //check to see if the date is less than todays's date
             if (DateTemp < DateTime.Now.Date) 
             {
@@ -184,8 +186,21 @@ namespace ClassLibrary
                 //record the error
                 Error = Error + "The date cannot be in the future : ";
             }
-            //return any error messages
-            return Error;
+
+            //if the Transaction ID is blank
+            if (paymentMethod.Length == 0)
+            {
+                //record the error
+                Error = Error + "The Payment Method number may be blank : ";
+            }
+            //if the Transaction id is greater then max characters 
+            if (paymentMethod.Length > 10)
+            {
+                //Record the error
+                Error = Error + "The Payment Method must be less then 10 characters : ";
+            }
+                //return any error messages
+                return Error;
         }
 
     }
