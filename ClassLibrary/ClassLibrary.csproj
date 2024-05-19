@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="clsDataConnection.cs" />
     <Compile Include="clsPayment.cs" />
+    <Compile Include="clsPaymentCollection.cs" />
     <Compile Include="clsTicket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
