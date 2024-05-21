@@ -35,7 +35,7 @@ namespace Testing4
 
             // Assert
             Assert.AreEqual(expectedPaymentID, Payment.PaymentID, "Payment ID was not set correctly.");
-        }
+        }   
 
         [TestMethod]
         public void TestTransactionID()
@@ -139,13 +139,13 @@ namespace Testing4
             Boolean OK = true;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             //invoke the method
             Found = Payment.Find(PaymentID);
 
             //check the payment id
-            if (Payment.PaymentID != 1)
+            if (Payment.PaymentID != 7)
             {
                 OK = false;
             }
@@ -168,13 +168,13 @@ namespace Testing4
             Boolean OK = true;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             // Invoke the method
             Found = Payment.Find(PaymentID);
 
             // Check the TransactionID
-            if (Payment.TransactionID != "ABC-123")
+            if (Payment.TransactionID != "STU-123")
             {
                 OK = false;
             }
@@ -196,13 +196,13 @@ namespace Testing4
             Boolean OK = true;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             // Invoke the method
             Found = Payment.Find(PaymentID);
 
             // Check the Amount
-            if (Payment.Amount != 85.50)
+            if (Payment.Amount != 70)
             {
                 OK = false;
             }
@@ -224,13 +224,13 @@ namespace Testing4
             Boolean OK = true;
 
             // Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             // Invoke the method
             Found = Payment.Find(PaymentID);
 
             // Check the PaymentDate
-            if (Payment.PaymentDate != Convert.ToDateTime("01/05/2024"))
+            if (Payment.PaymentDate != Convert.ToDateTime("11/05/2024"))
             {
                 OK = false;
             }
@@ -252,7 +252,7 @@ namespace Testing4
             Boolean OK = true;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             // Invoke the method
             Found = Payment.Find(PaymentID);
@@ -280,7 +280,7 @@ namespace Testing4
             Boolean OK = true;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             // Invoke the method
             Found = Payment.Find(PaymentID);
@@ -308,13 +308,13 @@ namespace Testing4
             Boolean OK = true;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             // Invoke the method
             Found = Payment.Find(PaymentID);
 
             // Check the TicketID
-            if (Payment.TicketID != 10)
+            if (Payment.TicketID != 25)
             {
                 OK = false;
             }
