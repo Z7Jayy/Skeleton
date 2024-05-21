@@ -179,6 +179,23 @@ namespace ClassLibrary
                 Error = Error + "The artist may not be blank : ";
 
             }
+
+            //if the Venue is blank
+            if (venue.Length == 0)
+            {
+                //record the error 
+                Error = Error + "The venue may not be blank : ";
+
+            }
+
+            //if the TicketType is blank
+            if (ticketType.Length == 0)
+            {
+                //record the error 
+                Error = Error + "The ticketType may not be blank : ";
+
+            }
+
             //if the artist is greater than 60 characters 
             if (artist.Length > 60)
             {
@@ -186,19 +203,48 @@ namespace ClassLibrary
                 Error = Error + "The artist must be less than 60 characters : ";
             }
 
-            //copy the dateAdded value to the DateTemp variable
-            DateTemp = Convert.ToDateTime(date);
-            if (DateTemp < DateTime.Now.Date)
+            //if the venue is greater than 100 characters 
+            if (venue.Length > 100)
             {
-                //record the error
-                Error = Error + "The date cannot be in the past : ";
+                //record the error 
+                Error = Error + "The venue must be less than 100 characters : ";
             }
-            //check to see if the date is greater than today's date
-            if (DateTemp > DateTime.Now.Date)
+
+            //if the TicketType is greater than 7 characters 
+            if (ticketType.Length > 7)
             {
-                //record the error
-                Error = Error + "The date cannot be in the future : ";
+                //record the error 
+                Error = Error + "The ticketType must be less than 7 characters : ";
             }
+
+            //create an instance of date time to cmpare with date temp 
+            //in the statements
+            DateTime DateComp = DateTime.Now.Date;
+
+            try
+            {
+                //copy the dateAdded value to the DateTemp variable
+                DateTemp = Convert.ToDateTime(date);
+                if (DateTemp < DateTime.Now.Date)
+                {
+                    //record the error
+                    Error = Error + "The date cannot be in the past : ";
+                }
+                //check to see if the date is greater than today's date
+                if (DateTemp > DateTime.Now.Date)
+                {
+                    //record the error
+                    Error = Error + "The date cannot be in the future : ";
+
+                }
+
+            }
+            catch
+            {
+                //record the error 
+                Error = Error + "The date was not a valid date : ";
+            }
+
             //return any error messages
             return Error;
         }

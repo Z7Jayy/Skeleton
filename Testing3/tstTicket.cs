@@ -362,7 +362,8 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // Create some test data to pass to the method
-            string Artist = "aaaaa"; // This should be OK
+            string Artist = "";
+            Artist = Artist.PadRight(59, 'a');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -377,7 +378,8 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // Create some test data to pass to the method
-            string Artist = "aaaaaa"; // This should be OK
+            string Artist = "";
+            Artist = Artist.PadRight(60, 'a');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -392,7 +394,8 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // Create some test data to pass to the method
-            string Artist = "aaa"; // This should be OK
+            string Artist = "";
+            Artist = Artist.PadRight(30, 'a');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -407,7 +410,8 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // Create some test data to pass to the method
-            string Artist = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" * 61;
+            string Artist = "";
+            Artist = Artist.PadRight(61, 'a');
             // This should trigger an error
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
@@ -535,6 +539,242 @@ namespace Testing3
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
             Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void DateInvalidData()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //set the date to a non date value 
+            string Date = "this is not a date !";
+            //invoke the method 
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+
+        }
+
+        /*************** Tests for Venue ***************/
+
+        [TestMethod]
+        public void VenueMinLessOne()
+        {
+            //create an instance of the class we want to create
+            clsTicket AnTicket = new clsTicket();
+            //string variable to store any error message
+            String Error = "";
+            //this should fail
+            string Venue = "";
+            //invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            //test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void VenueMin()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //this should pass
+            string Venue = "a"; 
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void VenueMinPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //this should pass
+            string Venue = "aa"; 
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void VenueMaxLessOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //this should pass
+            string Venue = "";
+            Venue = Venue.PadRight(99, 'a'); 
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void VenueMax()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //this should pass
+            string Venue = "";
+            Venue = Venue.PadRight(100, 'a');
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void VenueMaxPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //this should pass
+            string Venue = "";
+            Venue = Venue.PadRight(101, 'a');            
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+
+
+        [TestMethod]
+        public void VenueMid()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            //this should pass
+            string Venue = "aaaa"; 
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+
+        /*************** Tests for Ticket Type ***************/
+
+        [TestMethod]
+        public void TicketTypeMinLessOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should fail
+            string TicketType = "";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TicketTypeMin()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should pass
+            string TicketType = "a";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TicketTypeMinPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should pass
+            string TicketType = "aa";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TicketTypeMaxLessOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should pass
+            string TicketType = "aaaaaa";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TicketTypeMax()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should pass
+            string TicketType = "aaaaaaa";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TicketTypeMaxPlusOne()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should fail
+            string TicketType = "aaaaaaaa";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreNotEqual(Error, "");
+        }
+
+        [TestMethod]
+        public void TicketTypeMid()
+        {
+            // Create an instance of the class we want to test
+            clsTicket AnTicket = new clsTicket();
+            // String variable to store any error message
+            String Error = "";
+            // This should pass
+            string TicketType = "aaa";
+            // Invoke the method
+            Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+            // Test to see that the result is correct
+            Assert.AreEqual(Error, "");
         }
     }
 }
