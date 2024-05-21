@@ -28,35 +28,58 @@ public partial class _1_DataEntry : System.Web.UI.Page
         //create a new instance of clsTicket
         clsTicket AnTicket = new clsTicket();
 
-        // Capture the Ticket ID 
-        AnTicket.TicketId = Convert.ToInt32(txtTicketId.Text);
+        //capture the ticket id 
+        string TicketId = txtTicketId.Text;
 
         // Capture the Date
-        AnTicket.Date = Convert.ToDateTime(DateTime.Now);
-        
+        string Date = txtDate.Text;
+
         // Capture the Price 
-        AnTicket.Price = Convert.ToInt32(txtPrice.Text);
+        string Price = txtPrice.Text;
 
         //capture the Venue
-        AnTicket.Venue = txtVenue.Text;
+        string Venue = txtVenue.Text;
 
         //capture the Artist
-        AnTicket.Artist = txtArtist.Text;
-        
+        string Artist = txtArtist.Text;
+
         //capture is sold check box
-        AnTicket.IsSold = chkIsSold.Checked;
+        string IsSold = chkIsSold.Text;
 
         //capture the Ticket Type
-        AnTicket.TicketType = txtTicketType.Text;
+        string TicketType = txtTicketType.Text;
 
-        //store the Ticket in the session object
-        Session["AnTicket"] = AnTicket;
-       
-        //navigate to the view page
-        Response.Redirect("TicketManagementViewer.aspx");
+        //variable to store any error messages 
+        string Error = "";
+
+        //validate the data 
+        Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
+        if (Error == "")
+        {
+            //capture the Venue
+            AnTicket.Venue = Venue ;
+
+            //capture the Artist
+            AnTicket.Artist = Artist;
+
+            //capture the Ticket Type
+            AnTicket.TicketType = TicketType;
+
+            // Capture the Date
+            AnTicket.Date = Convert.ToDateTime(Date);
+
+            //store the Ticket in the session object
+            Session["AnTicket"] = AnTicket;
+
+            //navigate to the view page
+            Response.Redirect("TicketManagementViewer.aspx");
+        }
+        else
+        {
+            //display the error message 
+            lblError.Text = Error;
+        }
     }
-
-
 
 
     protected void TextBox1_TextChanged1(object sender, EventArgs e)
