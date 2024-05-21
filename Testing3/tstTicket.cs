@@ -58,7 +58,7 @@ namespace Testing3
             // Create an instance of the class we want to test
             clsTicket AnTicket = new clsTicket();
             // Create some test data to assign to the property
-            int TestData = 100;
+            int TestData = 1;
             // Assign the data to the property
             AnTicket.Price = TestData;
             // Test to see that the two values are the same

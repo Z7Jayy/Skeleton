@@ -45,6 +45,7 @@
     <Compile Include="clsPayment.cs" />
     <Compile Include="clsPaymentCollection.cs" />
     <Compile Include="clsTicket.cs" />
+    <Compile Include="clsTicketCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
