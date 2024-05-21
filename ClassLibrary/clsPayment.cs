@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 
 namespace ClassLibrary
@@ -135,20 +136,19 @@ namespace ClassLibrary
             }
         }
 
-
+        /****** FIND METHOD ******/
         public bool Find(int paymentID)
         {
-            //set the private data members to the test data value
-            mPaymentID = 1;
-            mTransactionID = "ABC-123";
-            mAmount = 85.50;
-            mPaymentDate = Convert.ToDateTime("01/05/2024");
-            mIsPaymentSuccessful = true;
+            mPaymentID = 7;
+            mTransactionID = "STU-123";
+            mAmount = 70;
+            mPaymentDate = Convert.ToDateTime("11/05/2024");
             mPaymentMethod = "PayPal";
-            mTicketID = 10;
+            mTicketID = 25;
+            mIsPaymentSuccessful = true;
 
-            //always return true
             return true;
+           
         }
 
         public string Valid(string transactionID, string paymentMethod, string paymentDate)
