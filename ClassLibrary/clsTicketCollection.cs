@@ -7,6 +7,8 @@ namespace ClassLibrary
     {
         //private data member for the list
         List<clsTicket> mTicketList = new List<clsTicket>();
+        //private data member for ThisTicket
+        clsTicket mThisTicket = new clsTicket();
 
         public List<clsTicket> TicketList
         {
@@ -35,9 +37,21 @@ namespace ClassLibrary
                 //we shall worry about this later
             }
         }
-        public clsTicket ThisTicket { get; set; }
 
-       
+       //public property for ThisTicket
+       public clsTicket ThisTicket
+        {
+            get
+            {
+                //return the private data
+                return mThisTicket;
+            }
+            set
+            {
+                //set the private data
+                mThisTicket = value;
+            }
+        }
 
         //public constructor for the class
         public clsTicketCollection()
@@ -73,13 +87,21 @@ namespace ClassLibrary
             }
         }
 
+        public int Add()
+        {
+            //adds a record to the database based on the values of mThisTicket
+            //connect to the database
+            clsDataConnection DB = new clsDataConnection();
+            //set the parameters for the stored procedure
+            DB.AddParameter("@Price", mThisTicket.Price);
+            DB.AddParameter("@Date", mThisTicket.Date);
+            DB.AddParameter("@Venue", mThisTicket.Venue);
+            DB.AddParameter("@Artist", mThisTicket.Artist);
+            DB.AddParameter("@IsSold", mThisTicket.IsSold);
+            DB.AddParameter("@TicketType", mThisTicket.TicketType);
 
-
-
-
-
-
-
-
+            //execute the query returning the primary key value
+            return DB.Execute("sproc_tblTicket_Insert");
+        }
     }
 }
