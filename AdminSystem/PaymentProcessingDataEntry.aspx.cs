@@ -38,17 +38,21 @@ public partial class _1_DataEntry : System.Web.UI.Page
         {
 
             //Capture the Attribute
+            Payment.TransactionID = TransactionID;
+            Payment.PaymentMethod = PaymentMethod;
+            Payment.PaymentDate = Convert.ToDateTime(PaymentDate);
             Payment.PaymentID = Convert.ToInt32(txtPaymentID.Text);
-            Payment.TransactionID = txtTransactionID.Text;
             Payment.Amount = Convert.ToDouble(txtAmount.Text);
-            Payment.PaymentDate = Convert.ToDateTime(DateTime.Now);
             Payment.IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Checked;
-            Payment.PaymentMethod = txtPaymentMethod.Text;
             Payment.TicketID = Convert.ToInt32(txtTicketID.Text);
-            //store the Attribute in the session object
-            Session["Payment"] = Payment;
+            //create a new instance of the payment collection
+            clsPaymentCollection PaymentList = new clsPaymentCollection();
+            //set the thispayment property
+            PaymentList.ThisPayment = Payment;
+            //add the record
+            PaymentList.Add();
             //navigate to the view page
-            Response.Redirect("PaymentProcessingViewer.aspx");
+            Response.Redirect("PaymentProcessingList.aspx");
         }
 
         else
@@ -56,5 +60,32 @@ public partial class _1_DataEntry : System.Web.UI.Page
             //display the error message
             lblError.Text = Error;
         }
+    }
+
+    protected void btnFind_Click(object sender, EventArgs e)
+    {
+        //create an instace of the Find Class
+        clsPayment Payment = new clsPayment();
+        //create a variable to store the primary key
+        Int32 PaymentID;
+        //create a variable to store the results of the fid operation
+        Boolean Found = false;
+        //get the primary key entered by the user
+        PaymentID = Convert.ToInt32(txtPaymentID.Text);
+        //find the record
+        Found = Payment.Find(PaymentID);
+        //if found
+        if (Found == true)
+        {
+            //display
+            txtTransactionID.Text = Payment.TransactionID;
+            txtAmount.Text = Payment.Amount.ToString();
+            txtPaymentDate.Text = Payment.PaymentDate.ToString();
+            CheckBoxIsPaymentSuccessful.Checked = Payment.IsPaymentSuccessful;
+            txtPaymentMethod.Text = Payment.PaymentMethod;
+            txtTicketID.Text = Payment.TicketID.ToString();
+                ;
+        }
+
     }
 }

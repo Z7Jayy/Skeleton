@@ -98,5 +98,37 @@ namespace Testing4
             Assert.AreEqual(AllPayments.Count, TestList.Count);
 
         }
+
+        [TestMethod]
+        public void AddMethodOK()
+        {
+            //create an instance of the class we want to create
+            clsPaymentCollection AllPayments = new clsPaymentCollection();
+            //create the item of test data
+            clsPayment TestItem = new clsPayment();
+            //variable to store the primary key
+            Int32 PrimaryKey = 0;
+            //set its properties
+            TestItem.PaymentID = 1;
+            TestItem.TransactionID = "ABC-123";
+            TestItem.Amount = 50.5;
+            TestItem.PaymentDate = DateTime.Now;
+            TestItem.PaymentMethod = "PayPal";
+            TestItem.TicketID = 10;
+            TestItem.IsPaymentSuccessful = true;
+            //set thisPayment to the test data
+            AllPayments.ThisPayment = TestItem;
+            //add the record
+            PrimaryKey = AllPayments.Add();
+            //set the primarykey of the test data
+            TestItem.PaymentID = PrimaryKey;
+            //finf the record
+            AllPayments.ThisPayment.Find(PrimaryKey);
+            //test to see that the two values are the same
+            Assert.AreEqual(AllPayments.ThisPayment, TestItem);
+
+        }
+
+
     }
 }

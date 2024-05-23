@@ -1,16 +1,17 @@
 ﻿using ClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Dynamic;
+using System.IO;
 
 namespace Testing4
 {
     [TestClass]
     public class tstPayment
     {
+        public bool OK { get; private set; }
         //good test data
         //create some test data to pass the method
-           string TransactionID = "ABC-123";
+        string TransactionID = "ABC-123";
            string PaymentDate = DateTime.Now.ToShortDateString();
            string PaymentMethod = "PayPal";
 

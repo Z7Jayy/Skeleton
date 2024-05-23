@@ -137,18 +137,36 @@ namespace ClassLibrary
         }
 
         /****** FIND METHOD ******/
-        public bool Find(int paymentID)
+        public bool Find(int PaymentID)
         {
-            mPaymentID = 7;
-            mTransactionID = "STU-123";
-            mAmount = 70;
-            mPaymentDate = Convert.ToDateTime("11/05/2024");
-            mPaymentMethod = "PayPal";
-            mTicketID = 25;
-            mIsPaymentSuccessful = true;
+            //object for the data connect
+            clsDataConnection DB = new clsDataConnection();
 
-            return true;
-           
+            //add the parameter for the address id to search for
+            DB.AddParameter("@PaymentID", PaymentID);
+
+            //execute the stored procedure
+            DB.Execute("sproc_tblPayment_FilterByPaymentID");
+
+            //if one record is found there should be either one or zero
+            if (DB.Count == 1)
+            {
+                //read in the feilds for the current record
+                mPaymentID = Convert.ToInt32(DB.DataTable.Rows[0]["PaymentID"]);
+                mTransactionID = Convert.ToString(DB.DataTable.Rows[0]["TransactionID"]);
+                mAmount = Convert.ToDouble(DB.DataTable.Rows[0]["Amount"]);
+                mPaymentDate = Convert.ToDateTime(DB.DataTable.Rows[0]["PaymentDate"]);
+                mIsPaymentSuccessful = Convert.ToBoolean(DB.DataTable.Rows[0]["IsPaymentSuccessful"]);
+                mPaymentMethod = Convert.ToString(DB.DataTable.Rows[0]["PaymentMethod"]);
+                mTicketID = Convert.ToInt32(DB.DataTable.Rows[0]["TicketID"]);
+                //return that everything worked ok
+                return true;
+            }
+            //if no record was found
+            else
+            {
+                return false;
+            }
         }
 
         public string Valid(string transactionID, string paymentMethod, string paymentDate)
