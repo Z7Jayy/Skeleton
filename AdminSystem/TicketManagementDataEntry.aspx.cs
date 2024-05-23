@@ -68,11 +68,24 @@ public partial class _1_DataEntry : System.Web.UI.Page
             // Capture the Date
             AnTicket.Date = Convert.ToDateTime(Date);
 
-            //store the Ticket in the session object
-            Session["AnTicket"] = AnTicket;
+            //capture the Price
+            AnTicket.Price = Convert.ToInt32(Price);
 
-            //navigate to the view page
-            Response.Redirect("TicketManagementViewer.aspx");
+            //capture the is sold 
+            AnTicket.IsSold = chkIsSold.Checked;
+
+            //create a new instance of the ticket collection 
+            clsTicketCollection TicketList = new clsTicketCollection();
+
+            //set the ThisTicket property
+            TicketList.ThisTicket = AnTicket;
+
+            //add the new record
+            TicketList.Add();
+
+            //redirect back to the list page 
+            Response.Redirect("TicketManagementList.aspx");
+
         }
         else
         {
