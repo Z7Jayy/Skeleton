@@ -9,11 +9,13 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:ListBox ID="tstPaymentList" runat="server" Height="680px" Width="1076px"></asp:ListBox>
+            <asp:Label ID="lblError" runat="server" style="z-index: 1; left: 26px; top: 754px; position: absolute" Text="[lblError]"></asp:Label>
+            <asp:ListBox ID="tstPaymentList" runat="server" Height="676px" Width="1040px"></asp:ListBox>
         </div>
         <p>
             <asp:Button ID="btnAdd" runat="server" OnClick="btnAdd_Click" style="z-index: 1; left: 23px; top: 706px; position: absolute" Text="Add" />
         </p>
+        <asp:Button ID="btnEdit" runat="server" OnClick="btnEdit_Click" style="z-index: 1; left: 114px; top: 707px; position: absolute" Text="Edit" />
     </form>
 </body>
 </html>

@@ -88,7 +88,7 @@ namespace ClassLibrary
 
         public int Add()
         {
-            //assa a record to the database based on the values of mThisAddress
+            //Add a record to the database based on the values of mThisAddress
             //connect to the database
             clsDataConnection DB = new clsDataConnection();
             //set the parameters for the stored procedure
@@ -102,6 +102,23 @@ namespace ClassLibrary
             //execute the query returning to the primary key value
             return DB.Execute("sproc_tblPayment_Insert");
      
+        }
+
+        public void Update()
+        {
+            //Add a existing record  based on the values of ThisPayment
+            //connect to the database
+            clsDataConnection DB = new clsDataConnection();
+            //set the parameters for the stored procedure
+            DB.AddParameter("@PaymentID", mThisPayment.PaymentID);
+            DB.AddParameter("@TransactionID", mThisPayment.TransactionID);
+            DB.AddParameter("@Amount", mThisPayment.Amount);
+            DB.AddParameter("@PaymentDate", mThisPayment.PaymentDate);
+            DB.AddParameter("@IsPaymentSuccessful", mThisPayment.IsPaymentSuccessful);
+            DB.AddParameter("@PaymentMethod", mThisPayment.PaymentMethod);
+            DB.AddParameter("@TicketID", mThisPayment.TicketID);
+            //execute the stored procedure
+            DB.Execute("sproc_tblPayment_Update");
         }
     }
 }
