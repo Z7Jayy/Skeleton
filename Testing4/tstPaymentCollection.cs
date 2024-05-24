@@ -45,7 +45,7 @@ namespace Testing4
             AllPayments.PaymentList = TestList;
             //test to see that the two values are the same
             Assert.AreEqual(AllPayments.PaymentList, TestList);
-        
+
         }
 
 
@@ -128,7 +128,7 @@ namespace Testing4
             Assert.AreEqual(AllPayments.ThisPayment, TestItem);
 
         }
-        
+
         public void UpdateMethodOK()
         {
             //create an instance of the class we want to create
@@ -165,8 +165,99 @@ namespace Testing4
             AllPayments.ThisPayment.Find(PrimaryKey);
             //test to see if thispayment matches the test data
             Assert.AreEqual(AllPayments.ThisPayment, TestItem);
-        
+
         }
 
+        [TestMethod]
+        public void DeleteMethodOK()
+        {
+
+            //create an instance of the class we want to create
+            clsPaymentCollection AllPayments = new clsPaymentCollection();
+            //create the item of test data
+            clsPayment TestItem = new clsPayment();
+            //variable to store the primary key
+            Int32 PrimaryKey = 0;
+            //set its properties
+            TestItem.TransactionID = "ABC-123";
+            TestItem.Amount = 50.5;
+            TestItem.PaymentDate = DateTime.Now;
+            TestItem.PaymentMethod = "PayPal";
+            TestItem.TicketID = 10;
+            TestItem.IsPaymentSuccessful = true;
+            //set thisPayment to the test data
+            AllPayments.ThisPayment = TestItem;
+            //add the record
+            PrimaryKey = AllPayments.Add();
+            //set the primary ket of the test data
+            TestItem.PaymentID = PrimaryKey;
+            //find the record
+            AllPayments.ThisPayment.Find(PrimaryKey);
+            //delete the record
+            AllPayments.Delete();
+            //now find the record
+            Boolean Found = AllPayments.ThisPayment.Find(PrimaryKey);
+            //test to see that the record was not found
+            Assert.IsFalse(Found);
+        }
+
+
+
+        [TestMethod]
+        public void ReportByTransactionIDMethodOK()
+        {
+            //create an instance of the class we want to create
+            clsPaymentCollection AllPayments = new clsPaymentCollection();
+            //create an instance of the filtered data
+            clsPaymentCollection FilteredPayments = new clsPaymentCollection();
+            //apply a blcank string
+            FilteredPayments.ReportByTransactionID("");
+            //Test to see that the two values are the same
+            Assert.AreEqual(AllPayments.Count, FilteredPayments.Count);
+
+        }
+
+
+        [TestMethod]
+        public void ReportByTransactionIDNoneFound()
+        {
+            //create an instance of the filtered data
+            clsPaymentCollection FilteredPayments = new clsPaymentCollection();
+            //apply a post code that doesnt exist
+            FilteredPayments.ReportByTransactionID("xxx-xxx");
+            //tests to see that there are no records
+            Assert.AreEqual(0,FilteredPayments.Count);  
+        }
+
+        [TestMethod]
+        public void ReportByTransactionIDDataFound() 
+        {
+            //create an instance of the filtered data
+            clsPaymentCollection FilteredPayments = new clsPaymentCollection();
+            //variable to store the outcome
+            Boolean OK = true;
+            //apply a transaction id  that doesnt exist
+            FilteredPayments.ReportByTransactionID("yyy yyy");
+            //check that the correct number of recods are found
+            if (FilteredPayments.Count == 2)
+            {
+                //check to see the first record is correct
+                if (FilteredPayments.PaymentList[0].PaymentID != 10)
+                {
+                    OK = false;
+                }
+                //check to see thta the first record is 11
+                if (FilteredPayments.PaymentList[1].PaymentID != 11)
+                {
+                    OK = false;
+                }
+            }
+            else
+            {
+                OK = false;
+            }
+            //test to see that there are no records
+            Assert.IsTrue(OK);
+        }
     }
 }
