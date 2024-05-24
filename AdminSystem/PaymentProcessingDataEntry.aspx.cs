@@ -1,16 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClassLibrary;
 
 public partial class _1_DataEntry : System.Web.UI.Page
-{
+{   
+    //variable to store the primary key with page level scope
+    Int32 PaymentID;
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        //get the number of the payment to be processed
+        PaymentID = Convert.ToInt32(Session["PaymentID"]);
+        //if this is the first time displaying the page
+        if (IsPostBack == false)
+        {
+            //if this is not a new record
+            if (PaymentID != -1)
+            {
+                //display the current data for hte record
+                DisplayPayment();
+            }
+        }
     }
     protected void CheckBoxIsPaymentSuccessful_CheckedChanged(object sender, EventArgs e)
     {
@@ -23,38 +37,57 @@ public partial class _1_DataEntry : System.Web.UI.Page
         //create a new instance of clsPayment
         clsPayment Payment = new clsPayment();
         //Capture the Attribute
-        string PaymentID = txtPaymentID.Text;
+        int PaymentID = Payment.PaymentID;
         string TransactionID = txtTransactionID.Text;
-        string Amount = txtAmount.Text;
+        double Amount = Payment.Amount;
         string PaymentDate = txtPaymentDate.Text;
         string IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Text;
         string PaymentMethod = txtPaymentMethod.Text;
-        string TicketID = txtTicketID.Text;
+        int TicketID = Payment.TicketID;
         //variable to store any error messages
         string Error = "";
+
         //validate the data
         Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
         if (Error == "")
         {
-
-            //Capture the Attribute
+            //Capture the paymentid
+            Payment.PaymentID = PaymentID;
+            //Capture the TransactionId
             Payment.TransactionID = TransactionID;
+            //Capture the PaymentMethod
             Payment.PaymentMethod = PaymentMethod;
+            //Capture the Paymentdate
             Payment.PaymentDate = Convert.ToDateTime(PaymentDate);
-            Payment.PaymentID = Convert.ToInt32(txtPaymentID.Text);
+            //Capture the Amount
             Payment.Amount = Convert.ToDouble(txtAmount.Text);
+            //Capture IsPaymentSucessful
             Payment.IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Checked;
+            //Capture the TicketId
             Payment.TicketID = Convert.ToInt32(txtTicketID.Text);
             //create a new instance of the payment collection
             clsPaymentCollection PaymentList = new clsPaymentCollection();
-            //set the thispayment property
-            PaymentList.ThisPayment = Payment;
-            //add the record
-            PaymentList.Add();
+
+            //if this is a new record i.e PaymentID = -1 then add the data
+            if (PaymentID == -1)
+            {
+                //set the ThisPayment property
+                PaymentList.ThisPayment = Payment;
+                //add the new record
+                PaymentList.Add();
+            }
+            else
+            {
+                //find the record to update
+                PaymentList.ThisPayment.Find(PaymentID);
+                //set the ThisPayment property
+                PaymentList.ThisPayment = Payment;
+                //update the record
+                PaymentList.Update();
+            }
             //navigate to the view page
             Response.Redirect("PaymentProcessingList.aspx");
         }
-
         else
         {
             //display the error message
@@ -84,8 +117,25 @@ public partial class _1_DataEntry : System.Web.UI.Page
             CheckBoxIsPaymentSuccessful.Checked = Payment.IsPaymentSuccessful;
             txtPaymentMethod.Text = Payment.PaymentMethod;
             txtTicketID.Text = Payment.TicketID.ToString();
-                ;
+                
         }
+
+    }
+
+    void DisplayPayment()
+    {
+        //create an instance of the payment book
+        clsPaymentCollection PaymentProcessing = new clsPaymentCollection();
+        //find the record to update
+        PaymentProcessing.ThisPayment.Find(PaymentID);
+        //display the data for the record
+        txtPaymentID.Text = PaymentProcessing.ThisPayment.PaymentID.ToString();
+        txtTransactionID.Text = PaymentProcessing.ThisPayment.TransactionID.ToString();
+        txtAmount.Text = PaymentProcessing.ThisPayment.Amount.ToString();
+        txtPaymentMethod.Text = PaymentProcessing.ThisPayment.PaymentMethod.ToString();
+        txtPaymentDate.Text = PaymentProcessing.ThisPayment.PaymentDate.ToString();
+        CheckBoxIsPaymentSuccessful.Checked = PaymentProcessing.ThisPayment.IsPaymentSuccessful;
+        txtTicketID.Text = PaymentProcessing.ThisPayment.ToString();
 
     }
 }
