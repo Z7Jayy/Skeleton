@@ -37,13 +37,12 @@ public partial class _1_DataEntry : System.Web.UI.Page
         //create a new instance of clsPayment
         clsPayment Payment = new clsPayment();
         //Capture the Attribute
-        int PaymentID = Payment.PaymentID;
         string TransactionID = txtTransactionID.Text;
-        double Amount = Payment.Amount;
+        string Amount = txtAmount.Text;
         string PaymentDate = txtPaymentDate.Text;
         string IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Text;
         string PaymentMethod = txtPaymentMethod.Text;
-        int TicketID = Payment.TicketID;
+        string TicketID = txtTicketID.Text;
         //variable to store any error messages
         string Error = "";
 
@@ -136,6 +135,11 @@ public partial class _1_DataEntry : System.Web.UI.Page
         txtPaymentDate.Text = PaymentProcessing.ThisPayment.PaymentDate.ToString();
         CheckBoxIsPaymentSuccessful.Checked = PaymentProcessing.ThisPayment.IsPaymentSuccessful;
         txtTicketID.Text = PaymentProcessing.ThisPayment.ToString();
+
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
 
     }
 }
