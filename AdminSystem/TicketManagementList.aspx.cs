@@ -21,7 +21,7 @@ public partial class _1_List : System.Web.UI.Page
 
     void DisplayTickets()
     {
-        //create an instance of the tickets collection
+        //create an instance of the tickets collection class
         clsTicketCollection Tickets = new clsTicketCollection();
         //set the data source to list of tickets in the collection
         lstTicketList.DataSource = Tickets.TicketList;
@@ -60,5 +60,59 @@ public partial class _1_List : System.Web.UI.Page
         {
             lblError.Text = "Please select a record from the list to edit";
         }
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        //variable to store the primary key value of the record to be deleted 
+        Int32 TicketId;
+        //if a record has been selected from the list 
+        if (lstTicketList.SelectedIndex != -1)
+        {
+            //get the primary key value of the record to edit
+            TicketId = Convert.ToInt32(lstTicketList.SelectedValue);
+            //store the data in the session object
+            Session["TicketId"] = TicketId;
+            //redirect to the delete page 
+            Response.Redirect("TicketManagementConfirmDelete.aspx");
+        }
+        else      //if no record has been selected
+        {
+            lblError.Text = "Please select a record from the list to delete";
+        }
+    }
+
+    protected void btnApplyFilter_Click(object sender, EventArgs e)
+    {
+        //create an instance of the address object
+        clsTicketCollection AnTicket = new clsTicketCollection();
+        //retrieve the value of artist from the presentation layer 
+        AnTicket.ReportByArtist(txtFilter.Text);
+        //set the data source to the list of tickets in the collection
+        lstTicketList.DataSource = AnTicket.TicketList;
+        //set the name of the primary key 
+        lstTicketList.DataValueField = "TicketId";
+        //set the name of the field to display
+        lstTicketList.DataTextField = "Artist";
+        //bind the data to the list 
+        lstTicketList.DataBind();
+    }
+
+    protected void btnClearFilter_Click(object sender, EventArgs e)
+    {
+        //create an instance of the address object
+        clsTicketCollection AnTicket = new clsTicketCollection();
+        //set an empty string 
+        AnTicket.ReportByArtist("");
+        //clear any existing filter to tidy up the interface
+        txtFilter.Text = "";
+        //set the data source to the list of tickets in the collection
+        lstTicketList.DataSource = AnTicket.TicketList;
+        //set the name of the primary key 
+        lstTicketList.DataValueField = "TicketId";
+        //set the name of the field to display
+        lstTicketList.DataTextField = "Artist";
+        //bind the data to the list 
+        lstTicketList.DataBind();
     }
 }

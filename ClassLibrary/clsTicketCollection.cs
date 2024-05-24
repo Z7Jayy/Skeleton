@@ -56,35 +56,13 @@ namespace ClassLibrary
         //public constructor for the class
         public clsTicketCollection()
         {
-            //variable for the index
-            Int32 Index = 0;
-            //variable to store the record count
-            Int32 RecordCount = 0;
             //object for the data connect
             clsDataConnection DB = new clsDataConnection();
             //execute the stored procedure
             DB.Execute("sproc_tblTicket_SelectAll");
-            //get the count of records
-            RecordCount = DB.Count;
-            //while there are records to process
-            while (Index < RecordCount)
-            {
-                //create a blank address
-                clsTicket AnTicket = new clsTicket();
-                //read in the fields for the current record
-                AnTicket.TicketId = Convert.ToInt32(DB.DataTable.Rows[Index]["TicketId"]);
-                AnTicket.Date = Convert.ToDateTime(DB.DataTable.Rows[Index]["Date"]);
-                AnTicket.Price = Convert.ToInt32(DB.DataTable.Rows[Index]["Price"]);
-                AnTicket.Venue = Convert.ToString(DB.DataTable.Rows[Index]["Venue"]);
-                AnTicket.Artist = Convert.ToString(DB.DataTable.Rows[Index]["Artist"]);
-                AnTicket.IsSold = Convert.ToBoolean(DB.DataTable.Rows[Index]["IsSold"]);
-                AnTicket.TicketType = Convert.ToString(DB.DataTable.Rows[Index]["TicketType"]);
-                //add the record to the private data member
-                mTicketList.Add(AnTicket);
-                //point at the next record
-                Index++;
-
-            }
+            //populate the array list with the data table 
+            PopulateArray(DB);
+            
         }
 
         public int Add()
@@ -120,6 +98,62 @@ namespace ClassLibrary
 
             //execute the stored procedure
             DB.Execute("sproc_tblTicket_Update");
+        }
+
+        public void Delete()
+        {
+           //delete the record pointed by thisticket
+           //connect to the dtabase 
+           clsDataConnection DB = new clsDataConnection();
+            //set the parameters for the stored procedure
+            DB.AddParameter("@TicketId", mThisTicket.TicketId);
+            //execute the stored procedure 
+            DB.Execute("sproc_tblTicket_Delete");
+        }
+
+        public void ReportByArtist(string Artist)
+        {
+            //filters the records based on a full or partial artist
+            //connect to the database
+            clsDataConnection DB = new clsDataConnection();
+            //send the artist parameter to the database 
+            DB.AddParameter("@Artist", Artist);
+            //execute the stored procedure
+            DB.Execute("sproc_tblTicket_FilterByArtist");
+            //populate the array list with the data table 
+            PopulateArray(DB);
+        }
+
+        void PopulateArray(clsDataConnection DB)
+        {
+            //populates the array list based on the data table in the parameter DB
+            //variable for the index
+            Int32 Index = 0;
+            //variable to store the record count
+            Int32 RecordCount = 0;
+            //get the count of records 
+            RecordCount = DB.Count;
+            //clear the private array list 
+            mTicketList = new List<clsTicket>();
+            //while there are records to process
+            while (Index < RecordCount)
+            {
+                //create a blank address
+                clsTicket AnTicket = new clsTicket();
+                //read in the fields for the current record
+                AnTicket.TicketId = Convert.ToInt32(DB.DataTable.Rows[Index]["TicketId"]);
+                AnTicket.Date = Convert.ToDateTime(DB.DataTable.Rows[Index]["Date"]);
+                AnTicket.Price = Convert.ToInt32(DB.DataTable.Rows[Index]["Price"]);
+                AnTicket.Venue = Convert.ToString(DB.DataTable.Rows[Index]["Venue"]);
+                AnTicket.Artist = Convert.ToString(DB.DataTable.Rows[Index]["Artist"]);
+                AnTicket.IsSold = Convert.ToBoolean(DB.DataTable.Rows[Index]["IsSold"]);
+                AnTicket.TicketType = Convert.ToString(DB.DataTable.Rows[Index]["TicketType"]);
+                //add the record to the private data member
+                mTicketList.Add(AnTicket);
+                //point at the next record
+                Index++;
+
+            }
         }
     }
 }
