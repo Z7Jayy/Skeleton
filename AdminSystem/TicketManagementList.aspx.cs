@@ -8,6 +8,7 @@ using ClassLibrary;
 
 public partial class _1_List : System.Web.UI.Page
 {
+     
     protected void Page_Load(object sender, EventArgs e)
     {
         //if this is the first time the page is displayed
@@ -39,5 +40,25 @@ public partial class _1_List : System.Web.UI.Page
         Session["TicketId"] = -1;
         //redirect to the data entry page 
         Response.Redirect("TicketManagementDataEntry.aspx");
+    }
+
+    protected void btnEdit_Click(object sender, EventArgs e)
+    {
+        //variable to store the primary key value of the record to be edited 
+        Int32 TicketId;
+        //if a record has been selected from the list 
+        if (lstTicketList.SelectedIndex != -1)
+        {
+            //get the primary key value of the record to edit
+            TicketId = Convert.ToInt32(lstTicketList.SelectedValue);
+            //store the data in the session object
+            Session["TicketId"] = TicketId;
+            //redirect to the edit page 
+            Response.Redirect("TicketManagementDataEntry.aspx");
+        }
+        else      //if no record has been selected
+        {
+            lblError.Text = "Please select a record from the list to edit";
+        }
     }
 }
