@@ -8,9 +8,21 @@ using ClassLibrary;
 
 public partial class _1_DataEntry : System.Web.UI.Page
 {
+    //variable to store the primary key with page level scope 
+    Int32 TicketId;
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        //get the number of the ticket id to be processed 
+        TicketId = Convert.ToInt32(Session["TicketId"]);
+        if (IsPostBack == false)
+        {
+            //if this is not a new record 
+            if (TicketId != -1)
+            {
+                //display the current data for the record
+                DisplayTicket();
+            }
+        }
     }
 
     protected void txtTicketId_TextChanged(object sender, EventArgs e)
@@ -29,7 +41,7 @@ public partial class _1_DataEntry : System.Web.UI.Page
         clsTicket AnTicket = new clsTicket();
 
         //capture the ticket id 
-        string TicketId = txtTicketId.Text;
+        //int TicketId = AnTicket.TicketId;
 
         // Capture the Date
         string Date = txtDate.Text;
@@ -56,6 +68,9 @@ public partial class _1_DataEntry : System.Web.UI.Page
         Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
         if (Error == "")
         {
+            //capture the Ticketid
+            AnTicket.TicketId = TicketId; 
+            
             //capture the Venue
             AnTicket.Venue = Venue ;
 
@@ -77,12 +92,27 @@ public partial class _1_DataEntry : System.Web.UI.Page
             //create a new instance of the ticket collection 
             clsTicketCollection TicketList = new clsTicketCollection();
 
-            //set the ThisTicket property
-            TicketList.ThisTicket = AnTicket;
+            //if this is a new record i.e. Ticketid = -1 then add the data 
+            if (TicketId == -1)
+            {
+                //set the ThisTicket property
+                TicketList.ThisTicket = AnTicket;
 
-            //add the new record
-            TicketList.Add();
+                //add the new record
+                TicketList.Add();
 
+            }
+            //otherwise it must be an update
+            else
+            {
+                //find the recordto update 
+                TicketList.ThisTicket.Find(TicketId);
+                //set the thisticket property
+                TicketList.ThisTicket = AnTicket;
+                //update the record
+                TicketList.Update();
+
+            }
             //redirect back to the list page 
             Response.Redirect("TicketManagementList.aspx");
 
@@ -123,6 +153,22 @@ public partial class _1_DataEntry : System.Web.UI.Page
             txtTicketType.Text = AnTicket.TicketType;
         }
 
+    }
+
+    void DisplayTicket()
+    {
+        //create an instance of the ticket management
+        clsTicketCollection TicketManagement = new clsTicketCollection();
+        //find the record to update 
+        TicketManagement.ThisTicket.Find(TicketId);
+        //display the data for the record
+        txtTicketId.Text = TicketManagement.ThisTicket.TicketId.ToString();
+        txtPrice.Text = TicketManagement.ThisTicket.Price.ToString();
+        txtDate.Text = TicketManagement.ThisTicket.Date.ToString();
+        txtVenue.Text = TicketManagement.ThisTicket.Venue.ToString();
+        txtArtist.Text = TicketManagement.ThisTicket.Artist.ToString();
+        chkIsSold.Checked = TicketManagement.ThisTicket.IsSold;
+        txtTicketType.Text = TicketManagement.ThisTicket.TicketType.ToString();
     }
 
     protected void txtTicketType_TextChanged(object sender, EventArgs e)

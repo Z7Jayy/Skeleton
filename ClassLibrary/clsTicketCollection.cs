@@ -103,5 +103,23 @@ namespace ClassLibrary
             //execute the query returning the primary key value
             return DB.Execute("sproc_tblTicket_Insert");
         }
+
+        public void Update()
+        {
+            //update an existing record based on the values of ThisTicket
+            //connect to the database
+            clsDataConnection DB = new clsDataConnection();
+            //set the parameters for the stored procedure
+            DB.AddParameter("@TicketId", mThisTicket.TicketId);
+            DB.AddParameter("@Price", mThisTicket.Price);
+            DB.AddParameter("@Date", mThisTicket.Date);
+            DB.AddParameter("@Venue", mThisTicket.Venue);
+            DB.AddParameter("@Artist", mThisTicket.Artist);
+            DB.AddParameter("@IsSold", mThisTicket.IsSold);
+            DB.AddParameter("@TicketType", mThisTicket.TicketType);
+
+            //execute the stored procedure
+            DB.Execute("sproc_tblTicket_Update");
+        }
     }
 }

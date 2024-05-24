@@ -134,7 +134,44 @@ namespace Testing3
             Assert.AreEqual(AllTickets.ThisTicket, TestItem);
         }
 
-
+        [TestMethod]
+        public void UpdateMethodOK()
+        {
+            // Create an instance of the class we want to create
+            clsTicketCollection AllTickets = new clsTicketCollection();
+            //create an item of the test data 
+            clsTicket TestItem = new clsTicket();
+            //variable to store the priamry key 
+            Int32 PrimaryKey = 0;
+            //set its properties
+            TestItem.Date = DateTime.Now;
+            TestItem.Price = 1;
+            TestItem.Venue = "Some Venue";
+            TestItem.Artist = "Some Artist";
+            TestItem.IsSold = true;
+            TestItem.TicketType = "VIP";
+            //set thisticket to the test data 
+            AllTickets.ThisTicket = TestItem;
+            //add the record
+            PrimaryKey = AllTickets.Add();
+            //set the primary key of the test data 
+            TestItem.TicketId = PrimaryKey;
+            //modify the test record
+            TestItem.Price = 3;
+            TestItem.Date = DateTime.Now;
+            TestItem.Venue = "Another Venue";
+            TestItem.Artist = "Another Artist";
+            TestItem.IsSold = false;
+            TestItem.TicketType = "Regular";
+            //set the record based on the new data 
+            AllTickets.ThisTicket = TestItem;
+            //update the record
+            AllTickets.Update();
+            //find the record
+            AllTickets.ThisTicket.Find(PrimaryKey);
+            //test to see if thisticket matches the test data 
+            Assert.AreEqual(AllTickets.ThisTicket, TestItem);
+        }
 
 
 
