@@ -171,5 +171,10 @@ namespace Testing2
         public string Category { get; set; }
         public bool Active { get; set; }
         public DateTime DateAdded { get; set; }
+
+        public global::System.String Valid(global::System.String eventName, global::System.String eventDescription, global::System.String eventDate, global::System.String venueId, global::System.String category)
+        {
+            throw new global::System.NotImplementedException();
+        }
     }
 }

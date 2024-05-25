@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsDataConnection.cs" />
+    <Compile Include="clsEvent.cs" />
+    <Compile Include="clsEventCollection.cs" />
     <Compile Include="clsPayment.cs" />
     <Compile Include="clsPaymentCollection.cs" />
     <Compile Include="clsTicket.cs" />
