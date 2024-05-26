@@ -24,7 +24,7 @@
         </p>
         <p>
             <asp:TextBox ID="txtVenue" runat="server" style="z-index: 1; left: 109px; top: 102px; position: absolute" width="128px"></asp:TextBox>
-            <asp:Label ID="lblArtist" runat="server" style="z-index: 1; left: 15px; top: 131px; position: absolute" Text="Artist" width="73px"></asp:Label>
+            <asp:Label ID="lblArtist" runat="server" style="z-index: 1; left: 15px; top: 131px; position: absolute; bottom: 533px;" Text="Artist" width="73px"></asp:Label>
             <asp:TextBox ID="txtArtist" runat="server" style="z-index: 1; left: 109px; top: 132px; position: absolute" width="128px"></asp:TextBox>
         </p>
         <asp:Label ID="lblTicketType" runat="server" style="z-index: 1; left: 13px; top: 170px; position: absolute" Text="Ticket Type"></asp:Label>
