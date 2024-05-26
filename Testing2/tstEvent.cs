@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ClassLibrary;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 
 namespace Testing2
 {
@@ -57,10 +59,10 @@ namespace Testing2
             int TestData = 1;
 
             // Assign the data to the property
-            AnEvent.EventID = TestData;
+            AnEvent.EventId = TestData;
 
             // Test to see that the two values are the same
-            Assert.AreEqual(TestData, AnEvent.EventID);
+            Assert.AreEqual(TestData, AnEvent.EventId);
         }
 
         [TestMethod]
@@ -137,10 +139,10 @@ namespace Testing2
             int TestData = 123;
 
             // Assign the data to the property
-            AnEvent.VenueID = TestData;
+            AnEvent.VenueId = TestData;
 
             // Test to see that the two values are the same
-            Assert.AreEqual(TestData, AnEvent.VenueID);
+            Assert.AreEqual(TestData, AnEvent.VenueId);
         }
 
         [TestMethod]
@@ -158,23 +160,105 @@ namespace Testing2
             // Test to see that the two values are the same
             Assert.AreEqual(TestData, AnEvent.Category);
         }
-    }
 
-    public class clsEvent
-    {
-        public int EventID { get; set; }
-        public string EventName { get; set; }
-        public string EventDescription { get; set; }
-        public DateTime EventDate { get; set; }
-        public bool IsOnline { get; set; }
-        public int VenueID { get; set; }
-        public string Category { get; set; }
-        public bool Active { get; set; }
-        public DateTime DateAdded { get; set; }
-
-        public global::System.String Valid(global::System.String eventName, global::System.String eventDescription, global::System.String eventDate, global::System.String venueId, global::System.String category)
+        [TestMethod]
+        public void FindMethodOK()
         {
-            throw new global::System.NotImplementedException();
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            Assert.IsTrue(Found);
+        }
+
+        [TestMethod]
+        public void TestEventIDFound()
+        {
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            bool OK = true;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            if (AnEvent.EventId != 1)
+            {
+                OK = false;
+            }
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestEventNameFound()
+        {
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            bool OK = true;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            if (AnEvent.EventName != "Music Concert")
+            {
+                OK = false;
+            }
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestEventDescriptionFound()
+        {
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            bool OK = true;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            if (AnEvent.EventDescription != "A live music concert featuring various artists.")
+            {
+                OK = false;
+            }
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestEventDateFound()
+        {
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            bool OK = true;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            if (AnEvent.EventDate != Convert.ToDateTime("2024-01-01"))
+            {
+                OK = false;
+            }
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestVenueIDFound()
+        {
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            bool OK = true;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            if (AnEvent.VenueId != 123)
+            {
+                OK = false;
+            }
+            Assert.IsTrue(OK);
+        }
+
+        [TestMethod]
+        public void TestCategoryFound()
+        {
+            clsEvent AnEvent = new clsEvent();
+            bool Found = false;
+            bool OK = true;
+            int EventID = 1;
+            Found = AnEvent.Find(EventID);
+            if (AnEvent.Category != "Concert")
+            {
+                OK = false;
+            }
+            Assert.IsTrue(OK);
         }
     }
 }
