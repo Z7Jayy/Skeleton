@@ -14,10 +14,10 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:Label ID="lblError" runat="server" style="z-index: 1; left: 30px; top: 783px; position: absolute" Text="[lblError]"></asp:Label>
+            <asp:Label ID="lblError" runat="server" style="z-index: 1; left: 629px; top: 375px; position: absolute" Text="[lblError]"></asp:Label>
             <asp:Button ID="btnDelete" runat="server" OnClick="btnDelete_Click" style="z-index: 1; left: 182px; top: 645px; position: absolute" Text="Delete" />
             <asp:Button ID="btnFilter" runat="server" OnClick="btnFilter_Click" style="z-index: 1; left: 41px; top: 736px; position: absolute" Text="Apply Filter" />
-            <asp:ListBox ID="tstPaymentList" runat="server" Height="585px" Width="805px"></asp:ListBox>
+            <asp:ListBox ID="tstPaymentList" runat="server" Height="555px" Width="531px"></asp:ListBox>
             <asp:Label ID="lblTransactionID" runat="server" style="z-index: 1; left: 22px; top: 699px; position: absolute" Text="Enter a Transaction ID"></asp:Label>
         </div>
         <p>
@@ -26,6 +26,7 @@
         </p>
         <asp:Button ID="btnEdit" runat="server" OnClick="btnEdit_Click" style="z-index: 1; left: 106px; top: 647px; position: absolute" Text="Edit" />
         <asp:TextBox ID="txtTransactionID" runat="server" style="z-index: 1; left: 185px; top: 698px; position: absolute"></asp:TextBox>
+        <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 465px; top: 734px; position: absolute; width: 149px" Text="Return to Main Menu" />
     </form>
 </body>
 </html>
