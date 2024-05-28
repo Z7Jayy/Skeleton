@@ -11,4 +11,10 @@ public partial class TeamMainMenu : System.Web.UI.Page
     {
 
     }
+
+    protected void btnPaymentProcessing_Click(object sender, EventArgs e)
+    {
+        //redirect the user to the Payment Processing list page
+        Response.Redirect("PaymentProcessingList.aspx");
+    }
 }
