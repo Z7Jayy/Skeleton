@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace ClassLibrary
 {
@@ -247,6 +248,35 @@ namespace ClassLibrary
 
             //return any error messages
             return Error;
+        }
+
+        /*********** Statistics grouped by town method ***********/
+
+
+        public DataTable StatisticsGroupedByTicketType()
+        {
+            //create an instance of the data connection 
+            clsDataConnection DB = new clsDataConnection();
+
+            // execute the stored procedure 
+            DB.Execute("sproc_tblTicket_Count_GroupByTicketType");
+
+            //there should be either zero, one , or more records 
+            return DB.DataTable;
+        }
+
+        /*********** Statistics grouped by date method ***********/
+
+        public DataTable StatisticsGroupedByDate()
+        {
+            //create an instance of the data connection 
+            clsDataConnection DB = new clsDataConnection();
+
+            // execute the stored procedure 
+            DB.Execute("sproc_tblTicket_Count_GroupDate");
+
+            //there should be either zero, one , or more records 
+            return DB.DataTable;
         }
 
     }

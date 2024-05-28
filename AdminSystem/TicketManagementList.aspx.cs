@@ -115,4 +115,11 @@ public partial class _1_List : System.Web.UI.Page
         //bind the data to the list 
         lstTicketList.DataBind();
     }
+
+    protected void btnStatisticsPage_Click(object sender, EventArgs e)
+    {
+        //redirect to the ticket management statistics page 
+        Response.Redirect("TicketManagementStatistics.aspx");
+
+    }
 }

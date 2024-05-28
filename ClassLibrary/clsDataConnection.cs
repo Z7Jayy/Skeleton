@@ -187,9 +187,10 @@ public class clsDataConnection
         connectionToDB.Close();
         //return the result of the stored procedure
         return Convert.ToInt32(returnValue.Value);
+
     }
 
-    
+
 
     public Int32 Count
     //property that returns the count of records in the query results
@@ -215,4 +216,5 @@ public class clsDataConnection
             dataTable = value;
         }
     }
-}
+    }
+
