@@ -784,6 +784,35 @@ namespace Testing4
             Assert.AreNotEqual(Error, "");
         }
 
+        [TestMethod]
+        public void StatisticsGroupedByAmount()
+        {
+            //create an new instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+            //invoke the method
+            DataTable dT = Payment.StatisticsGroupedByAmount();
+            //rows of data produced by the last stored procedure
+            int noOfRecord = 7;
+
+            //test to see that the record is correct
+            Assert.AreEqual(noOfRecord, dT.Rows.Count);
+        }
+
+        [TestMethod]
+        public void StatisticsGroupedByPaymentDate()
+        {
+            //create an new instance of the class we want to create
+            clsPayment Payment = new clsPayment();
+            //invoke the method
+            DataTable dT = Payment.StatisticsGroupedByPaymentDate();
+            //rows of data produced by the last stored procedure
+            int noOfRecord = 8;
+
+            //test to see that the record is correct
+            Assert.AreEqual(noOfRecord, dT.Rows.Count);
+        }
+
+
     }
 
 }
