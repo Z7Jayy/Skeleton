@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 
@@ -220,6 +221,31 @@ namespace ClassLibrary
                 //return any error messages
                 return Error;
         }
+
+        public DataTable StatisticsGroupedByAmount()
+        {
+            //create an instance of the data connection
+            clsDataConnection DB = new clsDataConnection();
+
+            //execute the stored procedure
+            DB.Execute("sproc_tblPayment_Count_GroupByAmount");
+
+            //there should be either zero, one, or more records
+            return DB.DataTable;
+        }
+
+        public DataTable StatisticsGroupedByPaymentDate()
+        {
+            //create an instance of the data connection
+            clsDataConnection DB = new clsDataConnection();
+
+            //execute the stored procedure
+            DB.Execute("sproc_tblPayment_Count_GroupPaymentDate");
+
+            //there should be either zero, one, or more records
+            return DB.DataTable;
+        }
+
 
     }
 }
