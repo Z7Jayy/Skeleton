@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Data;
 using System.IO;
 
 namespace Testing3
@@ -776,6 +777,34 @@ namespace Testing3
             // Test to see that the result is correct
             Assert.AreEqual(Error, "");
         }
+
+        /*************** Tests for statistics method ***************/
+
+        [TestMethod]
+        public void StatStatisticsGroupedByTicketType()
+        {
+            // Create an instance of the class we want to create 
+            clsTicket AnTicket = new clsTicket();
+            //invoke the method
+            DataTable dT = AnTicket.StatisticsGroupedByTicketType();
+            //according to the last executed stored procedure, there should be 2 rows of data 
+            int noOfRecord = 2;
+
+            Assert.AreEqual(noOfRecord, dT.Rows.Count);
+        }
+
+        [TestMethod]
+        public void StatStatisticsGroupedByDate()
+        {
+            clsTicket AnTicket = new clsTicket();
+
+            DataTable dT = AnTicket.StatisticsGroupedByDate();
+
+            int noOfRecord = 10;
+
+            Assert.AreEqual(noOfRecord, dT.Rows.Count);
+        }
+        
     }
 }
 
