@@ -1,56 +1,123 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace ClassLibrary
 {
     public class clsEventCollection
     {
-        // Collection to store instances of clsEvent
-        private List<clsEvent> eventList = new List<clsEvent>();
+        // Private data member for the list
+        private List<clsEvent> mEventList = new List<clsEvent>();
+        // Private data member ThisEvent
+        private clsEvent mThisEvent = new clsEvent();
 
-        // Property to access the collection
+        // Public property for the event list
         public List<clsEvent> EventList
         {
-            get { return eventList; }
-            set { eventList = value; }
+            get { return mEventList; }
+            set { mEventList = value; }
         }
 
-        // Property to access the current clsEvent object
-        public clsEvent ThisEvent { get; set; }
+        // Public property for ThisEvent
+        public clsEvent ThisEvent
+        {
+            get { return mThisEvent; }
+            set { mThisEvent = value; }
+        }
 
-        // Method to add a new clsEvent object to the collection
+        // Public property for the count of the list
+        public int Count
+        {
+            get { return mEventList.Count; }
+            set { /* do nothing */ }
+        }
+
+        // Constructor for the class
+        public clsEventCollection()
+        {
+            // Initialize the data connection
+            clsDataConnection DB = new clsDataConnection();
+            // Execute the stored procedure
+            DB.Execute("sproc_tblEvent_SelectAll");
+            // Populate the array
+            PopulateArray(DB);
+        }
+
+        // Method to add a new record
         public void Add()
         {
-            eventList.Add(ThisEvent);
+            // Add a new record to the database based on the values of ThisEvent
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventName", ThisEvent.EventName);
+            DB.AddParameter("@EventDescription", ThisEvent.EventDescription);
+            DB.AddParameter("@EventDate", ThisEvent.EventDate);
+            DB.AddParameter("@VenueId", ThisEvent.VenueId);
+            DB.AddParameter("@Category", ThisEvent.Category);
+            DB.AddParameter("@IsOnline", ThisEvent.IsOnline);
+            DB.Execute("sproc_tblEvent_Insert");
         }
 
-        // Method to update an existing clsEvent object in the collection
+        // Method to update an existing record
         public void Update()
         {
-            // Find the existing event in the collection and update its properties
-            // Example:
-            foreach (var ev in eventList)
+            // Update an existing record based on the values of ThisEvent
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventId", ThisEvent.EventId);
+            DB.AddParameter("@EventName", ThisEvent.EventName);
+            DB.AddParameter("@EventDescription", ThisEvent.EventDescription);
+            DB.AddParameter("@EventDate", ThisEvent.EventDate);
+            DB.AddParameter("@VenueId", ThisEvent.VenueId);
+            DB.AddParameter("@Category", ThisEvent.Category);
+            DB.AddParameter("@IsOnline", ThisEvent.IsOnline);
+            DB.Execute("sproc_tblEvent_Update");
+        }
+
+        // Method to find a record by EventId
+        public bool Find(int EventId)
+        {
+            // Find a record in the database based on the EventId
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventId", EventId);
+            DB.Execute("sproc_tblEvent_FilterByEventId");
+
+            if (DB.Count == 1)
             {
-                if (ev.EventId == ThisEvent.EventId)
-                {
-                    ev.EventName = ThisEvent.EventName;
-                    ev.EventDescription = ThisEvent.EventDescription;
-                    ev.EventDate = ThisEvent.EventDate;
-                    ev.VenueId = ThisEvent.VenueId;
-                    ev.Category = ThisEvent.Category;
-                    ev.IsOnline = ThisEvent.IsOnline;
-                    break;
-                }
+                // Set the private data members to the found data
+                mThisEvent.EventId = Convert.ToInt32(DB.DataTable.Rows[0]["EventId"]);
+                mThisEvent.EventName = Convert.ToString(DB.DataTable.Rows[0]["EventName"]);
+                mThisEvent.EventDescription = Convert.ToString(DB.DataTable.Rows[0]["EventDescription"]);
+                mThisEvent.EventDate = Convert.ToDateTime(DB.DataTable.Rows[0]["EventDate"]);
+                mThisEvent.VenueId = Convert.ToInt32(DB.DataTable.Rows[0]["VenueId"]);
+                mThisEvent.Category = Convert.ToString(DB.DataTable.Rows[0]["Category"]);
+                mThisEvent.IsOnline = Convert.ToBoolean(DB.DataTable.Rows[0]["IsOnline"]);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        // Method to find a clsEvent object by its ID
-        public clsEvent Find(int eventId)
+        // Method to populate the array with data from the database
+        private void PopulateArray(clsDataConnection DB)
         {
-            return eventList.Find(e => e.EventId == eventId);
+            int Index = 0;
+            int RecordCount = DB.Count;
+            mEventList = new List<clsEvent>();
+
+            while (Index < RecordCount)
+            {
+                clsEvent AnEvent = new clsEvent();
+                AnEvent.EventId = Convert.ToInt32(DB.DataTable.Rows[Index]["EventId"]);
+                AnEvent.EventName = Convert.ToString(DB.DataTable.Rows[Index]["EventName"]);
+                AnEvent.EventDescription = Convert.ToString(DB.DataTable.Rows[Index]["EventDescription"]);
+                AnEvent.EventDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["EventDate"]);
+                AnEvent.VenueId = Convert.ToInt32(DB.DataTable.Rows[Index]["VenueId"]);
+                AnEvent.Category = Convert.ToString(DB.DataTable.Rows[Index]["Category"]);
+                AnEvent.IsOnline = Convert.ToBoolean(DB.DataTable.Rows[Index]["IsOnline"]);
+                mEventList.Add(AnEvent);
+                Index++;
+            }
         }
     }
 }

@@ -19,23 +19,30 @@ public partial class _1_DataEntry : System.Web.UI.Page
         // Create a new instance of clsEvent
         clsEvent AnEvent = new clsEvent();
 
-        // Capture the Event ID
-        int EventId = string.IsNullOrEmpty(txtEventId.Text) ? -1 : Convert.ToInt32(txtEventId.Text);
+        // Initialize EventId
+        int EventId;
+
+        // Try to parse the Event ID
+        if (!int.TryParse(txtEventId.Text, out EventId))
+        {
+            // If parsing fails, set EventId to -1 (assuming -1 indicates a new record)
+            EventId = -1;
+        }
 
         // Capture the Event Name
-        string EventName = txtEventName.Text;
+        string EventName = txtEventName.Text.Trim();
 
         // Capture the Event Description
-        string EventDescription = txtEventDescription.Text;
+        string EventDescription = txtEventDescription.Text.Trim();
 
         // Capture the Event Date
-        string EventDate = txtEventDate.Text;
+        string EventDate = txtEventDate.Text.Trim();
 
         // Capture the Venue ID
-        string VenueId = txtVenueId.Text;
+        string VenueId = txtVenueId.Text.Trim();
 
         // Capture the Category
-        string Category = txtCategory.Text;
+        string Category = txtCategory.Text.Trim();
 
         // Capture the IsOnline checkbox value
         bool IsOnline = chkIsOnline.Checked;
@@ -47,64 +54,70 @@ public partial class _1_DataEntry : System.Web.UI.Page
         Error = AnEvent.Valid(EventName, EventDescription, EventDate, VenueId, Category);
         if (Error == "")
         {
-            // Capture the Event ID
-            AnEvent.EventId = EventId;
-
-            // Capture the Event Name
-            AnEvent.EventName = EventName;
-
-            // Capture the Event Description
-            AnEvent.EventDescription = EventDescription;
-
-            // Capture the Event Date
-            AnEvent.EventDate = Convert.ToDateTime(EventDate);
-
-            // Capture the Venue ID
-            AnEvent.VenueId = Convert.ToInt32(VenueId);
-
-            // Capture the Category
-            AnEvent.Category = Category;
-
-            // Capture the IsOnline value
-            AnEvent.IsOnline = IsOnline;
-
-            // Create a new instance of the event collection
-            clsEventCollection EventList = new clsEventCollection();
-
-            // If this is a new record i.e., EventId = -1, then add the data
-            if (EventId == -1)
+            try
             {
-                // Set the ThisEvent property
-                EventList.ThisEvent = AnEvent;
-
-                // Add the new record
-                EventList.Add();
-            }
-            // Otherwise, it must be an update
-            else
-            {
-                // Find the record to update
-                AnEvent = EventList.Find(EventId); // Use Find method here
-
-                // Set the properties of the found event
+                // Capture the Event ID
                 AnEvent.EventId = EventId;
+
+                // Capture the Event Name
                 AnEvent.EventName = EventName;
+
+                // Capture the Event Description
                 AnEvent.EventDescription = EventDescription;
+
+                // Capture the Event Date
                 AnEvent.EventDate = Convert.ToDateTime(EventDate);
+
+                // Capture the Venue ID
                 AnEvent.VenueId = Convert.ToInt32(VenueId);
+
+                // Capture the Category
                 AnEvent.Category = Category;
+
+                // Capture the IsOnline value
                 AnEvent.IsOnline = IsOnline;
 
-                // Update the record
-                EventList.Update();
-            }
+                // Create a new instance of the event collection
+                clsEventCollection EventList = new clsEventCollection();
 
-            // Redirect back to the list page
-            Response.Redirect("EventManagementList.aspx");
+                if (EventId == -1)
+                {
+                    EventList.ThisEvent = AnEvent;
+                    EventList.Add();
+                }
+                else
+                {
+                    bool Found = AnEvent.Find(EventId);
+                    if (Found)
+                    {
+                        EventList.ThisEvent.EventId = EventId;
+                        EventList.ThisEvent.EventName = EventName;
+                        EventList.ThisEvent.EventDescription = EventDescription;
+                        EventList.ThisEvent.EventDate = Convert.ToDateTime(EventDate);
+                        EventList.ThisEvent.VenueId = Convert.ToInt32(VenueId);
+                        EventList.ThisEvent.Category = Category;
+                        EventList.ThisEvent.IsOnline = IsOnline;
+                        EventList.Update();
+                    }
+                    else
+                    {
+                        lblError.Text = "Event not found.";
+                        return;
+                    }
+                }
+                Response.Redirect("EventManagementList.aspx");
+            }
+            catch (FormatException)
+            {
+                lblError.Text = "There was a problem with the format of the input data.";
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = "An error occurred: " + ex.Message;
+            }
         }
         else
         {
-            // Display the error message
             lblError.Text = Error;
         }
     }
