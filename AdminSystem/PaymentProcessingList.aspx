@@ -27,6 +27,7 @@
         <asp:Button ID="btnEdit" runat="server" OnClick="btnEdit_Click" style="z-index: 1; left: 106px; top: 647px; position: absolute" Text="Edit" />
         <asp:TextBox ID="txtTransactionID" runat="server" style="z-index: 1; left: 185px; top: 698px; position: absolute"></asp:TextBox>
         <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 465px; top: 734px; position: absolute; width: 149px" Text="Return to Main Menu" />
+        <asp:Button ID="btnStatisticsPage" runat="server" OnClick="btnStatisticsPage_Click" style="z-index: 1; left: 311px; top: 735px; position: absolute" Text="Statistics Page" UseSubmitBehavior="False" />
     </form>
 </body>
 </html>
