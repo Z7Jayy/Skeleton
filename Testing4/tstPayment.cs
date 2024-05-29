@@ -1,7 +1,10 @@
 ﻿using ClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Data;
 using System.IO;
+
+
 
 namespace Testing4
 {
@@ -804,6 +807,7 @@ namespace Testing4
             //create an new instance of the class we want to create
             clsPayment Payment = new clsPayment();
             //invoke the method
+
             DataTable dT = Payment.StatisticsGroupedByPaymentDate();
             //rows of data produced by the last stored procedure
             int noOfRecord = 8;

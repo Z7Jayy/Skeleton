@@ -229,7 +229,6 @@ namespace ClassLibrary
 
             //execute the stored procedure
             DB.Execute("sproc_tblPayment_Count_GroupByAmount");
-
             //there should be either zero, one, or more records
             return DB.DataTable;
         }
@@ -241,7 +240,6 @@ namespace ClassLibrary
 
             //execute the stored procedure
             DB.Execute("sproc_tblPayment_Count_GroupPaymentDate");
-
             //there should be either zero, one, or more records
             return DB.DataTable;
         }
