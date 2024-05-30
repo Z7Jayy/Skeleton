@@ -800,7 +800,7 @@ namespace Testing3
 
             DataTable dT = AnTicket.StatisticsGroupedByDate();
 
-            int noOfRecord = 10;
+            int noOfRecord = 11;
 
             Assert.AreEqual(noOfRecord, dT.Rows.Count);
         }

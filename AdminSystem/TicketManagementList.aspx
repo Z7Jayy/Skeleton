@@ -30,6 +30,7 @@
         </p>
         <asp:Button ID="btnClearFilter" runat="server" height="26px" OnClick="btnClearFilter_Click" style="z-index: 1; left: 194px; top: 457px; position: absolute" Text="Clear Filter" width="139px" />
         <asp:Button ID="btnStatisticsPage" runat="server" OnClick="btnStatisticsPage_Click" style="z-index: 1; left: 362px; top: 457px; position: absolute" Text="Statistics Page " />
+        <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 551px; top: 455px; position: absolute" Text="Return to Main Menu" />
     </form>
 </body>
 </html>
