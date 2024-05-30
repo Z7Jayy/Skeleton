@@ -20,6 +20,7 @@ public partial class TeamMainMenu : System.Web.UI.Page
 
     protected void btnTickets_Click(object sender, EventArgs e)
     {
+
         //redirect the user to the ticket management list page 
         Response.Redirect("TicketManagementList.aspx");
     }

@@ -9,9 +9,39 @@ using ClassLibrary;
 
 public partial class _1_DataEntry : System.Web.UI.Page
 {
+    int eventId;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Any initialization code you need
+        if (!IsPostBack)
+        {
+            // Check if there is an EventId in the session
+            if (Session["EventId"] != null)
+            {
+                // Get the EventId from the session
+                eventId = Convert.ToInt32(Session["EventId"]);
+                // Display the event details
+                DisplayEvent();
+            }
+        }
+    }
+
+    private void DisplayEvent()
+    {
+        // Create an instance of the event collection
+        clsEventCollection EventCollection = new clsEventCollection();
+        // Find the event by EventId
+        if (EventCollection.Find(eventId))
+        {
+            // Populate the text boxes with the event details
+            txtEventId.Text = EventCollection.ThisEvent.EventId.ToString();
+            txtEventName.Text = EventCollection.ThisEvent.EventName;
+            txtEventDescription.Text = EventCollection.ThisEvent.EventDescription;
+            txtEventDate.Text = EventCollection.ThisEvent.EventDate.ToString("yyyy-MM-dd");
+            txtVenueId.Text = EventCollection.ThisEvent.VenueId.ToString();
+            txtCategory.Text = EventCollection.ThisEvent.Category;
+            chkIsOnline.Checked = EventCollection.ThisEvent.IsOnline;
+        }
     }
 
     protected void btnOK_Click(object sender, EventArgs e)
@@ -87,7 +117,7 @@ public partial class _1_DataEntry : System.Web.UI.Page
                 }
                 else
                 {
-                    bool Found = AnEvent.Find(EventId);
+                    bool Found = EventList.Find(EventId);
                     if (Found)
                     {
                         EventList.ThisEvent.EventId = EventId;
@@ -121,7 +151,6 @@ public partial class _1_DataEntry : System.Web.UI.Page
             lblError.Text = Error;
         }
     }
-
 
     protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
     {
