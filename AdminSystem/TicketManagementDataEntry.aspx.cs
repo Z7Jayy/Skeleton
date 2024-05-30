@@ -175,4 +175,16 @@ public partial class _1_DataEntry : System.Web.UI.Page
     {
 
     }
+
+    protected void btnMainMenu_Click(object sender, EventArgs e)
+    {
+        //redirect the user to the Payment Processing list page
+        Response.Redirect("TeamMainMenu.aspx");
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //redirect the user to the Payment Processing list page
+        Response.Redirect("TicketManagementList.aspx");
+    }
 }
