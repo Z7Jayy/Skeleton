@@ -31,15 +31,18 @@
         <asp:TextBox ID="txtTicketType" runat="server" style="z-index: 1; left: 110px; top: 166px; position: absolute; height: 17px;" width="128px" OnTextChanged="txtTicketType_TextChanged"></asp:TextBox>
         <p>
             <asp:CheckBox ID="chkIsSold" runat="server" style="z-index: 1; left: 115px; top: 235px; position: absolute" Text="Is Sold" />
-            <asp:Button ID="btnCancel" runat="server" style="z-index: 1; left: 118px; top: 309px; position: absolute" Text="Cancel" height="19px" width="56px" OnClick="btnCancel_Click" />
+
+            <asp:Button ID="btnCancel" runat="server" style="z-index: 1; left: 118px; top: 304px; position: absolute" Text="Cancel" height="26px" width="56px" OnClick="btnCancel_Click" />
+
         </p>
         <asp:Label ID="lblError" runat="server" style="z-index: 1; left: 15px; top: 267px; position: absolute"></asp:Label>
         <p>
             &nbsp;</p>
         <p>
-            <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 217px; top: 304px; position: absolute" Text="Return to Main Menu" />
+            <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 224px; top: 304px; position: absolute" Text="Return to Main Menu" />
         </p>
-        <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" style="z-index: 1; left: 11px; top: 308px; position: absolute; width: 56px; height: 19px" Text="OK" />
+        <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" style="z-index: 1; left: 11px; top: 304px; position: absolute; width: 56px; height: 26px" Text="OK" />
+
     </form>
 </body>
 </html>

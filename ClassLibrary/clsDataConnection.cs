@@ -15,28 +15,20 @@ public class clsDataConnection
 
     public clsDataConnection()
     {
-        try
-        {
-            connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"]?.ConnectionString;
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new InvalidOperationException("Connection string is not initialized or is empty.");
-            }
 
-            SQLParams = new List<SqlParameter>();
-            dataTable = new DataTable();
-            Console.WriteLine("Connection string loaded successfully.");
-        }
-        catch (ConfigurationErrorsException ex)
-        {
-            Console.WriteLine($"Configuration error: {ex.Message}");
-            throw;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error initializing clsDataConnection: {ex.Message}");
-            throw;
-        }
+        // Initialize the connection string from web.config
+        connectionString = GetConnectionString();
+        SQLParams = new List<SqlParameter>();
+        dataTable = new DataTable();
+      
+    }
+
+
+    private string GetConnectionString()
+    {
+        System.Net.WebClient client = new System.Net.WebClient();
+        string downloadString = client.DownloadString("http://localhost:5000/");
+        return downloadString;
     }
 
     public void AddParameter(string paramName, object paramValue)

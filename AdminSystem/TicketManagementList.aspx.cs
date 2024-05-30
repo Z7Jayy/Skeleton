@@ -125,7 +125,10 @@ public partial class _1_List : System.Web.UI.Page
 
     protected void btnMainMenu_Click(object sender, EventArgs e)
     {
-        //redirect the user to the Payment Processing list page
+
+        //redirect to the ticket management statistics page 
         Response.Redirect("TeamMainMenu.aspx");
+
+
     }
 }
