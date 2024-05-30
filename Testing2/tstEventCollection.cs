@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Configuration;
 
 namespace Testing2
+//v00egd00002l.lec-admin.dmu.ac.uk
+//P2730881
 {
     [TestClass]
     public class tstEventCollection
@@ -119,10 +121,14 @@ namespace Testing2
             Assert.AreNotEqual(0, newEventId);
         }
 
+       
         [TestMethod]
         public void UpdateMethodOK()
         {
+            // Create an instance of the event collection
             clsEventCollection AllEvents = new clsEventCollection();
+
+            // Create a test event and add it to the collection
             clsEvent TestItem = new clsEvent
             {
                 EventId = 1,
@@ -165,6 +171,7 @@ namespace Testing2
             Assert.AreEqual(AllEvents.ThisEvent.Active, false);
         }
 
+
         [TestMethod]
         public void FindMethodOK()
         {
@@ -196,5 +203,6 @@ namespace Testing2
             Assert.AreEqual(AllEvents.ThisEvent.Active, TestItem.Active);
             Assert.AreEqual(AllEvents.ThisEvent.DateAdded, TestItem.DateAdded);
         }
+
     }
 }

@@ -57,7 +57,10 @@ namespace ClassLibrary
 
         public void Update()
         {
+            // Create a new instance of clsDataConnection
             clsDataConnection DB = new clsDataConnection();
+
+            // Set the parameters for the stored procedure
             DB.AddParameter("@EventId", ThisEvent.EventId);
             DB.AddParameter("@EventName", ThisEvent.EventName);
             DB.AddParameter("@EventDescription", ThisEvent.EventDescription);
@@ -68,8 +71,10 @@ namespace ClassLibrary
             DB.AddParameter("@Active", ThisEvent.Active);
             DB.AddParameter("@DateAdded", ThisEvent.DateAdded);
 
+            // Execute the stored procedure to update the record
             DB.Execute("sproc_tblEvent_Update");
         }
+
 
         public bool Find(int eventId)
         {
@@ -150,6 +155,8 @@ namespace ClassLibrary
                 Console.WriteLine($"Error converting value '{value}' to Boolean: {ex.Message}");
                 throw;
             }
+
         }
+
     }
 }

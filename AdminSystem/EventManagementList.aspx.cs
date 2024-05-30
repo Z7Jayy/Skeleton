@@ -20,4 +20,23 @@ public partial class _1_List : System.Web.UI.Page
         lstEventList.DataValueField = "EventId";
         lstEventList.DataBind();
     }
+
+    protected void btnEdit_Click(object sender, EventArgs e)
+    {
+        // Check if an item is selected in the list
+        if (lstEventList.SelectedIndex != -1)
+        {
+            // Get the primary key value of the selected item
+            int eventId = Convert.ToInt32(lstEventList.SelectedValue);
+            // Store the primary key value in the session object
+            Session["EventId"] = eventId;
+            // Redirect to the page EventDataEntry.aspx
+            Response.Redirect("EventDataEntry.aspx");
+        }
+        else
+        {
+            // Display an error message if no item is selected
+            lblError.Text = "Please select an item to edit.";
+        }
+    }
 }
