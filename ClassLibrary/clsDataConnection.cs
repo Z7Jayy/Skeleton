@@ -22,9 +22,16 @@ public class clsDataConnection
     public clsDataConnection()
     {
         // Initialize the connection string from web.config
-        connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        connectionString = GetConnectionString();
         SQLParams = new List<SqlParameter>();
         dataTable = new DataTable();
+    }
+
+    private string GetConnectionString()
+    {
+        System.Net.WebClient client = new System.Net.WebClient();
+        string downloadString = client.DownloadString("http://localhost:5000/");
+        return downloadString;
     }
 
     public void AddParameter(string paramName, object paramValue)

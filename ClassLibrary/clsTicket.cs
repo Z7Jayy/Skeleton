@@ -140,7 +140,7 @@ namespace ClassLibrary
             DB.AddParameter("@TicketId", TicketId);
 
             //execute the stored procedure 
-            DB.Execute("sproc_tblTicket_FilterByTicketId");
+            DB.Execute("sproc_tblTicket_FilterByTicketID");
 
             // if one record is found (there should be either one or zero)
             if (DB.Count == 1)
