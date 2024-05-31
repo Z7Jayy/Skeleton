@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Testing4
 {
@@ -237,17 +236,17 @@ namespace Testing4
             //variable to store the outcome
             Boolean OK = true;
             //apply a transaction id  that doesnt exist
-            FilteredPayments.ReportByTransactionID("yyy yyy");
+            FilteredPayments.ReportByTransactionID("YZA-234");
             //check that the correct number of recods are found
             if (FilteredPayments.Count == 2)
             {
                 //check to see the first record is correct
-                if (FilteredPayments.PaymentList[0].PaymentID != 10)
+                if (FilteredPayments.PaymentList[0].PaymentID != 9)
                 {
                     OK = false;
                 }
                 //check to see thta the first record is 11
-                if (FilteredPayments.PaymentList[1].PaymentID != 11)
+                if (FilteredPayments.PaymentList[1].PaymentID != 10)
                 {
                     OK = false;
                 }
