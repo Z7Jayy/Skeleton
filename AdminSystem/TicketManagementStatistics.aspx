@@ -23,7 +23,7 @@
 
         </div>
         <p>
-            <asp:Button ID="btnPreviousPage" runat="server" OnClick="btnPreviousPage_Click" style="z-index: 1; left: 10px; top: 518px; position: absolute" Text="Back to Previous Page " />
+            <asp:Button ID="btnPreviousPage" runat="server" OnClick="btnPreviousPage_Click" style="z-index: 1; left: 11px; top: 531px; position: absolute" Text="Back to Previous Page " />
         </p>
     </form>
 </body>

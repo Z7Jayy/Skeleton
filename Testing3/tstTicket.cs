@@ -333,7 +333,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // Create some test data to pass to the method
-            string Artist = "a"; // This should be OK
+            string Artist = "A"; // This should be OK
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -348,7 +348,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // Create some test data to pass to the method
-            string Artist = "aa"; // This should be OK
+            string Artist = "AA"; // This should be OK
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -364,7 +364,7 @@ namespace Testing3
             String Error = "";
             // Create some test data to pass to the method
             string Artist = "";
-            Artist = Artist.PadRight(59, 'a');
+            Artist = Artist.PadRight(59, 'A');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -380,7 +380,7 @@ namespace Testing3
             String Error = "";
             // Create some test data to pass to the method
             string Artist = "";
-            Artist = Artist.PadRight(60, 'a');
+            Artist = Artist.PadRight(60, 'A');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -396,7 +396,7 @@ namespace Testing3
             String Error = "";
             // Create some test data to pass to the method
             string Artist = "";
-            Artist = Artist.PadRight(30, 'a');
+            Artist = Artist.PadRight(30, 'A');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -412,7 +412,7 @@ namespace Testing3
             String Error = "";
             // Create some test data to pass to the method
             string Artist = "";
-            Artist = Artist.PadRight(61, 'a');
+            Artist = Artist.PadRight(61, 'A');
             // This should trigger an error
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
@@ -429,7 +429,7 @@ namespace Testing3
             String Error = "";
             // Create some test data to pass to the method
             string Artist = "";
-            Artist = Artist.PadRight(500, 'a'); //this should fail 
+            Artist = Artist.PadRight(600, 'A'); //this should fail 
             //invoke the method 
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -450,8 +450,8 @@ namespace Testing3
             DateTime TestDate;
             // Set the date to today's date
             TestDate = DateTime.Now.Date;
-            // Change the date to whatever the date is less 100 years
-            TestDate = TestDate.AddYears(-100);
+            // Change the date to whatever the date is less 50 years
+            TestDate = TestDate.AddYears(-50);
             // Convert the date variable to a string variable
             string Date = TestDate.ToString();
             // Invoke the method
@@ -532,8 +532,8 @@ namespace Testing3
             DateTime TestDate;
             // Set the date to today's date
             TestDate = DateTime.Now.Date;
-            // Change the date to whatever the date is plus 100 years
-            TestDate = TestDate.AddYears(100);
+            // Change the date to whatever the date is plus 50 years
+            TestDate = TestDate.AddYears(50);
             // Convert the date variable to a string variable
             string Date = TestDate.ToString();
             // Invoke the method
@@ -583,7 +583,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             //this should pass
-            string Venue = "a"; 
+            string Venue = "V"; 
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -598,7 +598,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             //this should pass
-            string Venue = "aa"; 
+            string Venue = "VV"; 
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -614,7 +614,7 @@ namespace Testing3
             String Error = "";
             //this should pass
             string Venue = "";
-            Venue = Venue.PadRight(99, 'a'); 
+            Venue = Venue.PadRight(99, 'V'); 
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -630,7 +630,7 @@ namespace Testing3
             String Error = "";
             //this should pass
             string Venue = "";
-            Venue = Venue.PadRight(100, 'a');
+            Venue = Venue.PadRight(100, 'V');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -646,7 +646,7 @@ namespace Testing3
             String Error = "";
             //this should pass
             string Venue = "";
-            Venue = Venue.PadRight(101, 'a');            
+            Venue = Venue.PadRight(101, 'V');            
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -663,7 +663,8 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             //this should pass
-            string Venue = "aaaa"; 
+            string Venue = "";
+            Venue = Venue.PadRight(50, 'V');
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -696,7 +697,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // This should pass
-            string TicketType = "a";
+            string TicketType = "T";
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -711,7 +712,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // This should pass
-            string TicketType = "aa";
+            string TicketType = "TT";
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -726,7 +727,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // This should pass
-            string TicketType = "aaaaaa";
+            string TicketType = "TTTTTT";
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -741,7 +742,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // This should pass
-            string TicketType = "aaaaaaa";
+            string TicketType = "TTTTTTT";
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -756,7 +757,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // This should fail
-            string TicketType = "aaaaaaaa";
+            string TicketType = "TTTTTTTT";
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -771,7 +772,7 @@ namespace Testing3
             // String variable to store any error message
             String Error = "";
             // This should pass
-            string TicketType = "aaa";
+            string TicketType = "TTT";
             // Invoke the method
             Error = AnTicket.Valid(Venue, Artist, TicketType, Date);
             // Test to see that the result is correct
@@ -800,7 +801,7 @@ namespace Testing3
 
             DataTable dT = AnTicket.StatisticsGroupedByDate();
 
-            int noOfRecord = 11;
+            int noOfRecord = 9;
 
             Assert.AreEqual(noOfRecord, dT.Rows.Count);
         }

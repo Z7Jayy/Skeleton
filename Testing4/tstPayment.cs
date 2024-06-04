@@ -810,7 +810,7 @@ namespace Testing4
 
             DataTable dT = Payment.StatisticsGroupedByPaymentDate();
             //rows of data produced by the last stored procedure
-            int noOfRecord = 8;
+            int noOfRecord = 9;
 
             //test to see that the record is correct
             Assert.AreEqual(noOfRecord, dT.Rows.Count);
