@@ -184,7 +184,7 @@ namespace ClassLibrary
                 //record the error
                 Error = Error + "The Transaction number may be blank : ";
             }
-            //if the Transaction id is greater then max characters 
+            //if the Transaction id is greater then max charactersPayments 
             if (transactionID.Length > 50) 
             {
                 //Record the error
