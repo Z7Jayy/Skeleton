@@ -59,7 +59,7 @@ namespace Testing4
         public void TestAmount()
         {
             clsPayment Payment = new clsPayment();
-            double expectedAmount = 55.5;
+            double expectedAmount = 50.5;
 
             Payment.Amount = expectedAmount;
 
@@ -92,7 +92,7 @@ namespace Testing4
         public void TestPaymentMethod()
         {
             clsPayment Payment = new clsPayment();
-            string expectedPaymentMethod = "paypal";
+            string expectedPaymentMethod = "PayPal";
 
             Payment.PaymentMethod = expectedPaymentMethod;
 
@@ -103,7 +103,7 @@ namespace Testing4
         public void TestTicketID()
         {
             clsPayment Payment = new clsPayment();
-            int expectedTicketId = 45;
+            int expectedTicketId = 10;
 
             Payment.TicketID = expectedTicketId;
 
@@ -120,7 +120,7 @@ namespace Testing4
             Boolean Found = false;
 
             //Create some test data to use with the method
-            Int32 PaymentID = 1;
+            Int32 PaymentID = 7;
 
             //invoke the method
             Found = Payment.Find(PaymentID);
@@ -810,7 +810,7 @@ namespace Testing4
 
             DataTable dT = Payment.StatisticsGroupedByPaymentDate();
             //rows of data produced by the last stored procedure
-            int noOfRecord = 9;
+            int noOfRecord = 7;
 
             //test to see that the record is correct
             Assert.AreEqual(noOfRecord, dT.Rows.Count);

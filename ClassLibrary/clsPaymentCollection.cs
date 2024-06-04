@@ -79,7 +79,6 @@ namespace ClassLibrary
 
             //execute the query returning to the primary key value
             return DB.Execute("sproc_tblPayment_Insert");
-
         }
 
         public void Update()

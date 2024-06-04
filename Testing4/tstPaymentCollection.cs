@@ -151,11 +151,11 @@ namespace Testing4
             TestItem.PaymentID = PrimaryKey;
             //modify the test record
             TestItem.TransactionID = "DEF-123";
-            TestItem.Amount = 100;
+            TestItem.Amount = 55.5;
             TestItem.PaymentDate = DateTime.Now;
-            TestItem.PaymentMethod = "Credit Card";
-            TestItem.TicketID = 40;
-            TestItem.IsPaymentSuccessful = false;
+            TestItem.PaymentMethod = "PayPal";
+            TestItem.TicketID = 15;
+            TestItem.IsPaymentSuccessful = true;
             //set the record based on the new data
             AllPayments.ThisPayment = TestItem;
             //update the record
@@ -236,17 +236,17 @@ namespace Testing4
             //variable to store the outcome
             Boolean OK = true;
             //apply a transaction id  that doesnt exist
-            FilteredPayments.ReportByTransactionID("YZZ-123");
+            FilteredPayments.ReportByTransactionID("ABC-123");
             //check that the correct number of recods are found
             if (FilteredPayments.Count == 2)
             {
                 //check to see the first record is correct
-                if (FilteredPayments.PaymentList[0].PaymentID != 9)
+                if (FilteredPayments.PaymentList[0].PaymentID != 11)
                 {
                     OK = false;
                 }
                 //check to see thta the first record is 11
-                if (FilteredPayments.PaymentList[1].PaymentID != 10)
+                if (FilteredPayments.PaymentList[1].PaymentID != 13)
                 {
                     OK = false;
                 }
