@@ -206,7 +206,7 @@ namespace Testing4
             Found = Payment.Find(PaymentID);
 
             // Check the Amount
-            if (Payment.Amount != 70)
+            if (Payment.Amount != 50.5)
             {
                 OK = false;
             }
@@ -468,7 +468,7 @@ namespace Testing4
             String Error = "";
 
             //Create some test data to pass the method
-            string TransactionID = "ABCDEF12345";
+            string TransactionID = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
             //Invoe the method
             Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
@@ -758,7 +758,7 @@ namespace Testing4
             String Error = "";
 
             //Create some test data to pass the method
-            string PaymentMethod = "ABCDEF12345";
+            string PaymentMethod = "AAAAAAAAAAAAAAAAAAAAA";
 
             //Invoe the method
             Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);

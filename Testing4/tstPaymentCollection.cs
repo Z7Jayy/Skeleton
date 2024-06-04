@@ -121,7 +121,7 @@ namespace Testing4
             PrimaryKey = AllPayments.Add();
             //set the primarykey of the test data
             TestItem.PaymentID = PrimaryKey;
-            //finf the record
+            //find the record
             AllPayments.ThisPayment.Find(PrimaryKey);
             //test to see that the two values are the same
             Assert.AreEqual(AllPayments.ThisPayment, TestItem);

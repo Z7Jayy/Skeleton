@@ -185,10 +185,10 @@ namespace ClassLibrary
                 Error = Error + "The Transaction number may be blank : ";
             }
             //if the Transaction id is greater then max characters 
-            if (transactionID.Length > 10) 
+            if (transactionID.Length > 50) 
             {
                 //Record the error
-                Error = Error + "The transaction id must be less then 10 characters : ";
+                Error = Error + "The transaction id must be less then 50 characters : ";
             }
            
             //copy the paymentdate value to the DateTemp variable
@@ -205,6 +205,10 @@ namespace ClassLibrary
                 //record the error
                 Error = Error + "The date cannot be in the future : ";
             }
+            if (DateTemp ==  null)
+            {
+                Error = Error + "Input Date : ";
+            }
 
             //if the Transaction ID is blank
             if (paymentMethod.Length == 0)
@@ -213,10 +217,10 @@ namespace ClassLibrary
                 Error = Error + "The Payment Method number may be blank : ";
             }
             //if the Transaction id is greater then max characters 
-            if (paymentMethod.Length > 10)
+            if (paymentMethod.Length > 20)
             {
                 //Record the error
-                Error = Error + "The Payment Method must be less then 10 characters : ";
+                Error = Error + "The Payment Method must be less then 20 characters : ";
             }
                 //return any error messages
                 return Error;
