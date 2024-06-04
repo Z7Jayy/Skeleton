@@ -26,11 +26,11 @@
         </p>
         <asp:TextBox ID="txtFilter" runat="server" style="z-index: 1; left: 129px; top: 395px; position: absolute"></asp:TextBox>
         <p>
-            <asp:Button ID="btnApplyFilter" runat="server" OnClick="btnApplyFilter_Click" style="z-index: 1; left: 20px; top: 457px; position: absolute" Text="Apply Filter" height="26px" width="139px" />
+            <asp:Button ID="btnApplyFilter" runat="server" OnClick="btnApplyFilter_Click" style="z-index: 1; left: 20px; top: 456px; position: absolute; color: #000000;" Text="Apply Filter" height="26px" width="183px" />
         </p>
-        <asp:Button ID="btnClearFilter" runat="server" height="26px" OnClick="btnClearFilter_Click" style="z-index: 1; left: 194px; top: 457px; position: absolute" Text="Clear Filter" width="139px" />
-        <asp:Button ID="btnStatisticsPage" runat="server" OnClick="btnStatisticsPage_Click" style="z-index: 1; left: 362px; top: 457px; position: absolute" Text="Statistics Page " />
-        <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 551px; top: 455px; position: absolute" Text="Return to Main Menu" />
+        <asp:Button ID="btnClearFilter" runat="server" height="26px" OnClick="btnClearFilter_Click" style="z-index: 1; left: 220px; top: 456px; position: absolute" Text="Clear Filter" width="183px" />
+        <asp:Button ID="btnStatisticsPage" runat="server" OnClick="btnStatisticsPage_Click" style="z-index: 1; left: 423px; top: 456px; position: absolute" Text="Statistics Page " height="26px" width="183px" />
+        <asp:Button ID="btnMainMenu" runat="server" OnClick="btnMainMenu_Click" style="z-index: 1; left: 628px; top: 456px; position: absolute" Text="Return to Main Menu" />
 
     </form>
 </body>
