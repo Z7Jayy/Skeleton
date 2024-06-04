@@ -234,7 +234,7 @@ namespace Testing4
             Found = Payment.Find(PaymentID);
 
             // Check the PaymentDate
-            if (Payment.PaymentDate != Convert.ToDateTime("11/05/2024"))
+            if (Payment.PaymentDate != Convert.ToDateTime("30/05/2024"))
             {
                 OK = false;
             }
@@ -290,7 +290,7 @@ namespace Testing4
             Found = Payment.Find(PaymentID);
 
             // Check the PaymentMethod
-            if (Payment.PaymentMethod != "PayPal")
+            if (Payment.PaymentMethod != "Debit Card")
             {
                 OK = false;
             }
@@ -318,7 +318,7 @@ namespace Testing4
             Found = Payment.Find(PaymentID);
 
             // Check the TicketID
-            if (Payment.TicketID != 25)
+            if (Payment.TicketID != 40)
             {
                 OK = false;
             }
@@ -795,7 +795,7 @@ namespace Testing4
             //invoke the method
             DataTable dT = Payment.StatisticsGroupedByAmount();
             //rows of data produced by the last stored procedure
-            int noOfRecord = 7;
+            int noOfRecord = 5;
 
             //test to see that the record is correct
             Assert.AreEqual(noOfRecord, dT.Rows.Count);

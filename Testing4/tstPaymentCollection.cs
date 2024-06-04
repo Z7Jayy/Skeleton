@@ -236,7 +236,7 @@ namespace Testing4
             //variable to store the outcome
             Boolean OK = true;
             //apply a transaction id  that doesnt exist
-            FilteredPayments.ReportByTransactionID("YZA-234");
+            FilteredPayments.ReportByTransactionID("YZZ-123");
             //check that the correct number of recods are found
             if (FilteredPayments.Count == 2)
             {
