@@ -121,7 +121,7 @@ namespace Testing4
             PrimaryKey = AllPayments.Add();
             //set the primarykey of the test data
             TestItem.PaymentID = PrimaryKey;
-            //finf the record
+            //find the record
             AllPayments.ThisPayment.Find(PrimaryKey);
             //test to see that the two values are the same
             Assert.AreEqual(AllPayments.ThisPayment, TestItem);
@@ -236,7 +236,7 @@ namespace Testing4
             //variable to store the outcome
             Boolean OK = true;
             //apply a transaction id  that doesnt exist
-            FilteredPayments.ReportByTransactionID("YZA-234");
+            FilteredPayments.ReportByTransactionID("YZZ-123");
             //check that the correct number of recods are found
             if (FilteredPayments.Count == 2)
             {

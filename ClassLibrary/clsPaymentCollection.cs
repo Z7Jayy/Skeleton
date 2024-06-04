@@ -55,7 +55,6 @@ namespace ClassLibrary
 
         public clsPaymentCollection()
         {
-
             clsDataConnection DB = new clsDataConnection();
             //Execute stored procedure
             DB.Execute("sproc_tblPayment_SelectAll");
