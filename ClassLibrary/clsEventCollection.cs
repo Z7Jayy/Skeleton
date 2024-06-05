@@ -75,7 +75,6 @@ namespace ClassLibrary
             DB.Execute("sproc_tblEvent_Update");
         }
 
-
         public bool Find(int eventId)
         {
             clsDataConnection DB = new clsDataConnection();
@@ -84,6 +83,10 @@ namespace ClassLibrary
 
             if (DB.Count == 1)
             {
+                Console.WriteLine("Debug: Retrieved data row for event ID: " + eventId);
+                Console.WriteLine("Debug: IsOnline value: " + DB.DataTable.Rows[0]["IsOnline"]);
+                Console.WriteLine("Debug: Active value: " + DB.DataTable.Rows[0]["Active"]);
+
                 mThisEvent = new clsEvent
                 {
                     EventId = Convert.ToInt32(DB.DataTable.Rows[0]["EventId"]),
@@ -138,25 +141,26 @@ namespace ClassLibrary
                 }
 
                 // Attempt to handle common Boolean representations
-                string stringValue = value.ToString().ToLower();
-                if (stringValue == "true" || stringValue == "1")
+                string stringValue = value.ToString().Trim().ToLower();
+                if (stringValue == "true" || stringValue == "1" || stringValue == "yes")
                 {
                     return true;
                 }
-                if (stringValue == "false" || stringValue == "0")
+                if (stringValue == "false" || stringValue == "0" || stringValue == "no")
                 {
                     return false;
                 }
 
-                throw new FormatException("String was not recognized as a valid Boolean.");
+                throw new FormatException($"String '{value}' was not recognized as a valid Boolean.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error converting value '{value}' to Boolean: {ex.Message}");
                 throw;
             }
-
         }
+
+
 
     }
 }

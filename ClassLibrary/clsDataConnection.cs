@@ -11,24 +11,22 @@ public class clsDataConnection
     private SqlCommandBuilder commandBuilder;
     private List<SqlParameter> SQLParams;
     private DataTable dataTable;
-    private string connectionString;
+    private static string connectionString;
 
     public clsDataConnection()
     {
-
-        // Initialize the connection string from web.config
-        connectionString = GetConnectionString();
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new InvalidOperationException("Connection string is not set. Please ensure it is configured correctly.");
+        }
         SQLParams = new List<SqlParameter>();
         dataTable = new DataTable();
-      
     }
 
-
-    private string GetConnectionString()
+    public static void SetConnectionString(string connString)
     {
-        System.Net.WebClient client = new System.Net.WebClient();
-        string downloadString = client.DownloadString("http://localhost:5000/");
-        return downloadString;
+        connectionString = connString;
+        Console.WriteLine($"Connection string set: {connectionString}");
     }
 
     public void AddParameter(string paramName, object paramValue)
@@ -66,7 +64,7 @@ public class clsDataConnection
             connectionToDB.Close();
             return Convert.ToInt32(returnValue.Value);
         }
-        catch (Exception ex)
+        catch (SqlException ex)
         {
             Console.WriteLine($"Error executing stored procedure {sProcName}: {ex.Message}");
             throw;

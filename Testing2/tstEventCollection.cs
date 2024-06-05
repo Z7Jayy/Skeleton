@@ -1,134 +1,81 @@
 ﻿using ClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 
 namespace Testing2
-//v00egd00002l.lec-admin.dmu.ac.uk
-//P2730881
 {
     [TestClass]
     public class tstEventCollection
     {
+        private static string connectionString;
+
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            try
+            // Load the connection string from configuration
+            connectionString = ConfigurationManager.ConnectionStrings["Testing2.Properties.Settings.ConnectionString"]?.ConnectionString;
+
+            if (string.IsNullOrEmpty(connectionString))
             {
-                var config = ConfigurationManager.ConnectionStrings["ConnectionString"];
-                if (config == null || string.IsNullOrEmpty(config.ConnectionString))
-                {
-                    throw new InvalidOperationException("Connection string is not loaded.");
-                }
-                Console.WriteLine("Connection string loaded successfully: " + config.ConnectionString);
+                throw new InvalidOperationException("Connection string is not loaded.");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading connection string: {ex.Message}");
-                throw;
-            }
+
+            // Setting up the connection string for the data connection class
+            clsDataConnection.SetConnectionString(connectionString);
         }
 
         [TestMethod]
         public void InstanceOK()
         {
+            // Arrange & Act
             clsEventCollection AllEvents = new clsEventCollection();
+
+            // Assert
             Assert.IsNotNull(AllEvents);
-        }
-
-        [TestMethod]
-        public void EventListOK()
-        {
-            clsEventCollection AllEvents = new clsEventCollection();
-            List<clsEvent> TestList = new List<clsEvent>();
-            clsEvent TestItem = new clsEvent
-            {
-                EventId = 1,
-                EventName = "Test Event",
-                EventDescription = "Test Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 1,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now.Date
-            };
-            TestList.Add(TestItem);
-            AllEvents.EventList = TestList;
-            Assert.AreEqual(AllEvents.EventList.Count, TestList.Count);
-        }
-
-        [TestMethod]
-        public void CountPropertyOK()
-        {
-            clsEventCollection AllEvents = new clsEventCollection();
-            List<clsEvent> TestList = new List<clsEvent>();
-            clsEvent TestItem = new clsEvent
-            {
-                EventId = 1,
-                EventName = "Test Event",
-                EventDescription = "Test Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 1,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now.Date
-            };
-            TestList.Add(TestItem);
-            AllEvents.EventList = TestList;
-            Assert.AreEqual(AllEvents.Count, TestList.Count);
-        }
-
-        [TestMethod]
-        public void ThisEventPropertyOK()
-        {
-            clsEventCollection AllEvents = new clsEventCollection();
-            clsEvent TestEvent = new clsEvent
-            {
-                EventId = 1,
-                EventName = "Test Event",
-                EventDescription = "Test Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 1,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now.Date
-            };
-            AllEvents.ThisEvent = TestEvent;
-            Assert.AreEqual(AllEvents.ThisEvent, TestEvent);
         }
 
         [TestMethod]
         public void AddMethodOK()
         {
-            clsEventCollection eventCollection = new clsEventCollection();
-            clsEvent newEvent = new clsEvent
+            // Arrange
+            clsEventCollection AllEvents = new clsEventCollection();
+            clsEvent TestItem = new clsEvent
             {
-                EventName = "Sample Event",
-                EventDescription = "Sample Description",
+                EventId = 1,
+                EventName = "Music Concert",
+                EventDescription = "An amazing music concert",
                 EventDate = DateTime.Now,
-                VenueId = 1,
-                Category = "Sample Category",
+                VenueId = 101,
+                Category = "Music",
                 IsOnline = true,
                 Active = true,
                 DateAdded = DateTime.Now
             };
-            eventCollection.ThisEvent = newEvent;
-            int newEventId = eventCollection.Add();
-            Assert.AreNotEqual(0, newEventId);
+            int PrimaryKey = 0;
+
+            // Act
+            AllEvents.ThisEvent = TestItem;
+            PrimaryKey = AllEvents.Add();
+            AllEvents.ThisEvent.Find(PrimaryKey);
+
+            // Assert
+            Assert.AreEqual(AllEvents.ThisEvent.EventId, TestItem.EventId);
+            Assert.AreEqual(AllEvents.ThisEvent.EventName, TestItem.EventName);
+            Assert.AreEqual(AllEvents.ThisEvent.EventDescription, TestItem.EventDescription);
+            Assert.AreEqual(AllEvents.ThisEvent.EventDate, TestItem.EventDate);
+            Assert.AreEqual(AllEvents.ThisEvent.VenueId, TestItem.VenueId);
+            Assert.AreEqual(AllEvents.ThisEvent.Category, TestItem.Category);
+            Assert.AreEqual(AllEvents.ThisEvent.IsOnline, TestItem.IsOnline);
+            Assert.AreEqual(AllEvents.ThisEvent.Active, TestItem.Active);
+            Assert.AreEqual(AllEvents.ThisEvent.DateAdded, TestItem.DateAdded);
         }
 
-       
         [TestMethod]
         public void UpdateMethodOK()
         {
-            // Create an instance of the event collection
+            // Arrange
             clsEventCollection AllEvents = new clsEventCollection();
-
-            // Create a test event and add it to the collection
             clsEvent TestItem = new clsEvent
             {
                 EventId = 1,
@@ -144,7 +91,7 @@ namespace Testing2
             AllEvents.ThisEvent = TestItem;
             int newEventId = AllEvents.Add();
 
-            // Update the event
+            // Act
             clsEvent UpdatedEvent = new clsEvent
             {
                 EventId = newEventId,
@@ -160,7 +107,7 @@ namespace Testing2
             AllEvents.ThisEvent = UpdatedEvent;
             AllEvents.Update();
 
-            // Find the updated event and verify the changes
+            // Assert
             bool found = AllEvents.Find(newEventId);
             Assert.IsTrue(found);
             Assert.AreEqual(AllEvents.ThisEvent.EventName, "Updated Event");
@@ -171,10 +118,10 @@ namespace Testing2
             Assert.AreEqual(AllEvents.ThisEvent.Active, false);
         }
 
-
         [TestMethod]
         public void FindMethodOK()
         {
+            // Arrange
             clsEventCollection AllEvents = new clsEventCollection();
             clsEvent TestItem = new clsEvent
             {
@@ -191,7 +138,10 @@ namespace Testing2
             AllEvents.ThisEvent = TestItem;
             int newEventId = AllEvents.Add();
 
+            // Act
             bool Found = AllEvents.Find(newEventId);
+
+            // Assert
             Assert.IsTrue(Found);
             Assert.AreEqual(AllEvents.ThisEvent.EventId, newEventId);
             Assert.AreEqual(AllEvents.ThisEvent.EventName, TestItem.EventName);
@@ -204,5 +154,50 @@ namespace Testing2
             Assert.AreEqual(AllEvents.ThisEvent.DateAdded, TestItem.DateAdded);
         }
 
+        [TestMethod]
+        public void EventListOK()
+        {
+            // Arrange & Act
+            clsEventCollection AllEvents = new clsEventCollection();
+
+            // Assert
+            Assert.IsNotNull(AllEvents.EventList);
+        }
+
+        [TestMethod]
+        public void CountPropertyOK()
+        {
+            // Arrange & Act
+            clsEventCollection AllEvents = new clsEventCollection();
+            int count = AllEvents.Count;
+
+            // Assert
+            Assert.AreEqual(AllEvents.EventList.Count, count);
+        }
+
+        [TestMethod]
+        public void ThisEventPropertyOK()
+        {
+            // Arrange
+            clsEventCollection AllEvents = new clsEventCollection();
+            clsEvent TestItem = new clsEvent
+            {
+                EventId = 1,
+                EventName = "Test Event",
+                EventDescription = "Test Description",
+                EventDate = DateTime.Now.Date,
+                VenueId = 1,
+                Category = "Music",
+                IsOnline = true,
+                Active = true,
+                DateAdded = DateTime.Now.Date
+            };
+
+            // Act
+            AllEvents.ThisEvent = TestItem;
+
+            // Assert
+            Assert.AreEqual(AllEvents.ThisEvent, TestItem);
+        }
     }
 }
