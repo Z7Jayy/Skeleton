@@ -25,41 +25,41 @@ namespace ClassLibrary
             }
         }
 
-            //private data member for the payment id property
-            private string mTransactionID;
+        //private data member for the payment id property
+        private string mTransactionID;
 
-            //paymentID public property
-            public string TransactionID
+        //paymentID public property
+        public string TransactionID
+        {
+            get
             {
-                get
-                {
-                    //this line of code sends data out of the property
-                    return mTransactionID;
-                }
-                set
-                {
-                   //this line of code allows data into the property
-                   mTransactionID = value;
-                }
+                //this line of code sends data out of the property
+                return mTransactionID;
             }
-
-            // Private data member for Amount property
-            private double mAmount;
-
-            // Amount public property
-            public double Amount
+            set
             {
-                get
-                {
-                     // This line of code sends data out of the property
-                     return mAmount;
-                }
-                set
-                {
-                     // This line of code allows data into the property
-                     mAmount = value;
-                }
+                //this line of code allows data into the property
+                mTransactionID = value;
             }
+        }
+
+        // Private data member for Amount property
+        private double mAmount;
+
+        // Amount public property
+        public double Amount
+        {
+            get
+            {
+                // This line of code sends data out of the property
+                return mAmount;
+            }
+            set
+            {
+                // This line of code allows data into the property
+                mAmount = value;
+            }
+        }
 
 
         // Private data member for PaymentDate property
@@ -185,29 +185,10 @@ namespace ClassLibrary
                 Error = Error + "The Transaction number may be blank : ";
             }
             //if the Transaction id is greater then max charactersPayments 
-            if (transactionID.Length > 50) 
+            if (transactionID.Length > 50)
             {
                 //Record the error
                 Error = Error + "The transaction id must be less then 50 characters : ";
-            }
-           
-            //copy the paymentdate value to the DateTemp variable
-            DateTemp = Convert.ToDateTime(paymentDate);
-
-            //check to see if the date is less than todays's date
-            if (DateTemp < DateTime.Now.Date) 
-            {
-                Error = Error + "The date cannot be in the past : ";
-            }
-            //check to see if the date is greater then today's date
-            if (DateTemp > DateTime.Now.Date) 
-            {
-                //record the error
-                Error = Error + "The date cannot be in the future : ";
-            }
-            if (DateTemp ==  null)
-            {
-                Error = Error + "Input Date : ";
             }
 
             //if the Transaction ID is blank
@@ -222,9 +203,33 @@ namespace ClassLibrary
                 //Record the error
                 Error = Error + "The Payment Method must be less then 20 characters : ";
             }
-                //return any error messages
-                return Error;
+
+            //copy the paymentdate value to the DateTemp variable
+            DateTime DateComp = DateTime.Now.Date;
+            try
+            {
+                DateTemp = Convert.ToDateTime(paymentDate);
+                //check to see if the date is less than todays's date
+                if (DateTemp < DateTime.Now.Date)
+            {
+                Error = Error + "The date cannot be in the past : ";
+            }
+                //check to see if the date is greater then today's date
+                if (DateTemp > DateTime.Now.Date)
+            {
+                //record the error
+                Error = Error + "The date cannot be in the future : ";
+            }
         }
+        
+        catch
+        {
+                 //record the error
+                 Error = Error + "Invalid Date: ";
+        }
+                //return any error messsages
+                return Error;
+     }
 
         public DataTable StatisticsGroupedByAmount()
         {
