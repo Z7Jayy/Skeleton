@@ -1,25 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
 
 namespace ClassLibrary
 {
     public class clsEventCollection
     {
-        private List<clsEvent> eventList = new List<clsEvent>();
-        private clsEvent mThisEvent;
+        private List<clsEvent> mEventList = new List<clsEvent>();
+        private clsEvent mThisEvent = new clsEvent();
+
+        public clsEventCollection()
+        {
+            // Fetch all events from the database and populate the EventList
+            clsDataConnection DB = new clsDataConnection();
+            DB.Execute("sproc_tblEvent_SelectAll");
+            PopulateArray(DB);
+        }
 
         public List<clsEvent> EventList
         {
-            get { return eventList; }
-            set { eventList = value; }
+            get { return mEventList; }
+            set { mEventList = value; }
         }
 
         public int Count
         {
-            get { return eventList.Count; }
+            get { return mEventList.Count; }
+            set { /* We shall worry about this later */ }
         }
 
         public clsEvent ThisEvent
@@ -28,77 +34,63 @@ namespace ClassLibrary
             set { mThisEvent = value; }
         }
 
-        public clsEventCollection()
-        {
-            FetchAllEvents();
-        }
-
         public int Add()
         {
+            // Add new event to the database
             clsDataConnection DB = new clsDataConnection();
-            DB.AddParameter("@EventName", ThisEvent.EventName);
-            DB.AddParameter("@EventDescription", ThisEvent.EventDescription);
-            DB.AddParameter("@EventDate", ThisEvent.EventDate);
-            DB.AddParameter("@VenueId", ThisEvent.VenueId);
-            DB.AddParameter("@Category", ThisEvent.Category);
-            DB.AddParameter("@IsOnline", ThisEvent.IsOnline);
-            DB.AddParameter("@Active", ThisEvent.Active);
-            DB.AddParameter("@DateAdded", ThisEvent.DateAdded);
-
-            SqlParameter newEventIdParam = new SqlParameter("@NewEventId", SqlDbType.Int)
-            {
-                Direction = ParameterDirection.Output
-            };
-            DB.AddParameter(newEventIdParam);
-            DB.Execute("sproc_tblEvent_Insert");
-
-            return Convert.ToInt32(newEventIdParam.Value);
+            DB.AddParameter("@EventName", mThisEvent.EventName);
+            DB.AddParameter("@EventDescription", mThisEvent.EventDescription);
+            DB.AddParameter("@EventDate", mThisEvent.EventDate);
+            DB.AddParameter("@IsOnline", mThisEvent.IsOnline);
+            DB.AddParameter("@VenueID", mThisEvent.VenueId);
+            DB.AddParameter("@Category", mThisEvent.Category);
+            DB.AddParameter("@Active", mThisEvent.Active);
+            DB.AddParameter("@DateAdded", mThisEvent.DateAdded);
+            return DB.Execute("sproc_tblEvent_Insert");
         }
 
         public void Update()
         {
-            // Create a new instance of clsDataConnection
+            // Update an existing event in the database
             clsDataConnection DB = new clsDataConnection();
-
-            // Set the parameters for the stored procedure
-            DB.AddParameter("@EventId", ThisEvent.EventId);
-            DB.AddParameter("@EventName", ThisEvent.EventName);
-            DB.AddParameter("@EventDescription", ThisEvent.EventDescription);
-            DB.AddParameter("@EventDate", ThisEvent.EventDate);
-            DB.AddParameter("@VenueId", ThisEvent.VenueId);
-            DB.AddParameter("@Category", ThisEvent.Category);
-            DB.AddParameter("@IsOnline", ThisEvent.IsOnline);
-            DB.AddParameter("@Active", ThisEvent.Active);
-            DB.AddParameter("@DateAdded", ThisEvent.DateAdded);
-
-            // Execute the stored procedure to update the record
+            DB.AddParameter("@EventID", mThisEvent.EventId);
+            DB.AddParameter("@EventName", mThisEvent.EventName);
+            DB.AddParameter("@EventDescription", mThisEvent.EventDescription);
+            DB.AddParameter("@EventDate", mThisEvent.EventDate);
+            DB.AddParameter("@IsOnline", mThisEvent.IsOnline);
+            DB.AddParameter("@VenueID", mThisEvent.VenueId);
+            DB.AddParameter("@Category", mThisEvent.Category);
+            DB.AddParameter("@Active", mThisEvent.Active);
+            DB.AddParameter("@DateAdded", mThisEvent.DateAdded);
             DB.Execute("sproc_tblEvent_Update");
         }
 
-        public bool Find(int eventId)
+        public void Delete()
         {
+            // Delete an event from the database
             clsDataConnection DB = new clsDataConnection();
-            DB.AddParameter("@EventId", eventId);
-            DB.Execute("sproc_tblEvent_FilterByEventId");
+            DB.AddParameter("@EventID", mThisEvent.EventId);
+            DB.Execute("sproc_tblEvent_Delete");
+        }
+
+        public bool Find(int EventID)
+        {
+            // Find a specific event in the database
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventID", EventID);
+            DB.Execute("sproc_tblEvent_FilterByEventID");
 
             if (DB.Count == 1)
             {
-                Console.WriteLine("Debug: Retrieved data row for event ID: " + eventId);
-                Console.WriteLine("Debug: IsOnline value: " + DB.DataTable.Rows[0]["IsOnline"]);
-                Console.WriteLine("Debug: Active value: " + DB.DataTable.Rows[0]["Active"]);
-
-                mThisEvent = new clsEvent
-                {
-                    EventId = Convert.ToInt32(DB.DataTable.Rows[0]["EventId"]),
-                    EventName = Convert.ToString(DB.DataTable.Rows[0]["EventName"]),
-                    EventDescription = Convert.ToString(DB.DataTable.Rows[0]["EventDescription"]),
-                    EventDate = Convert.ToDateTime(DB.DataTable.Rows[0]["EventDate"]),
-                    VenueId = Convert.ToInt32(DB.DataTable.Rows[0]["VenueId"]),
-                    Category = Convert.ToString(DB.DataTable.Rows[0]["Category"]),
-                    IsOnline = ConvertToBoolean(DB.DataTable.Rows[0]["IsOnline"]),
-                    Active = ConvertToBoolean(DB.DataTable.Rows[0]["Active"]),
-                    DateAdded = Convert.ToDateTime(DB.DataTable.Rows[0]["DateAdded"])
-                };
+                mThisEvent.EventId = Convert.ToInt32(DB.DataTable.Rows[0]["EventID"]);
+                mThisEvent.EventName = Convert.ToString(DB.DataTable.Rows[0]["EventName"]);
+                mThisEvent.EventDescription = Convert.ToString(DB.DataTable.Rows[0]["EventDescription"]);
+                mThisEvent.EventDate = Convert.ToDateTime(DB.DataTable.Rows[0]["EventDate"]);
+                mThisEvent.IsOnline = Convert.ToBoolean(DB.DataTable.Rows[0]["IsOnline"]);
+                mThisEvent.VenueId = Convert.ToInt32(DB.DataTable.Rows[0]["VenueID"]);
+                mThisEvent.Category = Convert.ToString(DB.DataTable.Rows[0]["Category"]);
+                mThisEvent.Active = Convert.ToBoolean(DB.DataTable.Rows[0]["Active"]);
+                mThisEvent.DateAdded = Convert.ToDateTime(DB.DataTable.Rows[0]["DateAdded"]);
                 return true;
             }
             else
@@ -107,60 +99,28 @@ namespace ClassLibrary
             }
         }
 
-        private void FetchAllEvents()
+        private void PopulateArray(clsDataConnection DB)
         {
-            clsDataConnection DB = new clsDataConnection();
-            DB.Execute("sproc_tblEvent_SelectAll");
+            // Populate the array list based on the data table in the parameter DB
+            int Index = 0;
+            int RecordCount = DB.Count;
+            mEventList = new List<clsEvent>();
 
-            for (int i = 0; i < DB.Count; i++)
+            while (Index < RecordCount)
             {
-                clsEvent AnEvent = new clsEvent
-                {
-                    EventId = Convert.ToInt32(DB.DataTable.Rows[i]["EventId"]),
-                    EventName = Convert.ToString(DB.DataTable.Rows[i]["EventName"]),
-                    EventDescription = Convert.ToString(DB.DataTable.Rows[i]["EventDescription"]),
-                    EventDate = Convert.ToDateTime(DB.DataTable.Rows[i]["EventDate"]),
-                    VenueId = Convert.ToInt32(DB.DataTable.Rows[i]["VenueId"]),
-                    Category = Convert.ToString(DB.DataTable.Rows[i]["Category"]),
-                    IsOnline = ConvertToBoolean(DB.DataTable.Rows[i]["IsOnline"]),
-                    Active = ConvertToBoolean(DB.DataTable.Rows[i]["Active"]),
-                    DateAdded = Convert.ToDateTime(DB.DataTable.Rows[i]["DateAdded"])
-                };
-
-                eventList.Add(AnEvent);
+                clsEvent AnEvent = new clsEvent();
+                AnEvent.EventId = Convert.ToInt32(DB.DataTable.Rows[Index]["EventID"]);
+                AnEvent.EventName = Convert.ToString(DB.DataTable.Rows[Index]["EventName"]);
+                AnEvent.EventDescription = Convert.ToString(DB.DataTable.Rows[Index]["EventDescription"]);
+                AnEvent.EventDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["EventDate"]);
+                AnEvent.IsOnline = Convert.ToBoolean(DB.DataTable.Rows[Index]["IsOnline"]);
+                AnEvent.VenueId = Convert.ToInt32(DB.DataTable.Rows[Index]["VenueID"]);
+                AnEvent.Category = Convert.ToString(DB.DataTable.Rows[Index]["Category"]);
+                AnEvent.Active = Convert.ToBoolean(DB.DataTable.Rows[Index]["Active"]);
+                AnEvent.DateAdded = Convert.ToDateTime(DB.DataTable.Rows[Index]["DateAdded"]);
+                mEventList.Add(AnEvent);
+                Index++;
             }
         }
-
-        private bool ConvertToBoolean(object value)
-        {
-            try
-            {
-                if (value is bool)
-                {
-                    return (bool)value;
-                }
-
-                // Attempt to handle common Boolean representations
-                string stringValue = value.ToString().Trim().ToLower();
-                if (stringValue == "true" || stringValue == "1" || stringValue == "yes")
-                {
-                    return true;
-                }
-                if (stringValue == "false" || stringValue == "0" || stringValue == "no")
-                {
-                    return false;
-                }
-
-                throw new FormatException($"String '{value}' was not recognized as a valid Boolean.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error converting value '{value}' to Boolean: {ex.Message}");
-                throw;
-            }
-        }
-
-
-
     }
 }

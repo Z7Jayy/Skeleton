@@ -2,95 +2,101 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
-public class clsDataConnection
+
+namespace ClassLibrary
 {
-    // Connection object used to connect to the database
-    private SqlConnection connectionToDB;
-    // Data adapter used to transfer data to and from the database
-    private SqlDataAdapter dataChannel;
-    // Command builder for building SQL commands
-    private SqlCommandBuilder commandBuilder;
-    // Stores a list of all the SQL parameters
-    private List<SqlParameter> SQLParams;
-    // Data table used to store the results of the stored procedure
-    private DataTable dataTable;
-    // String variable used to store the connection string
-    private string connectionString;
-    public clsDataConnection()
+    public class clsDataConnection
     {
-        // Initialize the connection string from web.config
-        connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        connectionString = GetConnectionString();
-        SQLParams = new List<SqlParameter>();
-        dataTable = new DataTable();
-    }
+        private SqlConnection connectionToDB;
+        private SqlDataAdapter dataChannel;
+        private SqlCommandBuilder commandBuilder;
+        private List<SqlParameter> SQLParams;
+        private DataTable dataTable;
+        private static string connectionString;
 
-    private string GetConnectionString()
-    {
-        System.Net.WebClient client = new System.Net.WebClient();
-        string downloadString = client.DownloadString("http://localhost:5000/");
-        return downloadString;
-    }
+        public clsDataConnection()
+        {
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string is not set. Please ensure it is configured correctly.");
+            }
+            SQLParams = new List<SqlParameter>();
+            dataTable = new DataTable();
+        }
 
-    public void AddParameter(string paramName, object paramValue)
-    {
-        // Create a new instance of the SQL parameter object
-        SqlParameter param = new SqlParameter(paramName, paramValue);
-        // Add the parameter to the list
-        SQLParams.Add(param);
-    }
-    public int Execute(string sProcName)
-    {
-        // Initialize the connection to the database
-        connectionToDB = new SqlConnection(connectionString);
-        // Open the database
-        connectionToDB.Open();
-        // Initialize the command for this connection
-        SqlCommand dataCommand = new SqlCommand(sProcName, connectionToDB);
-        // Add the parameters to the command builder
-        foreach (var param in SQLParams)
+        public static void SetConnectionString(string connString)
         {
-            dataCommand.Parameters.Add(param);
+            connectionString = connString;
         }
-        // Create an instance of the SqlParameter class for the return value
-        SqlParameter returnValue = new SqlParameter
+
+        public void AddParameter(string paramName, object paramValue)
         {
-            Direction = ParameterDirection.ReturnValue
-        };
-        dataCommand.Parameters.Add(returnValue);
-        // Set the command type as stored procedure
-        dataCommand.CommandType = CommandType.StoredProcedure;
-        // Initialize the data adapter
-        dataChannel = new SqlDataAdapter(dataCommand);
-        // Use the command builder to generate SQL insert, delete, etc.
-        commandBuilder = new SqlCommandBuilder(dataChannel);
-        // Fill the data table
-        dataChannel.Fill(dataTable);
-        // Close the connection
-        connectionToDB.Close();
-        // Return the result of the stored procedure
-        return Convert.ToInt32(returnValue.Value);
-    }
-    public int Count
-    {
-        get
-        {
-            // Return the count of records in the query results
-            return dataTable.Rows.Count;
+            SqlParameter param = new SqlParameter(paramName, paramValue);
+            SQLParams.Add(param);
         }
-    }
-    public DataTable DataTable
-    {
-        get
+
+        public void AddParameter(SqlParameter param)
         {
-            // Return the query results
-            return dataTable;
+            SQLParams.Add(param);
         }
-        set
+
+        public int Execute(string sProcName)
         {
-            // Set the query results
-            dataTable = value;
+            try
+            {
+                connectionToDB = new SqlConnection(connectionString);
+                connectionToDB.Open();
+                SqlCommand dataCommand = new SqlCommand(sProcName, connectionToDB);
+                foreach (var param in SQLParams)
+                {
+                    dataCommand.Parameters.Add(param);
+                }
+
+                SqlParameter returnValue = new SqlParameter
+                {
+                    Direction = ParameterDirection.ReturnValue
+                };
+                dataCommand.Parameters.Add(returnValue);
+                dataCommand.CommandType = CommandType.StoredProcedure;
+                dataChannel = new SqlDataAdapter(dataCommand);
+                commandBuilder = new SqlCommandBuilder(dataChannel);
+                dataChannel.Fill(dataTable);
+                connectionToDB.Close();
+                return Convert.ToInt32(returnValue.Value);
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error executing stored procedure {sProcName}: {ex.Message}");
+                throw;
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return dataTable.Rows.Count;
+            }
+        }
+
+        public DataTable DataTable
+        {
+            get
+            {
+                return dataTable;
+            }
+            set
+            {
+                dataTable = value;
+            }
+        }
+
+        public List<SqlParameter> Parameters
+        {
+            get
+            {
+                return SQLParams;
+            }
         }
     }
 }

@@ -1,203 +1,126 @@
-﻿using ClassLibrary;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Testing2
+namespace ClassLibrary
 {
-    [TestClass]
-    public class tstEventCollection
+    public class clsEventCollection
     {
-        private static string connectionString;
+        private List<clsEvent> mEventList = new List<clsEvent>();
+        private clsEvent mThisEvent = new clsEvent();
 
-        [ClassInitialize]
-        public static void Setup(TestContext context)
+        public clsEventCollection()
         {
-            // Load the connection string from configuration
-            connectionString = ConfigurationManager.ConnectionStrings["Testing2.Properties.Settings.ConnectionString"]?.ConnectionString;
+            // Fetch all events from the database and populate the EventList
+            clsDataConnection DB = new clsDataConnection();
+            DB.Execute("sproc_tblEvent_SelectAll");
+            PopulateArray(DB);
+        }
 
-            if (string.IsNullOrEmpty(connectionString))
+        public List<clsEvent> EventList
+        {
+            get { return mEventList; }
+            set { mEventList = value; }
+        }
+
+        public int Count
+        {
+            get { return mEventList.Count; }
+            set { /* We shall worry about this later */ }
+        }
+
+        public clsEvent ThisEvent
+        {
+            get { return mThisEvent; }
+            set { mThisEvent = value; }
+        }
+
+        public int Add()
+        {
+            // Add new event to the database
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventName", mThisEvent.EventName);
+            DB.AddParameter("@EventDescription", mThisEvent.EventDescription);
+            DB.AddParameter("@EventDate", mThisEvent.EventDate);
+            DB.AddParameter("@IsOnline", mThisEvent.IsOnline);
+            DB.AddParameter("@VenueID", mThisEvent.VenueId);
+            DB.AddParameter("@Category", mThisEvent.Category);
+            DB.AddParameter("@Active", mThisEvent.Active);
+            DB.AddParameter("@DateAdded", mThisEvent.DateAdded);
+            return DB.Execute("sproc_tblEvent_Insert");
+        }
+
+        public void Update()
+        {
+            // Update an existing event in the database
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventID", mThisEvent.EventId);
+            DB.AddParameter("@EventName", mThisEvent.EventName);
+            DB.AddParameter("@EventDescription", mThisEvent.EventDescription);
+            DB.AddParameter("@EventDate", mThisEvent.EventDate);
+            DB.AddParameter("@IsOnline", mThisEvent.IsOnline);
+            DB.AddParameter("@VenueID", mThisEvent.VenueId);
+            DB.AddParameter("@Category", mThisEvent.Category);
+            DB.AddParameter("@Active", mThisEvent.Active);
+            DB.AddParameter("@DateAdded", mThisEvent.DateAdded);
+            DB.Execute("sproc_tblEvent_Update");
+        }
+
+        public void Delete()
+        {
+            // Delete an event from the database
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventID", mThisEvent.EventId);
+            DB.Execute("sproc_tblEvent_Delete");
+        }
+
+        public bool Find(int EventID)
+        {
+            // Find a specific event in the database
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@EventID", EventID);
+            DB.Execute("sproc_tblEvent_FilterByEventID");
+
+            if (DB.Count == 1)
             {
-                throw new InvalidOperationException("Connection string is not loaded.");
+                mThisEvent.EventId = Convert.ToInt32(DB.DataTable.Rows[0]["EventID"]);
+                mThisEvent.EventName = Convert.ToString(DB.DataTable.Rows[0]["EventName"]);
+                mThisEvent.EventDescription = Convert.ToString(DB.DataTable.Rows[0]["EventDescription"]);
+                mThisEvent.EventDate = Convert.ToDateTime(DB.DataTable.Rows[0]["EventDate"]);
+                mThisEvent.IsOnline = Convert.ToBoolean(DB.DataTable.Rows[0]["IsOnline"]);
+                mThisEvent.VenueId = Convert.ToInt32(DB.DataTable.Rows[0]["VenueID"]);
+                mThisEvent.Category = Convert.ToString(DB.DataTable.Rows[0]["Category"]);
+                mThisEvent.Active = Convert.ToBoolean(DB.DataTable.Rows[0]["Active"]);
+                mThisEvent.DateAdded = Convert.ToDateTime(DB.DataTable.Rows[0]["DateAdded"]);
+                return true;
             }
-
-            // Setting up the connection string for the data connection class
-            clsDataConnection.SetConnectionString(connectionString);
-        }
-
-        [TestMethod]
-        public void InstanceOK()
-        {
-            // Arrange & Act
-            clsEventCollection AllEvents = new clsEventCollection();
-
-            // Assert
-            Assert.IsNotNull(AllEvents);
-        }
-
-        [TestMethod]
-        public void AddMethodOK()
-        {
-            // Arrange
-            clsEventCollection AllEvents = new clsEventCollection();
-            clsEvent TestItem = new clsEvent
+            else
             {
-                EventId = 1,
-                EventName = "Music Concert",
-                EventDescription = "An amazing music concert",
-                EventDate = DateTime.Now,
-                VenueId = 101,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now
-            };
-            int PrimaryKey = 0;
-
-            // Act
-            AllEvents.ThisEvent = TestItem;
-            PrimaryKey = AllEvents.Add();
-            AllEvents.ThisEvent.Find(PrimaryKey);
-
-            // Assert
-            Assert.AreEqual(AllEvents.ThisEvent.EventId, TestItem.EventId);
-            Assert.AreEqual(AllEvents.ThisEvent.EventName, TestItem.EventName);
-            Assert.AreEqual(AllEvents.ThisEvent.EventDescription, TestItem.EventDescription);
-            Assert.AreEqual(AllEvents.ThisEvent.EventDate, TestItem.EventDate);
-            Assert.AreEqual(AllEvents.ThisEvent.VenueId, TestItem.VenueId);
-            Assert.AreEqual(AllEvents.ThisEvent.Category, TestItem.Category);
-            Assert.AreEqual(AllEvents.ThisEvent.IsOnline, TestItem.IsOnline);
-            Assert.AreEqual(AllEvents.ThisEvent.Active, TestItem.Active);
-            Assert.AreEqual(AllEvents.ThisEvent.DateAdded, TestItem.DateAdded);
+                return false;
+            }
         }
 
-        [TestMethod]
-        public void UpdateMethodOK()
+        private void PopulateArray(clsDataConnection DB)
         {
-            // Arrange
-            clsEventCollection AllEvents = new clsEventCollection();
-            clsEvent TestItem = new clsEvent
+            // Populate the array list based on the data table in the parameter DB
+            int Index = 0;
+            int RecordCount = DB.Count;
+            mEventList = new List<clsEvent>();
+
+            while (Index < RecordCount)
             {
-                EventId = 1,
-                EventName = "Test Event",
-                EventDescription = "Test Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 1,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now.Date
-            };
-            AllEvents.ThisEvent = TestItem;
-            int newEventId = AllEvents.Add();
-
-            // Act
-            clsEvent UpdatedEvent = new clsEvent
-            {
-                EventId = newEventId,
-                EventName = "Updated Event",
-                EventDescription = "Updated Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 2,
-                Category = "Updated Category",
-                IsOnline = false,
-                Active = false,
-                DateAdded = DateTime.Now.Date
-            };
-            AllEvents.ThisEvent = UpdatedEvent;
-            AllEvents.Update();
-
-            // Assert
-            bool found = AllEvents.Find(newEventId);
-            Assert.IsTrue(found);
-            Assert.AreEqual(AllEvents.ThisEvent.EventName, "Updated Event");
-            Assert.AreEqual(AllEvents.ThisEvent.EventDescription, "Updated Description");
-            Assert.AreEqual(AllEvents.ThisEvent.VenueId, 2);
-            Assert.AreEqual(AllEvents.ThisEvent.Category, "Updated Category");
-            Assert.AreEqual(AllEvents.ThisEvent.IsOnline, false);
-            Assert.AreEqual(AllEvents.ThisEvent.Active, false);
-        }
-
-        [TestMethod]
-        public void FindMethodOK()
-        {
-            // Arrange
-            clsEventCollection AllEvents = new clsEventCollection();
-            clsEvent TestItem = new clsEvent
-            {
-                EventId = 1,
-                EventName = "Test Event",
-                EventDescription = "Test Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 1,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now.Date
-            };
-            AllEvents.ThisEvent = TestItem;
-            int newEventId = AllEvents.Add();
-
-            // Act
-            bool Found = AllEvents.Find(newEventId);
-
-            // Assert
-            Assert.IsTrue(Found);
-            Assert.AreEqual(AllEvents.ThisEvent.EventId, newEventId);
-            Assert.AreEqual(AllEvents.ThisEvent.EventName, TestItem.EventName);
-            Assert.AreEqual(AllEvents.ThisEvent.EventDescription, TestItem.EventDescription);
-            Assert.AreEqual(AllEvents.ThisEvent.EventDate, TestItem.EventDate);
-            Assert.AreEqual(AllEvents.ThisEvent.VenueId, TestItem.VenueId);
-            Assert.AreEqual(AllEvents.ThisEvent.Category, TestItem.Category);
-            Assert.AreEqual(AllEvents.ThisEvent.IsOnline, TestItem.IsOnline);
-            Assert.AreEqual(AllEvents.ThisEvent.Active, TestItem.Active);
-            Assert.AreEqual(AllEvents.ThisEvent.DateAdded, TestItem.DateAdded);
-        }
-
-        [TestMethod]
-        public void EventListOK()
-        {
-            // Arrange & Act
-            clsEventCollection AllEvents = new clsEventCollection();
-
-            // Assert
-            Assert.IsNotNull(AllEvents.EventList);
-        }
-
-        [TestMethod]
-        public void CountPropertyOK()
-        {
-            // Arrange & Act
-            clsEventCollection AllEvents = new clsEventCollection();
-            int count = AllEvents.Count;
-
-            // Assert
-            Assert.AreEqual(AllEvents.EventList.Count, count);
-        }
-
-        [TestMethod]
-        public void ThisEventPropertyOK()
-        {
-            // Arrange
-            clsEventCollection AllEvents = new clsEventCollection();
-            clsEvent TestItem = new clsEvent
-            {
-                EventId = 1,
-                EventName = "Test Event",
-                EventDescription = "Test Description",
-                EventDate = DateTime.Now.Date,
-                VenueId = 1,
-                Category = "Music",
-                IsOnline = true,
-                Active = true,
-                DateAdded = DateTime.Now.Date
-            };
-
-            // Act
-            AllEvents.ThisEvent = TestItem;
-
-            // Assert
-            Assert.AreEqual(AllEvents.ThisEvent, TestItem);
+                clsEvent AnEvent = new clsEvent();
+                AnEvent.EventId = Convert.ToInt32(DB.DataTable.Rows[Index]["EventID"]);
+                AnEvent.EventName = Convert.ToString(DB.DataTable.Rows[Index]["EventName"]);
+                AnEvent.EventDescription = Convert.ToString(DB.DataTable.Rows[Index]["EventDescription"]);
+                AnEvent.EventDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["EventDate"]);
+                AnEvent.IsOnline = Convert.ToBoolean(DB.DataTable.Rows[Index]["IsOnline"]);
+                AnEvent.VenueId = Convert.ToInt32(DB.DataTable.Rows[Index]["VenueID"]);
+                AnEvent.Category = Convert.ToString(DB.DataTable.Rows[Index]["Category"]);
+                AnEvent.Active = Convert.ToBoolean(DB.DataTable.Rows[Index]["Active"]);
+                AnEvent.DateAdded = Convert.ToDateTime(DB.DataTable.Rows[Index]["DateAdded"]);
+                mEventList.Add(AnEvent);
+                Index++;
+            }
         }
     }
 }
