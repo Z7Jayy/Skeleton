@@ -170,66 +170,111 @@ namespace ClassLibrary
             }
         }
 
-        public string Valid(string transactionID, string paymentMethod, string paymentDate)
+        public string Valid(string transactionID, string paymentMethod, string paymentDate, string amount, string ticketID)
         {
-            //create a string variable to store the error
+            // Create a string variable to store the error
             String Error = "";
 
-            //create a temporary variable to store the date values
+            // Create a temporary variable to store the date values
             DateTime DateTemp;
 
-            //if the Transaction ID is blank
+            // Validate TransactionID
             if (transactionID.Length == 0)
             {
-                //record the error
-                Error = Error + "The Transaction number may be blank : ";
+                // Record the error
+                Error += "The Transaction number may not be blank: ";
             }
-            //if the Transaction id is greater then max charactersPayments 
             if (transactionID.Length > 50)
             {
-                //Record the error
-                Error = Error + "The transaction id must be less then 50 characters : ";
+                // Record the error
+                Error += "The transaction ID must be less than 50 characters: ";
             }
 
-            //if the Transaction ID is blank
+            // Validate PaymentMethod
             if (paymentMethod.Length == 0)
             {
-                //record the error
-                Error = Error + "The Payment Method number may be blank : ";
+                // Record the error
+                Error += "The Payment Method may not be blank: ";
             }
-            //if the Transaction id is greater then max characters 
             if (paymentMethod.Length > 20)
             {
-                //Record the error
-                Error = Error + "The Payment Method must be less then 20 characters : ";
+                // Record the error
+                Error += "The Payment Method must be less than 20 characters: ";
             }
 
-            //copy the paymentdate value to the DateTemp variable
-            DateTime DateComp = DateTime.Now.Date;
+            // Validate PaymentDate
             try
             {
                 DateTemp = Convert.ToDateTime(paymentDate);
-                //check to see if the date is less than todays's date
                 if (DateTemp < DateTime.Now.Date)
-            {
-                Error = Error + "The date cannot be in the past : ";
-            }
-                //check to see if the date is greater then today's date
+                {
+                    Error += "The date cannot be in the past: ";
+                }
                 if (DateTemp > DateTime.Now.Date)
-            {
-                //record the error
-                Error = Error + "The date cannot be in the future : ";
+                {
+                    Error += "The date cannot be in the future: ";
+                }
             }
+            catch
+            {
+                // Record the error
+                Error += "Invalid Date: ";
+            }
+
+            // Validate Amount
+            if (string.IsNullOrEmpty(amount))
+            {
+                // Record the error
+                Error += "The Amount may not be blank: ";
+            }
+            else
+            {
+                try
+                {
+                    double amountValue = Convert.ToDouble(amount);
+                    if (amountValue < 0)
+                    {
+                        // Record the error
+                        Error += "The Amount must be a non-negative number: ";
+                    }
+                }
+                catch
+                {
+                    // Record the error
+                    Error += "Invalid Amount: ";
+                }
+            }
+
+            // Validate TicketID
+            if (string.IsNullOrEmpty(ticketID))
+            {
+                // Record the error
+                Error += "The Ticket ID may not be blank: ";
+            }
+            else
+            {
+                try
+                {
+                    int ticketIDValue = Convert.ToInt32(ticketID);
+                    if (ticketIDValue <= 0)
+                    {
+                        // Record the error
+                        Error += "The Ticket ID must be a positive integer: ";
+                    }
+                }
+                catch
+                {
+                    // Record the error
+                    Error += "Invalid Ticket ID: ";
+                }
+            }
+
+     
+
+            // Return any error messages
+            return Error;
         }
-        
-        catch
-        {
-                 //record the error
-                 Error = Error + "Invalid Date: ";
-        }
-                //return any error messsages
-                return Error;
-     }
+
 
         public DataTable StatisticsGroupedByAmount()
         {

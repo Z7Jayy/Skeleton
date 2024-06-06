@@ -34,62 +34,55 @@ public partial class _1_DataEntry : System.Web.UI.Page
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
-        //create a new instance of clsPayment
+        // Create a new instance of clsPayment
         clsPayment Payment = new clsPayment();
-        //Capture the Attribute
+
+        // Capture the attributes
         string TransactionID = txtTransactionID.Text;
         string Amount = txtAmount.Text;
         string PaymentDate = txtPaymentDate.Text;
         string IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Text;
         string PaymentMethod = txtPaymentMethod.Text;
         string TicketID = txtTicketID.Text;
-        //variable to store any error messages
-        string Error = "";
+       
 
-        //validate the data
-        Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate);
+        // Validate the data
+        string Error = Payment.Valid(TransactionID, PaymentMethod, PaymentDate, Amount, TicketID);
+
         if (Error == "")
         {
-            //Capture the paymentid
+            // Proceed with capturing and processing the data
             Payment.PaymentID = PaymentID;
-            //Capture the TransactionId
             Payment.TransactionID = TransactionID;
-            //Capture the PaymentMethod
             Payment.PaymentMethod = PaymentMethod;
-            //Capture the Paymentdate
             Payment.PaymentDate = Convert.ToDateTime(PaymentDate);
-            //Capture the Amount
-            Payment.Amount = Convert.ToDouble(txtAmount.Text);
-            //Capture IsPaymentSucessful
+            Payment.Amount = Convert.ToDouble(Amount);
             Payment.IsPaymentSuccessful = CheckBoxIsPaymentSuccessful.Checked;
-            //Capture the TicketId
-            Payment.TicketID = Convert.ToInt32(txtTicketID.Text);
-            //create a new instance of the payment collection
+            Payment.TicketID = Convert.ToInt32(TicketID);
+
+            // Create a new instance of the payment collection
             clsPaymentCollection PaymentList = new clsPaymentCollection();
 
-            //if this is a new record i.e PaymentID = -1 then add the data
             if (PaymentID == -1)
             {
-                //set the ThisPayment property
+                // Add new record
                 PaymentList.ThisPayment = Payment;
-                //add the new record
                 PaymentList.Add();
             }
             else
             {
-                //find the record to update
+                // Update existing record
                 PaymentList.ThisPayment.Find(PaymentID);
-                //set the ThisPayment property
                 PaymentList.ThisPayment = Payment;
-                //update the record
                 PaymentList.Update();
             }
-            //navigate to the view page
+
+            // Navigate to the view page
             Response.Redirect("PaymentProcessingList.aspx");
         }
         else
         {
-            //display the error message
+            // Display the error message
             lblError.Text = Error;
         }
     }
@@ -134,7 +127,7 @@ public partial class _1_DataEntry : System.Web.UI.Page
         txtPaymentMethod.Text = PaymentProcessing.ThisPayment.PaymentMethod.ToString();
         txtPaymentDate.Text = PaymentProcessing.ThisPayment.PaymentDate.ToString();
         CheckBoxIsPaymentSuccessful.Checked = PaymentProcessing.ThisPayment.IsPaymentSuccessful;
-        txtTicketID.Text = PaymentProcessing.ThisPayment.ToString();
+        txtTicketID.Text = PaymentProcessing.ThisPayment.TicketID.ToString();
 
     }
 
@@ -142,5 +135,11 @@ public partial class _1_DataEntry : System.Web.UI.Page
     {
         //redirect to the list page
         Response.Redirect("PaymentProcessingList.aspx");
+    }
+
+    protected void btnMainMenu_Click(object sender, EventArgs e)
+    {
+        //redirect to the main menue page
+        Response.Redirect("TeamMainMenu.aspx");
     }
 }

@@ -8,12 +8,13 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="height: 503px">
+        <div style="height: 632px">
 
-            <asp:Button ID="btnTickets" runat="server" height="28px" OnClick="btnTickets_Click" style="z-index: 1; left: 491px; top: 176px; position: absolute" Text="Tickets" width="98px" />
+            <asp:Button ID="btnTickets" runat="server" OnClick="btnTickets_Click" style="z-index: 1; left: 1029px; top: 371px; position: absolute; height: 37px; width: 122px;" Text="Tickets" />
+            <asp:Image ID="Image1" runat="server" src="https://i.ibb.co/g7N7XBd/Picture1.png" style="z-index: 1; left: 735px; top: 93px; position: absolute; height: 254px; width: 384px" />
         </div>
-        <asp:Label ID="lblTicketWave" runat="server" Font-Size="Larger" style="z-index: 1; left: 257px; top: 41px; position: absolute; height: 35px; width: 249px" Text="Ticket Wave Main Menu"></asp:Label>
-        <asp:Button ID="btnPaymentProcessing" runat="server" OnClick="btnPaymentProcessing_Click" style="z-index: 1; left: 339px; top: 175px; position: absolute; height: 28px; width: 98px" Text="Payments" />
+        <asp:Label ID="lblTicketWave" runat="server" Font-Size="Larger" style="z-index: 1; left: 765px; top: 30px; position: absolute; height: 56px; width: 325px; bottom: 752px; font-size: xx-large;" Text="Ticket Wave Main Menu"></asp:Label>
+        <asp:Button ID="btnPaymentProcessing" runat="server" OnClick="btnPaymentProcessing_Click" style="z-index: 1; left: 717px; top: 371px; position: absolute; height: 37px; width: 115px" Text="Payments" />
 
     </form>
 </body>

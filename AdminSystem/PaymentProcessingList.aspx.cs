@@ -8,6 +8,7 @@ using ClassLibrary;
 
 public partial class _1_List : System.Web.UI.Page
 {
+    Int32 PaymentID;
     protected void Page_Load(object sender, EventArgs e)
     {
         //if this is the first time displaying the page
