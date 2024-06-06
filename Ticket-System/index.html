@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Sales System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .jumbotron {
+            background-color: #f8f9fa;
+            padding: 2rem 1rem;
+        }
+        .event-card {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Ticket Sales</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Welcome to Ticket Sales System</h1>
+            <p class="lead">Book tickets for your favorite events with ease.</p>
+        </div>
+
+        <!-- Events Section -->
+        <h2 class="text-center mb-4">Upcoming Events</h2>
+        <div class="row">
+            <!-- Example Event Card -->
+            <div class="col-md-4">
+                <div class="card event-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Concert XYZ</h5>
+                        <p class="card-text">Date: 2024-06-25<br>Venue: ABC Arena</p>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#bookingModal">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more event cards here -->
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">Book Tickets</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="bookingForm" action="book_ticket.php" method="post">
+                        <div class="form-group">
+                            <label for="eventSelection">Event</label>
+                            <select class="form-control" id="eventSelection" name="event_id" required>
+                                <!-- Options to be dynamically populated -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="seatSelection">Seat</label>
+                            <select class="form-control" id="seatSelection" name="seat_number" required>
+                                <!-- Options to be dynamically populated -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ticketPrice">Price</label>
+                            <input type="text" class="form-control" id="ticketPrice" name="price" readonly>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Book Ticket</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="signupForm" action="signup.php" method="post">
+                        <div class="form-group">
+                            <label for="signupName">Name</label>
+                            <input type="text" class="form-control" id="signupName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" name="password" required
+                            <input type="password" class="form-control" id="signupPassword" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupAddress">Address</label>
+                            <input type="text" class="form-control" id="signupAddress" name="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupCity">City</label>
+                            <input type="text" class="form-control" id="signupCity" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupState">State</label>
+                            <input type="text" class="form-control" id="signupState" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPostalCode">Postal Code</label>
+                            <input type="text" class="form-control" id="signupPostalCode" name="postal_code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupCountry">Country</label>
+                            <input type="text" class="form-control" id="signupCountry" name="country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPhone">Phone</label>
+                            <input type="text" class="form-control" id="signupPhone" name="phone">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" action="login.php" method="post">
+                        <div class="form-group">
+                            <label for="loginName">Name</label>
+                            <input type="text" class="form-control" id="loginName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Trigger login modal after successful sign-up
+        $('#signupForm').submit(function() {
+            // Assuming successful form submission here
+            $('#signupModal').modal('hide'); // Hide sign-up modal
+            $('#loginModal').modal('show'); // Show login modal
+            return false; // Prevent form submission
+        });
+    </script>
+</body>
+</html>
