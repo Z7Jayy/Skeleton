@@ -7,10 +7,7 @@ using System.Web.UI.WebControls;
 
 public partial class TeamMainMenu : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
+  
 
     protected void btnPaymentProcessing_Click(object sender, EventArgs e)
     {
@@ -24,4 +21,5 @@ public partial class TeamMainMenu : System.Web.UI.Page
         //redirect the user to the ticket management list page 
         Response.Redirect("TicketManagementList.aspx");
     }
+
 }

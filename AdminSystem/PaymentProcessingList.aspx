@@ -11,7 +11,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color:ghostwhite;">
     <form id="form1" runat="server">
         <div>
             <asp:Label ID="lblError" runat="server" style="z-index: 1; left: 629px; top: 375px; position: absolute" Text="[lblError]"></asp:Label>
