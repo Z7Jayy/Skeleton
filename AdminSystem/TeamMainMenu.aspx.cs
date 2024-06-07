@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
-public partial class TeamMainMenu : System.Web.UI.Page
+public partial class TeamMainMenu : Page
 {
-  
-
     protected void btnPaymentProcessing_Click(object sender, EventArgs e)
     {
-        //redirect the user to the Payment Processing list page
+        // Redirects the user to the Payment Processing list page
         Response.Redirect("PaymentProcessingList.aspx");
+    }
+
+    protected void btnEvents_Click(object sender, EventArgs e)
+    {
+        // Redirects the user to the Event Management list page
+        Response.Redirect("EventManagementList.aspx");
     }
 
     protected void btnTickets_Click(object sender, EventArgs e)
     {
-
-        //redirect the user to the ticket management list page 
+        // Redirects the user to the ticket management list page
         Response.Redirect("TicketManagementList.aspx");
     }
-
 }

@@ -1,96 +1,112 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
+using System.Data.SqlTypes;
+
 public class clsDataConnection
 {
-    // Connection object used to connect to the database
     private SqlConnection connectionToDB;
-    // Data adapter used to transfer data to and from the database
     private SqlDataAdapter dataChannel;
-    // Command builder for building SQL commands
     private SqlCommandBuilder commandBuilder;
-    // Stores a list of all the SQL parameters
     private List<SqlParameter> SQLParams;
-    // Data table used to store the results of the stored procedure
     private DataTable dataTable;
-    // String variable used to store the connection string
-    private string connectionString;
+    private static string connectionString;
+
     public clsDataConnection()
     {
-        // Initialize the connection string from web.config
-        connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        connectionString = GetConnectionString();
+        // Initializes connection string from web.config if not already set
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        }
         SQLParams = new List<SqlParameter>();
         dataTable = new DataTable();
     }
 
     private string GetConnectionString()
     {
+        // Downloads connection string from local server
         System.Net.WebClient client = new System.Net.WebClient();
         string downloadString = client.DownloadString("http://localhost:5000/");
         return downloadString;
     }
 
+    public static void SetConnectionString(string connString)
+    {
+        connectionString = connString;
+    }
+
     public void AddParameter(string paramName, object paramValue)
     {
-        // Create a new instance of the SQL parameter object
+        // Ensures DateTime values are within the SQL Server valid range
+        if (paramValue is DateTime dateValue)
+        {
+            if (dateValue == DateTime.MinValue)
+            {
+                paramValue = SqlDateTime.MinValue.Value; // Set to SQL Server minimum date if DateTime.MinValue
+            }
+            else if (dateValue < SqlDateTime.MinValue.Value || dateValue > SqlDateTime.MaxValue.Value)
+            {
+                throw new ArgumentOutOfRangeException($"DateTime value {dateValue} is out of range for SQL Server.");
+            }
+        }
+
         SqlParameter param = new SqlParameter(paramName, paramValue);
-        // Add the parameter to the list
         SQLParams.Add(param);
     }
+
     public int Execute(string sProcName)
     {
-        // Initialize the connection to the database
+        // Initializes and open the database connection
         connectionToDB = new SqlConnection(connectionString);
-        // Open the database
         connectionToDB.Open();
-        // Initialize the command for this connection
+        // Initializes the command for the connection
         SqlCommand dataCommand = new SqlCommand(sProcName, connectionToDB);
-        // Add the parameters to the command builder
         foreach (var param in SQLParams)
         {
             dataCommand.Parameters.Add(param);
         }
-        // Create an instance of the SqlParameter class for the return value
-        SqlParameter returnValue = new SqlParameter
-        {
-            Direction = ParameterDirection.ReturnValue
-        };
-        dataCommand.Parameters.Add(returnValue);
-        // Set the command type as stored procedure
         dataCommand.CommandType = CommandType.StoredProcedure;
-        // Initialize the data adapter
+        // Initializes data adapter and command builder
         dataChannel = new SqlDataAdapter(dataCommand);
-        // Use the command builder to generate SQL insert, delete, etc.
         commandBuilder = new SqlCommandBuilder(dataChannel);
-        // Fill the data table
         dataChannel.Fill(dataTable);
-        // Close the connection
         connectionToDB.Close();
-        // Return the result of the stored procedure
-        return Convert.ToInt32(returnValue.Value);
+        return 0;
     }
+
+    public int ExecuteWithOutput(string sProcName, SqlParameter outputParam)
+    {
+        // Initializes and open the database connection
+        connectionToDB = new SqlConnection(connectionString);
+        connectionToDB.Open();
+        // Initializes the command for the connection
+        SqlCommand dataCommand = new SqlCommand(sProcName, connectionToDB);
+        foreach (var param in SQLParams)
+        {
+            dataCommand.Parameters.Add(param);
+        }
+        dataCommand.Parameters.Add(outputParam);
+        dataCommand.CommandType = CommandType.StoredProcedure;
+        // Initializes data adapter and command builder
+        dataChannel = new SqlDataAdapter(dataCommand);
+        commandBuilder = new SqlCommandBuilder(dataChannel);
+        dataChannel.Fill(dataTable);
+        connectionToDB.Close();
+        // Returns the value of the output parameter
+        return Convert.ToInt32(outputParam.Value);
+    }
+
     public int Count
     {
-        get
-        {
-            // Return the count of records in the query results
-            return dataTable.Rows.Count;
-        }
+        get { return dataTable.Rows.Count; }
     }
+
     public DataTable DataTable
     {
-        get
-        {
-            // Return the query results
-            return dataTable;
-        }
-        set
-        {
-            // Set the query results
-            dataTable = value;
-        }
+        get { return dataTable; }
+        set { dataTable = value; }
     }
 }
