@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Profile</title>
+</head>
+<body>
+    <h1>Update Profile</h1>
+    <form method="post" asp-controller="Profile" asp-action="UpdateProfile">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required><br>
+        <input type="submit" value="Update">
+    </form>
+    <div>@ViewBag.Message</div>
+    <div>@ViewBag.ErrorMessage</div>
+</body>
+</html>

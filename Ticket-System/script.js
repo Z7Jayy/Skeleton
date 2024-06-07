@@ -1,6 +1,6 @@
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    fetch('login.php', {
+    fetch('/Login/Login', {
         method: 'POST',
         body: new FormData(this)
     }).then(response => response.text())
@@ -15,7 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 document.getElementById('signupForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    fetch('signup.php', {
+    fetch('/Signup/Signup', {
         method: 'POST',
         body: new FormData(this)
     }).then(response => response.text())
@@ -27,7 +27,18 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
 
 document.getElementById('profileForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    fetch('update_profile.php', {
+    fetch('/Profile/UpdateProfile', {
+        method: 'POST',
+        body: new FormData(this)
+    }).then(response => response.text())
+      .then(data => {
+          alert(data);
+      });
+});
+
+document.getElementById('bookingForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    fetch('/BookTicket/BookTicket', {
         method: 'POST',
         body: new FormData(this)
     }).then(response => response.text())

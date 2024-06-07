@@ -1,0 +1,12 @@
+@model YourNamespace.Controllers.User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Welcome, @Html.Encode(Model.Username)</h1>
+    <p>Email: @Html.Encode(Model.Email)</p>
+</body>
+</html>

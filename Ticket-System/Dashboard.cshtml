@@ -1,0 +1,26 @@
+@model IEnumerable<YourNamespace.Controllers.Ticket>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Your Tickets</h1>
+    <table>
+        <tr>
+            <th>Event</th>
+            <th>Seat</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td>@Html.Encode(ticket.EventId)</td>
+                <td>@Html.Encode(ticket.SeatNumber)</td>
+                <td>@Html.Encode(ticket.Price)</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Ticket</title>
+</head>
+<body>
+    <h1>Book Ticket</h1>
+    <form method="post" asp-controller="BookTicket" asp-action="BookTicket">
+        <div class="form-group">
+            <label for="eventSelection">Event</label>
+            <select class="form-control" id="eventSelection" name="eventId" required>
+                <!-- Options to be dynamically populated -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="seatSelection">Seat</label>
+            <select class="form-control" id="seatSelection" name="seatNumber" required>
+                <!-- Options to be dynamically populated -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ticketPrice">Price</label>
+            <input type="text" class="form-control" id="ticketPrice" name="price" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Book Ticket</button>
+    </form>
+    <div>@ViewBag.Message</div>
+    <div>@ViewBag.ErrorMessage</div>
+</body>
+</html>
