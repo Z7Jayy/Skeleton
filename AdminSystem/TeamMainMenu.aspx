@@ -4,18 +4,59 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Ticket Wave Main Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .main-container {
+            position: relative;
+            height: 632px;
+        }
+        .title {
+            position: absolute;
+            left: 765px;
+            top: 30px;
+            font-size: xx-large;
+            height: 56px;
+            width: 325px;
+            text-align: center;
+        }
+        .image {
+            position: absolute;
+            left: 735px;
+            top: 93px;
+            height: 254px;
+            width: 384px;
+        }
+        .button {
+            position: absolute;
+            height: 37px;
+            width: 122px;
+        }
+        .btn-payment {
+            left: 717px;
+            top: 371px;
+        }
+        .btn-events {
+            left: 873px;
+            top: 371px;
+        }
+        .btn-tickets {
+            left: 1029px;
+            top: 371px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="height: 632px">
-
-            <asp:Button ID="btnTickets" runat="server" OnClick="btnTickets_Click" style="z-index: 1; left: 1029px; top: 371px; position: absolute; height: 37px; width: 122px;" Text="Tickets" />
-            <asp:Image ID="Image1" runat="server" src="https://i.ibb.co/g7N7XBd/Picture1.png" style="z-index: 1; left: 735px; top: 93px; position: absolute; height: 254px; width: 384px" />
+        <div class="main-container">
+            <asp:Label ID="lblTicketWave" runat="server" CssClass="title" Text="Ticket Wave Main Menu"></asp:Label>
+            <asp:Image ID="Image1" runat="server" ImageUrl="https://i.ibb.co/g7N7XBd/Picture1.png" CssClass="image" />
+            <asp:Button ID="btnPaymentProcessing" runat="server" CssClass="button btn-payment" Text="Payments" OnClick="btnPaymentProcessing_Click" />
+            <asp:Button ID="btnEvents" runat="server" CssClass="button btn-events" Text="Events" OnClick="btnEvents_Click" />
+            <asp:Button ID="btnTickets" runat="server" CssClass="button btn-tickets" Text="Tickets" OnClick="btnTickets_Click" />
         </div>
-        <asp:Label ID="lblTicketWave" runat="server" Font-Size="Larger" style="z-index: 1; left: 765px; top: 30px; position: absolute; height: 56px; width: 325px; bottom: 752px; font-size: xx-large;" Text="Ticket Wave Main Menu"></asp:Label>
-        <asp:Button ID="btnPaymentProcessing" runat="server" OnClick="btnPaymentProcessing_Click" style="z-index: 1; left: 717px; top: 371px; position: absolute; height: 37px; width: 115px" Text="Payments" />
-
     </form>
 </body>
 </html>

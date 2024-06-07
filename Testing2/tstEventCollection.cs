@@ -13,32 +13,30 @@ namespace Testing2
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            // Load the connection string from configuration
-            connectionString = ConfigurationManager.ConnectionStrings["Testing2.Properties.Settings.ConnectionString"]?.ConnectionString;
+            // Initializes the connection string for the test class
+            var connStr = ConfigurationManager.ConnectionStrings["ConnectionString"];
+            connectionString = connStr == null ? null : connStr.ConnectionString;
 
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException("Connection string is not loaded.");
             }
 
-            // Setting up the connection string for the data connection class
             clsDataConnection.SetConnectionString(connectionString);
         }
 
         [TestMethod]
         public void InstanceOK()
         {
-            // Arrange & Act
+            // Tests if an instance of clsEventCollection can be created
             clsEventCollection AllEvents = new clsEventCollection();
-
-            // Assert
             Assert.IsNotNull(AllEvents);
         }
 
         [TestMethod]
         public void AddMethodOK()
         {
-            // Arrange
+            // Tests if Add method works correctly
             clsEventCollection AllEvents = new clsEventCollection();
             clsEvent TestItem = new clsEvent
             {
@@ -53,13 +51,9 @@ namespace Testing2
                 DateAdded = DateTime.Now
             };
             int PrimaryKey = 0;
-
-            // Act
             AllEvents.ThisEvent = TestItem;
             PrimaryKey = AllEvents.Add();
             AllEvents.ThisEvent.Find(PrimaryKey);
-
-            // Assert
             Assert.AreEqual(AllEvents.ThisEvent.EventId, TestItem.EventId);
             Assert.AreEqual(AllEvents.ThisEvent.EventName, TestItem.EventName);
             Assert.AreEqual(AllEvents.ThisEvent.EventDescription, TestItem.EventDescription);
@@ -74,7 +68,7 @@ namespace Testing2
         [TestMethod]
         public void UpdateMethodOK()
         {
-            // Arrange
+            // Tests if Update method works correctly
             clsEventCollection AllEvents = new clsEventCollection();
             clsEvent TestItem = new clsEvent
             {
@@ -91,7 +85,6 @@ namespace Testing2
             AllEvents.ThisEvent = TestItem;
             int newEventId = AllEvents.Add();
 
-            // Act
             clsEvent UpdatedEvent = new clsEvent
             {
                 EventId = newEventId,
@@ -107,7 +100,6 @@ namespace Testing2
             AllEvents.ThisEvent = UpdatedEvent;
             AllEvents.Update();
 
-            // Assert
             bool found = AllEvents.Find(newEventId);
             Assert.IsTrue(found);
             Assert.AreEqual(AllEvents.ThisEvent.EventName, "Updated Event");
@@ -121,7 +113,7 @@ namespace Testing2
         [TestMethod]
         public void FindMethodOK()
         {
-            // Arrange
+            // Tests if Find method works correctly
             clsEventCollection AllEvents = new clsEventCollection();
             clsEvent TestItem = new clsEvent
             {
@@ -138,10 +130,8 @@ namespace Testing2
             AllEvents.ThisEvent = TestItem;
             int newEventId = AllEvents.Add();
 
-            // Act
             bool Found = AllEvents.Find(newEventId);
 
-            // Assert
             Assert.IsTrue(Found);
             Assert.AreEqual(AllEvents.ThisEvent.EventId, newEventId);
             Assert.AreEqual(AllEvents.ThisEvent.EventName, TestItem.EventName);
@@ -157,28 +147,24 @@ namespace Testing2
         [TestMethod]
         public void EventListOK()
         {
-            // Arrange & Act
+            // Tests if EventList property works correctly
             clsEventCollection AllEvents = new clsEventCollection();
-
-            // Assert
             Assert.IsNotNull(AllEvents.EventList);
         }
 
         [TestMethod]
         public void CountPropertyOK()
         {
-            // Arrange & Act
+            // Tests if Count property works correctly
             clsEventCollection AllEvents = new clsEventCollection();
             int count = AllEvents.Count;
-
-            // Assert
             Assert.AreEqual(AllEvents.EventList.Count, count);
         }
 
         [TestMethod]
         public void ThisEventPropertyOK()
         {
-            // Arrange
+            // Tests if ThisEvent property works correctly
             clsEventCollection AllEvents = new clsEventCollection();
             clsEvent TestItem = new clsEvent
             {
@@ -192,11 +178,7 @@ namespace Testing2
                 Active = true,
                 DateAdded = DateTime.Now.Date
             };
-
-            // Act
             AllEvents.ThisEvent = TestItem;
-
-            // Assert
             Assert.AreEqual(AllEvents.ThisEvent, TestItem);
         }
     }

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using ClassLibrary;
 
-public partial class _1_DataEntry : System.Web.UI.Page
+public partial class _1_DataEntry : Page
 {
     int eventId;
 
@@ -15,12 +10,10 @@ public partial class _1_DataEntry : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            // Check if there is an EventId in the session
+            // If there is an event ID in the session, display the event details
             if (Session["EventId"] != null)
             {
-                // Get the EventId from the session
                 eventId = Convert.ToInt32(Session["EventId"]);
-                // Display the event details
                 DisplayEvent();
             }
         }
@@ -28,88 +21,60 @@ public partial class _1_DataEntry : System.Web.UI.Page
 
     private void DisplayEvent()
     {
-        // Create an instance of the event collection
+        // Load the event details from the database and display them in the form fields
         clsEventCollection EventCollection = new clsEventCollection();
-        // Find the event by EventId
         if (EventCollection.Find(eventId))
         {
-            // Populate the text boxes with the event details
             txtEventId.Text = EventCollection.ThisEvent.EventId.ToString();
             txtEventName.Text = EventCollection.ThisEvent.EventName;
             txtEventDescription.Text = EventCollection.ThisEvent.EventDescription;
-            txtEventDate.Text = EventCollection.ThisEvent.EventDate.ToString("yyyy-MM-dd");
+            txtEventDate.Text = EventCollection.ThisEvent.EventDate.ToString("dd-MM-yyyy");
             txtVenueId.Text = EventCollection.ThisEvent.VenueId.ToString();
             txtCategory.Text = EventCollection.ThisEvent.Category;
             chkIsOnline.Checked = EventCollection.ThisEvent.IsOnline;
+            chkActive.Checked = EventCollection.ThisEvent.Active;
         }
     }
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
-        // Create a new instance of clsEvent
         clsEvent AnEvent = new clsEvent();
+        string Error = "";
 
-        // Initialize EventId
+        // Attempt to parse the event ID
         int EventId;
-
-        // Try to parse the Event ID
         if (!int.TryParse(txtEventId.Text, out EventId))
         {
-            // If parsing fails, set EventId to -1 (assuming -1 indicates a new record)
             EventId = -1;
         }
 
-        // Capture the Event Name
+        // Gather form input
         string EventName = txtEventName.Text.Trim();
-
-        // Capture the Event Description
         string EventDescription = txtEventDescription.Text.Trim();
-
-        // Capture the Event Date
         string EventDate = txtEventDate.Text.Trim();
-
-        // Capture the Venue ID
         string VenueId = txtVenueId.Text.Trim();
-
-        // Capture the Category
         string Category = txtCategory.Text.Trim();
-
-        // Capture the IsOnline checkbox value
         bool IsOnline = chkIsOnline.Checked;
+        bool Active = chkActive.Checked;
 
-        // Variable to store any error messages
-        string Error = "";
-
-        // Validate the data
+        // Validate input
         Error = AnEvent.Valid(EventName, EventDescription, EventDate, VenueId, Category);
         if (Error == "")
         {
             try
             {
-                // Capture the Event ID
+                // Assign form input to event properties
                 AnEvent.EventId = EventId;
-
-                // Capture the Event Name
                 AnEvent.EventName = EventName;
-
-                // Capture the Event Description
                 AnEvent.EventDescription = EventDescription;
-
-                // Capture the Event Date
                 AnEvent.EventDate = Convert.ToDateTime(EventDate);
-
-                // Capture the Venue ID
                 AnEvent.VenueId = Convert.ToInt32(VenueId);
-
-                // Capture the Category
                 AnEvent.Category = Category;
-
-                // Capture the IsOnline value
                 AnEvent.IsOnline = IsOnline;
+                AnEvent.Active = Active;
 
-                // Create a new instance of the event collection
                 clsEventCollection EventList = new clsEventCollection();
-
+                // Adds or updates the event in the database
                 if (EventId == -1)
                 {
                     EventList.ThisEvent = AnEvent;
@@ -117,16 +82,9 @@ public partial class _1_DataEntry : System.Web.UI.Page
                 }
                 else
                 {
-                    bool Found = EventList.Find(EventId);
-                    if (Found)
+                    if (EventList.Find(EventId))
                     {
-                        EventList.ThisEvent.EventId = EventId;
-                        EventList.ThisEvent.EventName = EventName;
-                        EventList.ThisEvent.EventDescription = EventDescription;
-                        EventList.ThisEvent.EventDate = Convert.ToDateTime(EventDate);
-                        EventList.ThisEvent.VenueId = Convert.ToInt32(VenueId);
-                        EventList.ThisEvent.Category = Category;
-                        EventList.ThisEvent.IsOnline = IsOnline;
+                        EventList.ThisEvent = AnEvent;
                         EventList.Update();
                     }
                     else
@@ -152,10 +110,15 @@ public partial class _1_DataEntry : System.Web.UI.Page
         }
     }
 
-    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    protected void btnCancel_Click(object sender, EventArgs e)
     {
-        // Your code to handle the checkbox change event
-        bool isChecked = ((CheckBox)sender).Checked;
-        // Do something based on the checkbox state
+        // Redirects to the event list page
+        Response.Redirect("EventManagementList.aspx");
+    }
+
+    protected void btnMainMenu_Click(object sender, EventArgs e)
+    {
+        // Redirects to the main menu
+        Response.Redirect("TeamMainMenu.aspx");
     }
 }
