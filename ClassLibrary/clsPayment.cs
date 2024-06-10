@@ -170,7 +170,7 @@ namespace ClassLibrary
             }
         }
 
-        public string Valid(string transactionID, string paymentMethod, string paymentDate, string amount, string ticketID)
+        public string Valid(string transactionID, string paymentMethod, string paymentDate)
         {
             // Create a string variable to store the error
             String Error = "";
@@ -220,56 +220,6 @@ namespace ClassLibrary
                 // Record the error
                 Error += "Invalid Date: ";
             }
-
-            // Validate Amount
-            if (string.IsNullOrEmpty(amount))
-            {
-                // Record the error
-                Error += "The Amount may not be blank: ";
-            }
-            else
-            {
-                try
-                {
-                    double amountValue = Convert.ToDouble(amount);
-                    if (amountValue < 0)
-                    {
-                        // Record the error
-                        Error += "The Amount must be a non-negative number: ";
-                    }
-                }
-                catch
-                {
-                    // Record the error
-                    Error += "Invalid Amount: ";
-                }
-            }
-
-            // Validate TicketID
-            if (string.IsNullOrEmpty(ticketID))
-            {
-                // Record the error
-                Error += "The Ticket ID may not be blank: ";
-            }
-            else
-            {
-                try
-                {
-                    int ticketIDValue = Convert.ToInt32(ticketID);
-                    if (ticketIDValue <= 0)
-                    {
-                        // Record the error
-                        Error += "The Ticket ID must be a positive integer: ";
-                    }
-                }
-                catch
-                {
-                    // Record the error
-                    Error += "Invalid Ticket ID: ";
-                }
-            }
-
-     
 
             // Return any error messages
             return Error;
