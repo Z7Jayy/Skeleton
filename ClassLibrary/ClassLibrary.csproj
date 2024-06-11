@@ -47,6 +47,8 @@
     <Compile Include="clsEventCollection.cs" />
     <Compile Include="clsPayment.cs" />
     <Compile Include="clsPaymentCollection.cs" />
+    <Compile Include="clsSeatSelection.cs" />
+    <Compile Include="clsSeatSelectionCollection.cs" />
     <Compile Include="clsTicket.cs" />
     <Compile Include="clsTicketCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
