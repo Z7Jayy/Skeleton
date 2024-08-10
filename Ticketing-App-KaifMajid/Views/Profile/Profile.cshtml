@@ -1,0 +1,345 @@
+@model UserProfileViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .profile-content div {
+            margin-bottom: 10px;
+        }
+
+        .profile-content label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .profile-content span {
+            display: block;
+            margin-top: 5px;
+            color: #333;
+        }
+
+        .modal-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .modal-button button {
+            background-color: #25cff2;
+            color: #1a1e21;
+            border: 1px solid black;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-box {
+            display: flex;
+            gap: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333
+        }
+
+    </style>
+</head>
+<body>
+<div style="display: flex;justify-content: right">
+
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+        <form asp-controller="Logout" asp-action="Logout" method="post">
+            <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
+    </div>
+
+</div>
+
+<div style="display: flex; justify-content: left;">
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; font-size: 20px;">
+        <a style="text-decoration: none;color: #1a1e21"asp-controller="Dashboard" asp-action="MyDashboard">
+            My Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="profile-container">
+
+
+    <div class="profile-header">
+        <h1>Welcome, @Html.Encode(Model.FirstName) @Html.Encode(Model.LastName)</h1>
+    </div>
+    <div class="profile-content">
+        <div>
+            <label>First Name:</label>
+            <span>@Html.Encode(Model.FirstName)</span>
+        </div>
+        <div>
+            <label>Last Name:</label>
+            <span>@Html.Encode(Model.LastName)</span>
+        </div>
+        <div>
+            <label>Email:</label>
+            <span>@Html.Encode(Model.Email)</span>
+        </div>
+
+
+        <div>
+            <label>Address:</label>
+            <span>@Html.Encode(Model.Address)</span>
+        </div>
+        <div>
+            <label>City:</label>
+            <span>@Html.Encode(Model.City)</span>
+        </div>
+        <div>
+            <label>State:</label>
+            <span>@Html.Encode(Model.State)</span>
+        </div>
+        <div>
+            <label>Postal Code:</label>
+            <span>@Html.Encode(Model.Postal_Code)</span>
+        </div>
+        <div>
+            <label>Phone:</label>
+            <span>@Html.Encode(Model.Phone)</span>
+        </div>
+        <div>
+            <label>Country:</label>
+            <span>@Html.Encode(Model.Country)</span>
+        </div>
+
+    </div>
+
+    <div class="modal-button">
+
+        <button id="openModalButton">Edit Profile</button>
+
+    </div>
+
+</div>
+<div>
+    <div id="updateProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h5 style="display: flex;justify-content: center;align-items: center">Edit Profile</h5>
+            <form id="updateProfileForm" method="post" asp-controller="Profile" asp-action="UpdateProfile">
+
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="FirstName">First Name</label>
+                        <input type="text" class="form-control" id="FirstName" name="FirstName"
+                               value="@Model.FirstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName">
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Password">Password</label>
+                        <input type="password" class="form-control" id="Password" name="Password">
+                    </div>
+
+                </div>
+
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="Address">Address</label>
+                        <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="City">City</label>
+                        <input type="text" class="form-control" id="City" name="City" value="@Model.City">
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="State">State</label>
+                        <input type="text" class="form-control" id="State" name="State" value="@Model.State">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="PostalCode">Postal Code</label>
+                        <input type="text" class="form-control" id="PostalCode" name="Postal_Code"
+                               value="@Model.Postal_Code">
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="Phone">Phone</label>
+                        <input type="tel" class="form-control" id="Phone" name="Phone" value="@Model.Phone">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Country">Country</label>
+                        <input type="text" class="form-control" id="Country" name="Country" value="@Model.Country">
+                    </div>
+                </div>
+
+
+                <div style="display: flex;justify-content: center;align-items: center">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById("updateProfileModal");
+        var btn = document.getElementById("openModalButton");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    });
+</script>
+</body>
+</html>

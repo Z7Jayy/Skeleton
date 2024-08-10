@@ -1,0 +1,60 @@
+@model IEnumerable<WebApplication1.Controllers.Ticket>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <style>
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333
+        }
+    </style>
+</head>
+<body>
+
+<div style="display: flex;justify-content: right">
+
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+        <form asp-controller="Logout" asp-action="Logout" method="post">
+            <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
+    </div>
+
+    <div style="display: flex; justify-content: left;">
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; font-size: 20px;">
+            <a style="text-decoration: none;color: #1a1e21"asp-controller="Profile" asp-action="Profile">
+                My Profile
+            </a>
+        </div>
+    </div>
+
+</div>
+<h1>Your Tickets</h1>
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Seat</th>
+        <th>Price</th>
+    </tr>
+    @* @foreach (var ticket in Model) *@
+    @* { *@
+    @*     <tr> *@
+    @*         <td>@Html.Encode(ticket.EventId)</td> *@
+    @*         <td>@Html.Encode(ticket.SeatNumber)</td> *@
+    @*         <td>@Html.Encode(ticket.Price)</td> *@
+    @*     </tr> *@
+    @* } *@
+</table>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Ticket</title>
+
+    <style>
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333
+        }
+    </style>
+</head>
+<body>
+<h1>Book Ticket</h1>
+
+<div style="display: flex;justify-content: right">
+
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+        <form asp-controller="Logout" asp-action="Logout" method="post">
+            <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
+    </div>
+
+</div>
+<form method="post" asp-controller="BookTicket" asp-action="BookTicket">
+    <div class="form-group">
+        <label for="eventSelection">Event</label>
+        <select class="form-control" id="eventSelection" name="eventId" required>
+            <!-- Options to be dynamically populated -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="seatSelection">Seat</label>
+        <select class="form-control" id="seatSelection" name="seatNumber" required>
+            <!-- Options to be dynamically populated -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ticketPrice">Price</label>
+        <input type="text" class="form-control" id="ticketPrice" name="price" readonly>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Book Ticket</button>
+</form>
+<div>@ViewBag.Message</div>
+<div>@ViewBag.ErrorMessage</div>
+</body>
+</html>
